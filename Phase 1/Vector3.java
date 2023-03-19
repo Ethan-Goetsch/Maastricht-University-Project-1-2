@@ -4,7 +4,7 @@ public class Vector3
 
     private double y;
 
-    
+    private double z;
 
     public double getX()
     {
