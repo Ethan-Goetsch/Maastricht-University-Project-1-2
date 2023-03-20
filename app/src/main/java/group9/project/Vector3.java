@@ -41,7 +41,8 @@ public class Vector3
         z = newZ;
     }
 
-    public Vector3 clone() {
+    public Vector3 clone()
+    {
         return new Vector3(this.x, this.y, this.z);
     }
 
@@ -57,10 +58,7 @@ public class Vector3
 
     public Vector3 divideBy(double num)
     {
-        double newX = this.x/num;
-        double newY = this.y/num;
-        double newZ = this.z/num;
-        return new Vector3(this.x/num, this.y/num, this.z/num);
+        return new Vector3(this.x / num, this.y / num, this.z / num);
     }
 
     public Vector3 multiplyBy(double num)
@@ -68,12 +66,15 @@ public class Vector3
         return new Vector3(this.x * num, this.y * num, this.z * num);
     }
 
-    public double getMagnitude() {
-        return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+    public double getMagnitude()
+    {
+        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
     }
 
-    public Vector3 normalize() {
+    public Vector3 normalize()
+    {
         Vector3 newVector = this.clone();
+
         return newVector.divideBy(this.getMagnitude());
     }
 

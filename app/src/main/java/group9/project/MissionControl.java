@@ -1,14 +1,10 @@
 package group9.project;
 
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -19,9 +15,9 @@ import java.io.IOException;
  */
 public class MissionControl extends Application
 {
-    private static Stage stage;
+    private static Stage mainStage;
 
-    private static Scene scene;
+    private static Scene mainScene;
 
     /* 
     private static final double WIDTH = 500;
@@ -35,13 +31,16 @@ public class MissionControl extends Application
     }
 
     @Override
-    public void start(Stage newStage) throws IOException
+    public void start(Stage stage) throws IOException
     {
-        stage = newStage;
+        mainStage = stage;
 
-        createUI();
+        mainScene = new Scene(PhysicsVisualizer.getInstance().getView());
 
-        createTimer();
+
+        createPhysicsSystems();
+
+        createTimeline();
 
         CelestialBodyObject sun = new CelestialBodyObject("Sun");
         sun.setRadius(30);
@@ -69,34 +68,23 @@ public class MissionControl extends Application
         testStar2.start();
 */
 
-    }
 
-    private static void createUI()
-    {
-        Pane testPane = createLabelPane();
 
-        Scene scene = new Scene(testPane);
+        mainStage.setTitle("Titanic Space Odyssey");
 
-        stage.setScene(scene);
+        mainStage.setScene(mainScene);
         
-        stage.show();
+        mainStage.show();
     }
 
-    private static Pane createLabelPane()
+    private void createPhysicsSystems()
     {
-        Pane pane  = new Pane();
+        PhysicsEngine.getInstance().start();
 
-        pane.getChildren().add(new Label("Hello Pane"));
-
-        return pane;
+        PhysicsVisualizer.getInstance().start();
     }
 
-    private static Pane createVisualPane()
-    {
-        return null;
-    }
-
-    private static void createTimer()
+    private void createTimeline()
     {
         Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.STEP_TIME), x -> updateLoop()));
 
@@ -105,8 +93,10 @@ public class MissionControl extends Application
         loopTimeline.play();
     }
 
-    private static void updateLoop()
+    private void updateLoop()
     {
-        PhysicsEngine.updatePhysicsObjects();
+        PhysicsEngine.getInstance().update();
+
+        PhysicsVisualizer.getInstance().update();
     }
 }

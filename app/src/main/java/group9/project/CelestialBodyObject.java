@@ -1,31 +1,28 @@
 package group9.project;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
-public class CelestialBodyObject extends PhysicsObject implements IDrawable
+public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
 
-    public CelestialBodyObject(String name)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double planetRadius, Color planetColourString, String name)
     {
-        super(name);
+        super(startingPosition, startingVelocity, startingAcceleration, name);
+
         shape = new Circle();
+
+        shape.setFill(planetColourString);
+
+        shape.setCenterX(startingPosition.getX());
+
+        shape.setCenterY(startingPosition.getY());
+
+        shape.setRadius(planetRadius);
     }
 
-    public void setRadius(double d)
-    {
-        shape.setRadius(d);
-    }
-
-    public void setPosition(Vector3 pos)
-    {
-        this.pos = pos;
-
-        shape.setCenterX(pos.getX());
-
-        shape.setCenterY(pos.getY());
-    }
 
     public void setMass(double mass) 
     {
@@ -33,9 +30,20 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
     }
 
 
-    public Shape getShape()
+    @Override
+    public void applyForce(Vector3 newForce)
     {
-        return shape;
+        super.applyForce(newForce);
+    }
+
+    @Override
+    public void setPosition(Vector3 newPosition)
+    {
+        super.setPosition(newPosition);
+
+        shape.setCenterX(newPosition.getX());
+
+        shape.setCenterY(newPosition.getY());
     }
 
     @Override
@@ -43,6 +51,22 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
     {
         velocity = new Vector3(0,0,0);
         acceleration = new Vector3(0,0,0);
+
     }
 
+    @Override
+    public void update()
+    {
+        velocity.add(acceleration);
+
+        setPosition(position.add(velocity));
+
+        acceleration.multiplyBy(0);
+    }
+
+    @Override
+    public Shape getShape()
+    {
+        return shape;
+    }
 }

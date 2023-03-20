@@ -2,25 +2,56 @@ package group9.project;
 
 import java.util.ArrayList;
 
-public class PhysicsEngine
-{
-    public static final double STEP_TIME = 0.01;
-    public static final double G = 7.6743e-22;
-    //public static final double G = 0.001;
+import javafx.scene.paint.Color;
 
-    private static ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
+public class PhysicsEngine implements IStartable, IUpdateable
+{
+    //#region Singleton
+    private static PhysicsEngine instance;
+
+    public static PhysicsEngine getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new PhysicsEngine();
+        }
+
+        return instance;
+    }
+    //#endregion
+
+    public static final double STEP_TIME = 0.1;
+
+    public static final double GRAVITY = 7.6743e-20;
+
+    private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
+
+    public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
+    {
+        return physicsObjectsToUpdate;
+    }
 
     public PhysicsEngine()
     {
         physicsObjectsToUpdate = new ArrayList<>();
     }
 
-    public static void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
+    public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
     {
         if (!physicsObjectsToUpdate.contains(physicsObject))
         {
             physicsObjectsToUpdate.add(physicsObject);
+
+            physicsObject.start();
         }
+    }
+
+    @Override
+    public void start()
+    {
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, 1, 1), new Vector3(25, -25, 50), 50, Color.RED);
+
+        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE);
     }
 
     public static void updateForces() {
@@ -39,7 +70,7 @@ public class PhysicsEngine
                     System.out.println("distance: " + r.getMagnitude());
 
                     // Calculate the magnitude of the gravitational force using the universal law of gravitation
-                    double magF = G * body.getMass() * body2.getMass() / Math.pow(r.getMagnitude(), 2);
+                    double magF = GRAVITY * body.getMass() * body2.getMass() / Math.pow(r.getMagnitude(), 2);
 
                     // Calculate the direction of the gravitational force
                     Vector3 dirF = r.normalize();
@@ -53,7 +84,8 @@ public class PhysicsEngine
         }
     }
 
-    public static void updatePhysicsObjects()
+    @Override
+    public void update()
     {
         updateForces();
         for (PhysicsObject physicsObject : physicsObjectsToUpdate)

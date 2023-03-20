@@ -1,15 +1,34 @@
 package group9.project;
 
-public abstract class PhysicsObject implements IStartable, IUpdateable
+import javafx.scene.shape.Shape;
+
+public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawable
 {
-    protected Vector3 pos, velocity, acceleration;
+    protected Vector3 position, velocity, acceleration;
+
     protected double mass;
     protected String name;
 
-    public PhysicsObject(String name)
+    public double getMass()
     {
+        return mass;
+    }
+
+    public Vector3 getPosition()
+    {
+        return position;
+    }
+
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, String name)
+    {
+        position = startingPosition;
+
+        velocity = startingVelocity;
+
+        acceleration = startingAcceleration;
+
         this.name = name;
-        PhysicsEngine.addPhysicsObjectToUpdate(this);
+        PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
     /*
@@ -22,14 +41,12 @@ public abstract class PhysicsObject implements IStartable, IUpdateable
         acceleration = acceleration.add(force);
     };
 
-    public double getMass() {
-        return mass;
+    public void setPosition(Vector3 newPosition)
+    {
+        position = newPosition;
     }
 
-    public Vector3 getPosition() {
-        return pos;
-    }
-
+    @Override
     public abstract void start();
 
     /*
