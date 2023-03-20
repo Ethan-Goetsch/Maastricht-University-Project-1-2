@@ -19,6 +19,7 @@ public class PhysicsEngine implements IUpdateable
     //#endregion
 
     public static final double STEP_TIME = 0.001;
+    public static final double G = 7.6743e-20;
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
