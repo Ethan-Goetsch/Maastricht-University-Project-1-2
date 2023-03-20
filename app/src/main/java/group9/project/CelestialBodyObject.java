@@ -30,16 +30,16 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
     }
 
     @Override
-    public void start() {
+    public void start()
+    {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'start'");
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
-    
-    
 }

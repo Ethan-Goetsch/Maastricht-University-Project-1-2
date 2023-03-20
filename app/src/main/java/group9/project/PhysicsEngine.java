@@ -6,13 +6,18 @@ public class PhysicsEngine
 {
     public static final double STEP_TIME = 0.1;
 
-    private static ArrayList<IUpdateable> physicsObjectsToUpdate;
+    private static ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
-    public static void addPhysicsObjectToUpdate(IUpdateable updateable)
+    public PhysicsEngine()
     {
-        if (!physicsObjectsToUpdate.contains(updateable))
+        physicsObjectsToUpdate = new ArrayList<>();
+    }
+
+    public static void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
+    {
+        if (!physicsObjectsToUpdate.contains(physicsObject))
         {
-            physicsObjectsToUpdate.add(updateable);
+            physicsObjectsToUpdate.add(physicsObject);
         }
     }
 
@@ -20,8 +25,11 @@ public class PhysicsEngine
         // calculate and apply forces to all physics objects
     }
 
-    public static void createTimer()
+    public static void updatePhysicsObjects()
     {
-        //timer goes here
+        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
+        {
+            physicsObject.update();
+        }
     }
 }
