@@ -8,6 +8,16 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawabl
 
     protected double mass;
 
+    public double getMass()
+    {
+        return mass;
+    }
+
+    public Vector3 getPosition()
+    {
+        return position;
+    }
+
     public PhysicsObject()
     {
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
@@ -23,14 +33,9 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawabl
         acceleration.add(force);
     };
 
-    public double getMass()
+    public void setPosition(Vector3 newPosition)
     {
-        return mass;
-    }
-
-    public Vector3 getPosition()
-    {
-        return position;
+        position = newPosition;
     }
 
     @Override
@@ -47,14 +52,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawabl
      * Update position of object
      */
     @Override
-    public void update() 
-    {
-        velocity.add(acceleration);
-
-        position.add(velocity);
-
-        acceleration.multiplyBy(0);
-    }
+    public abstract void update();
 
     @Override
     public abstract Shape getShape();

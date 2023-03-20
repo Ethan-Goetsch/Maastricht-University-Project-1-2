@@ -12,11 +12,6 @@ public class CelestialBodyObject extends PhysicsObject
         super();
     }
 
-    public void setPosition(Vector3 newPosition)
-    {
-        position = newPosition;
-    }
-
     @Override
     public void applyForce(Vector3 force)
     {
@@ -32,7 +27,11 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void update()
     {
-        super.update();
+        velocity.add(acceleration);
+
+        position.add(velocity);
+
+        acceleration.multiplyBy(0);
     }
 
     @Override

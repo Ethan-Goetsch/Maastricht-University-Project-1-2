@@ -15,7 +15,7 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void applyForce(Vector3 force)
     {
-        super.update();
+        super.applyForce(force);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void update()
     {
-        super.update();
+
     }
 
     @Override
