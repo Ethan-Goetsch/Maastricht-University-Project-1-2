@@ -15,9 +15,4 @@ public class PhysicsEngine
             physicsObjectsToUpdate.add(updateable);
         }
     }
-
-    public static void createTimer()
-    {
-        //timer goes here
-    }
 }
