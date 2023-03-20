@@ -1,4 +1,4 @@
-package com.titanicspaceodyysey;
+package project;
 
 import java.io.IOException;
 import javafx.fxml.FXML;
