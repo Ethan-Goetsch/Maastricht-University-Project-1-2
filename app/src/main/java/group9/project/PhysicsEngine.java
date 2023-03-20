@@ -2,6 +2,8 @@ package group9.project;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
+
 public class PhysicsEngine implements IStartable, IUpdateable
 {
     //#region Singleton
@@ -47,7 +49,9 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void start()
     {
-        
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(), new Vector3(), 50, Color.RED);
+
+        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE);
     }
 
     @Override
