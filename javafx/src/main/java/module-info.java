@@ -1,4 +1,5 @@
-module ui {
+module ui
+{
     requires javafx.controls;
     requires javafx.fxml;
 
