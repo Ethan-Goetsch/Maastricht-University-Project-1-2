@@ -1,11 +1,15 @@
 package group9.project;
 
+import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -14,6 +18,8 @@ import java.io.IOException;
  */
 public class MissionControl extends Application
 {
+    private static Stage stage;
+
     private static Scene scene;
 
     public static void main(String[] args)
@@ -22,38 +28,51 @@ public class MissionControl extends Application
     }
 
     @Override
-    public void start(Stage stage) throws IOException
+    public void start(Stage newStage) throws IOException
     {
+        stage = newStage;
+
         createUI();
 
         createTimer();
+    }
+
+    private static void createUI()
+    {
+        Pane testPane = createLabelPane();
+
+        Scene scene = new Scene(testPane);
 
         stage.setScene(scene);
         
         stage.show();
     }
 
-    public static void setRoot(String fxml) throws IOException
+    private static Pane createLabelPane()
     {
-        scene.setRoot(loadFXML(fxml));
+        Pane pane  = new Pane();
+
+        pane.getChildren().add(new Label("Hello Pane"));
+
+        return pane;
     }
 
-    private static Parent loadFXML(String fxml) throws IOException
+    private static Pane createVisualPane()
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(MissionControl.class.getResource(fxml + ".fxml"));
-
-        return fxmlLoader.load();
-    }
-
-    private static void createUI()
-    {
-        
+        return null;
     }
 
     private static void createTimer()
     {
-        AnimationTimer updateLoopController = new LoopController();
+        Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.STEP_TIME), x -> updateLoop()));
 
-        updateLoopController.start();
+        loopTimeline.setCycleCount(Animation.INDEFINITE);
+
+        loopTimeline.play();
+    }
+
+    private static void updateLoop()
+    {
+        PhysicsEngine.updatePhysicsObjects();
     }
 }

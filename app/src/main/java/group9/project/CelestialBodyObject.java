@@ -7,26 +7,34 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
 {
     private Circle shape;
 
-    public CelestialBodyObject() {
+    public CelestialBodyObject()
+    {
         shape = new Circle();
     }
 
-    public void setRadius(float radius) {
+    public void setRadius(float radius)
+    {
         shape.setRadius(radius);
     }
 
-    public void setPosition(Vector3 pos) {
+    public void setPosition(Vector3 pos)
+    {
         this.pos = pos;
+
         shape.setCenterX(pos.getX());
+
         shape.setCenterY(pos.getY());
     }
 
-    public Shape getShape() {
+    public Shape getShape()
+    {
         return shape;
     }
 
     @Override
-    public void applyForce(Vector3 force) {
+    public void applyForce(Vector3 force)
+    {
+        
     }
 
     @Override
