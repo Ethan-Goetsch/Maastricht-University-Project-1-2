@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class PhysicsEngine
 {
-    public static final double STEP_TIME = 0.1;
+    public static final double STEP_TIME = 0.001;
     public static final double G = 7.6743e-20;
 
     private static ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
@@ -56,5 +56,7 @@ public class PhysicsEngine
         {
             physicsObject.update();
         }
+
+        System.out.println("test");
     }
 }
