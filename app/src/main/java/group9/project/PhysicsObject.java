@@ -1,3 +1,5 @@
+package group9.project;
+
 public abstract class PhysicsObject implements IStartable, IUpdateable
 {
     public PhysicsObject()
