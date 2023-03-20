@@ -7,14 +7,15 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
 {
     private Circle shape;
 
-    public CelestialBodyObject()
+    public CelestialBodyObject(String name)
     {
+        super(name);
         shape = new Circle();
     }
 
-    public void setRadius(float radius)
+    public void setRadius(double d)
     {
-        shape.setRadius(radius);
+        shape.setRadius(d);
     }
 
     public void setPosition(Vector3 pos)
@@ -26,28 +27,22 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
         shape.setCenterY(pos.getY());
     }
 
+    public void setMass(double mass) 
+    {
+        this.mass = mass;
+    }
+
+
     public Shape getShape()
     {
         return shape;
     }
 
     @Override
-    public void applyForce(Vector3 force)
-    {
-        
-    }
-
-    @Override
     public void start()
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+        velocity = new Vector3(0,0,0);
+        acceleration = new Vector3(0,0,0);
     }
 
-    @Override
-    public void update()
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
 }

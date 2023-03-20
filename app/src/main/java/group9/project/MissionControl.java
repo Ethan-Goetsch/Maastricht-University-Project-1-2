@@ -23,6 +23,12 @@ public class MissionControl extends Application
 
     private static Scene scene;
 
+    /* 
+    private static final double WIDTH = 500;
+    private static final double HEIGHT = 500;
+    private static final double DEPTH = 500;
+    */
+
     public static void main(String[] args)
     {
         launch();
@@ -36,6 +42,33 @@ public class MissionControl extends Application
         createUI();
 
         createTimer();
+
+        CelestialBodyObject sun = new CelestialBodyObject("Sun");
+        sun.setRadius(30);
+        sun.setPosition(new Vector3(0,0,0));
+        sun.setMass(1.99e30);
+        sun.start();
+
+        CelestialBodyObject saturn = new CelestialBodyObject("Saturn");
+        saturn.setRadius(10);
+        saturn.setPosition(Converter.scaleToScreen(new Vector3(-1.25e9, -7.6e8, -3.67e7)));
+        saturn.setMass(5.68e26);
+        saturn.start();
+        
+/* 
+        CelestialBodyObject testStar1 = new CelestialBodyObject("test star 1");
+        testStar1.setRadius(30);
+        testStar1.setPosition(new Vector3(250,250,250));
+        testStar1.setMass(10000);
+        testStar1.start();
+
+        CelestialBodyObject testStar2 = new CelestialBodyObject("test star 2");
+        testStar2.setRadius(10);
+        testStar2.setPosition(new Vector3(100,100,250));
+        testStar2.setMass(2);
+        testStar2.start();
+*/
+
     }
 
     private static void createUI()

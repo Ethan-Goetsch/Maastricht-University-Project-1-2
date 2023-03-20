@@ -57,6 +57,9 @@ public class Vector3
 
     public Vector3 divideBy(double num)
     {
+        double newX = this.x/num;
+        double newY = this.y/num;
+        double newZ = this.z/num;
         return new Vector3(this.x/num, this.y/num, this.z/num);
     }
 
@@ -72,6 +75,11 @@ public class Vector3
     public Vector3 normalize() {
         Vector3 newVector = this.clone();
         return newVector.divideBy(this.getMagnitude());
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
     }
 
 }

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class PhysicsEngine
 {
-    public static final double STEP_TIME = 0.001;
-    public static final double G = 7.6743e-20;
+    public static final double STEP_TIME = 0.01;
+    public static final double G = 7.6743e-22;
+    //public static final double G = 0.001;
 
     private static ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
@@ -33,7 +34,9 @@ public class PhysicsEngine
                 if (body.equals(body2)) continue; 
 
                     // Calculate the distance vector between the two objects
-                    Vector3 r = body2.getPosition().subtract(body.getPosition());
+                    System.out.println(body2.getPosition().subtract(body.getPosition()));
+                    Vector3 r = Converter.scaleToSolarSystem(body2.getPosition().subtract(body.getPosition()));
+                    System.out.println("distance: " + r.getMagnitude());
 
                     // Calculate the magnitude of the gravitational force using the universal law of gravitation
                     double magF = G * body.getMass() * body2.getMass() / Math.pow(r.getMagnitude(), 2);
@@ -52,11 +55,12 @@ public class PhysicsEngine
 
     public static void updatePhysicsObjects()
     {
+        updateForces();
         for (PhysicsObject physicsObject : physicsObjectsToUpdate)
         {
-            physicsObject.update();
+            physicsObject.update(10); // seconds in a day
         }
 
-        System.out.println("test");
+        //System.out.println("test");
     }
 }

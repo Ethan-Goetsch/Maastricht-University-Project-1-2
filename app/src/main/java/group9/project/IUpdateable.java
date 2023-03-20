@@ -2,5 +2,5 @@ package group9.project;
 
 public interface IUpdateable
 {
-    public void update();
+    public void update(double timeDelta);
 }
