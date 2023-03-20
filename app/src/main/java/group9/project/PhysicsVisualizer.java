@@ -3,16 +3,16 @@ package group9.project;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
-public class Renderer implements IUpdateable
+public class PhysicsVisualizer implements IStartable, IUpdateable
 {
     //#region Singleton
-    private static Renderer instance;
+    private static PhysicsVisualizer instance;
 
-    public static Renderer getInstance()
+    public static PhysicsVisualizer getInstance()
     {
         if (instance == null)
         {
-            instance = new Renderer();
+            instance = new PhysicsVisualizer();
         }
 
         return instance;
@@ -44,7 +44,7 @@ public class Renderer implements IUpdateable
         return systemCanvas;
     }
 
-    public Renderer()
+    public PhysicsVisualizer()
     {
         view = new BorderPane();
 
@@ -59,6 +59,12 @@ public class Renderer implements IUpdateable
         view.setTop(systemView);
 
         view.setCenter(systemCanvas);
+    }
+
+    @Override
+    public void start()
+    {
+        
     }
 
     @Override

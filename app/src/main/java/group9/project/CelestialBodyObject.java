@@ -3,51 +3,41 @@ package group9.project;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
-public class CelestialBodyObject extends PhysicsObject implements IDrawable
+public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
 
     public CelestialBodyObject()
     {
-        shape = new Circle();
+        super();
     }
 
-    public void setRadius(float radius)
+    public void setPosition(Vector3 newPosition)
     {
-        shape.setRadius(radius);
-    }
-
-    public void setPosition(Vector3 pos)
-    {
-        this.pos = pos;
-
-        shape.setCenterX(pos.getX());
-
-        shape.setCenterY(pos.getY());
-    }
-
-    public Shape getShape()
-    {
-        return shape;
+        position = newPosition;
     }
 
     @Override
     public void applyForce(Vector3 force)
     {
-        
+        super.applyForce(force);
     }
 
     @Override
     public void start()
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
+        super.start();
     }
 
     @Override
     public void update()
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        super.update();
+    }
+
+    @Override
+    public Shape getShape()
+    {
+        return shape;
     }
 }

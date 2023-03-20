@@ -12,7 +12,7 @@ public class SystemOrbitView extends PaneView
     @Override
     public void start()
     {
-        
+        update();
     }
 
     @Override
@@ -20,9 +20,9 @@ public class SystemOrbitView extends PaneView
     {
         getChildren().clear();
 
-        for (PhysicsObject physicsObject : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate())
+        for (IDrawable drawable : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate())
         {
-            getChildren().add(physicsObject.get)    
+            getChildren().add(drawable.getShape());    
         }
     }
 }

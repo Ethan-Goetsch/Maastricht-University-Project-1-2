@@ -5,9 +5,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,8 +29,10 @@ public class MissionControl extends Application
     {
         mainStage = stage;
 
-        mainScene = new Scene(Renderer.getInstance().getView());
+        mainScene = new Scene(PhysicsVisualizer.getInstance().getView());
 
+
+        createPhysicsSystems();
 
         createTimeline();
 
@@ -43,6 +42,13 @@ public class MissionControl extends Application
         mainStage.setScene(mainScene);
         
         mainStage.show();
+    }
+
+    private void createPhysicsSystems()
+    {
+        PhysicsEngine.getInstance().start();
+
+        PhysicsVisualizer.getInstance().start();
     }
 
     private void createTimeline()
@@ -58,6 +64,6 @@ public class MissionControl extends Application
     {
         PhysicsEngine.getInstance().update();
 
-        Renderer.getInstance().update();
+        PhysicsVisualizer.getInstance().update();
     }
 }

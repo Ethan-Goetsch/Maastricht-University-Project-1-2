@@ -2,7 +2,7 @@ package group9.project;
 
 import java.util.ArrayList;
 
-public class PhysicsEngine implements IUpdateable
+public class PhysicsEngine implements IStartable, IUpdateable
 {
     //#region Singleton
     private static PhysicsEngine instance;
@@ -19,7 +19,8 @@ public class PhysicsEngine implements IUpdateable
     //#endregion
 
     public static final double STEP_TIME = 0.001;
-    public static final double G = 7.6743e-20;
+
+    public static final double GRAVITY = 7.6743e-20;
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
@@ -38,7 +39,15 @@ public class PhysicsEngine implements IUpdateable
         if (!physicsObjectsToUpdate.contains(physicsObject))
         {
             physicsObjectsToUpdate.add(physicsObject);
+
+            physicsObject.start();
         }
+    }
+
+    @Override
+    public void start()
+    {
+        
     }
 
     @Override

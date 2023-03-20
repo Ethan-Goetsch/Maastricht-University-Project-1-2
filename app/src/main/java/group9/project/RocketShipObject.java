@@ -1,25 +1,38 @@
 package group9.project;
 
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
+
 public class RocketShipObject extends PhysicsObject
 {
-    @Override
-    public void start()
-    {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'start'");
-    }
+    private Circle shape;
 
-    @Override
-    public void update()
+    public RocketShipObject()
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        super();
     }
 
     @Override
     public void applyForce(Vector3 force)
     {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'applyForce'");
+        super.update();
+    }
+
+    @Override
+    public void start()
+    {
+        super.start();
+    }
+
+    @Override
+    public void update()
+    {
+        super.update();
+    }
+
+    @Override
+    public Shape getShape()
+    {
+        return shape;
     }
 }
