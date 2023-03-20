@@ -50,7 +50,7 @@ public class CelestialBodyObject extends PhysicsObject
     {
         velocity.add(acceleration);
 
-        position.add(velocity);
+        setPosition(position.add(velocity));
 
         acceleration.multiplyBy(0);
     }

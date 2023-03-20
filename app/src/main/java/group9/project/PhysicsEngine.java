@@ -20,7 +20,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
     //#endregion
 
-    public static final double STEP_TIME = 0.001;
+    public static final double STEP_TIME = 0.1;
 
     public static final double GRAVITY = 7.6743e-20;
 
@@ -49,7 +49,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void start()
     {
-        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(), new Vector3(), 50, Color.RED);
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, 1, 1), new Vector3(25, -25, 50), 50, Color.RED);
 
         RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE);
     }
