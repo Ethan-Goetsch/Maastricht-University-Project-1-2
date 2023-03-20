@@ -40,4 +40,5 @@ public class Vector3
 
         z = newZ;
     }
+
 }

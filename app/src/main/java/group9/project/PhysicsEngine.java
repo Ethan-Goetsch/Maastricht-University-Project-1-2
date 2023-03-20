@@ -16,6 +16,10 @@ public class PhysicsEngine
         }
     }
 
+    public static void update() {
+        // calculate and apply forces to all physics objects
+    }
+
     public static void createTimer()
     {
         //timer goes here
