@@ -1,4 +1,4 @@
-package UI;
+package ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +13,7 @@ import java.io.IOException;
  */
 public class App extends Application
 {
+
     private static Scene scene;
 
     @Override
@@ -21,7 +22,7 @@ public class App extends Application
         scene = new Scene(loadFXML("primary"), 640, 480);
 
         stage.setScene(scene);
-
+        
         stage.show();
     }
 
