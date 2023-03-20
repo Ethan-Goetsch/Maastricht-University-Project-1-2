@@ -6,7 +6,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable
 
     public PhysicsObject()
     {
-        PhysicsEngine.addPhysicsObjectToUpdate(this);
+        PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
     public abstract void applyForce(Vector3 force);
