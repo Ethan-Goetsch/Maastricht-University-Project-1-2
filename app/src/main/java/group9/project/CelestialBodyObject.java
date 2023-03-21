@@ -2,11 +2,14 @@ package group9.project;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 
 public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
+    private Rectangle arrow;
 
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double radius, Color planetColour)
     {
@@ -31,6 +34,10 @@ public class CelestialBodyObject extends PhysicsObject
     public Shape getShape()
     {
         return shape;
+    }
+
+    public Shape getArrow() {
+        return arrow;
     }
 
     @Override

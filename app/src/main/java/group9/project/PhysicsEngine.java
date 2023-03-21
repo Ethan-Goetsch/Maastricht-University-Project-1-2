@@ -97,7 +97,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
             for (PhysicsObject physicsBodyTwo : getPhysicsObjectsToUpdate()) 
             {
-                if (physicsBodyOne == physicsBodyTwo)
+                if (physicsBodyOne.equals(physicsBodyTwo))
                 {
                     continue;
                 }
@@ -109,7 +109,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
                 double distance = Mathematics.getDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
 
-                distance = Math.pow(distance, 3);
+                distance = Math.pow(distance, 2);
 
 
                 Vector3 force = positionDifference.multiplyBy(productOfMassAndGravity);

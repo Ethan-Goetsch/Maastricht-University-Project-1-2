@@ -71,7 +71,6 @@ public class MissionControl extends Application
 */
 
 
-
         mainStage.setTitle("Titanic Space Odyssey");
 
         mainStage.setScene(mainScene);
@@ -97,8 +96,8 @@ public class MissionControl extends Application
 
     private void updateLoop()
     {
-        PhysicsEngine.getInstance().update();
-
         PhysicsVisualizer.getInstance().update();
+
+        PhysicsEngine.getInstance().update();
     }
 }
