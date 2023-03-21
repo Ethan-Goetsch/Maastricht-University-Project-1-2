@@ -32,10 +32,8 @@ public class RocketShipObject extends PhysicsObject
     }
 
     @Override
-    public void setPosition(Vector3 newPosition)
+    public void setInitialPosition(Vector3 newPosition)
     {
-        super.setPosition(newPosition);
-
         shape.setX(newPosition.getX());
 
         shape.setY(newPosition.getY());

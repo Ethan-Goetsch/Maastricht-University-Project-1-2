@@ -20,7 +20,7 @@ public class SystemDetailView extends PaneView
     }   
 
     @Override
-    public void update()
+    public void update(double timeDelta)
     {
         
     }

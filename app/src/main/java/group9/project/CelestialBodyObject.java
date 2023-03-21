@@ -36,11 +36,8 @@ public class CelestialBodyObject extends PhysicsObject
         super.applyForce(newForce);
     }
 
-    @Override
     public void setPosition(Vector3 newPosition)
     {
-        super.setPosition(newPosition);
-
         shape.setCenterX(newPosition.getX());
 
         shape.setCenterY(newPosition.getY());
@@ -55,13 +52,10 @@ public class CelestialBodyObject extends PhysicsObject
     }
 
     @Override
-    public void update()
+    public void update(double timeDelta)
     {
-        velocity.add(acceleration);
-
+        super.update(timeDelta);
         setPosition(position.add(velocity));
-
-        acceleration.multiplyBy(0);
     }
 
     @Override

@@ -12,11 +12,11 @@ public class SystemOrbitView extends PaneView
     @Override
     public void start()
     {
-        update();
+        update(1);
     }
 
     @Override
-    public void update()
+    public void update(double timeDelta)
     {
         getChildren().clear();
 

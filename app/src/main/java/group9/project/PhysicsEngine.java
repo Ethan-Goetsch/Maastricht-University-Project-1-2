@@ -46,22 +46,24 @@ public class PhysicsEngine implements IStartable, IUpdateable
         }
     }
 
+     
     @Override
     public void start()
     {
-        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, 1, 1), new Vector3(25, -25, 50), 50, Color.RED);
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, 1, 1), new Vector3(25, -25, 50), (double)50, Color.RED, "Sun");
 
-        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE);
+        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE, "Rocket");
     }
+    
 
     public static void updateForces() {
         // calculate and apply forces to all physics objects
 
         // gravity:
 
-        for (PhysicsObject body : physicsObjectsToUpdate) {
+        for (PhysicsObject body : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate()) {
 
-            for (PhysicsObject body2 : physicsObjectsToUpdate) {
+            for (PhysicsObject body2 : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate()) {
                 if (body.equals(body2)) continue; 
 
                     // Calculate the distance vector between the two objects
@@ -85,7 +87,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
 
     @Override
-    public void update()
+    public void update(double timeDelta)
     {
         updateForces();
         for (PhysicsObject physicsObject : physicsObjectsToUpdate)

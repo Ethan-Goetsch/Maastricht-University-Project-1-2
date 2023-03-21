@@ -42,6 +42,7 @@ public class MissionControl extends Application
 
         createTimeline();
 
+        /* 
         CelestialBodyObject sun = new CelestialBodyObject("Sun");
         sun.setRadius(30);
         sun.setPosition(new Vector3(0,0,0));
@@ -53,6 +54,7 @@ public class MissionControl extends Application
         saturn.setPosition(Converter.scaleToScreen(new Vector3(-1.25e9, -7.6e8, -3.67e7)));
         saturn.setMass(5.68e26);
         saturn.start();
+        */
         
 /* 
         CelestialBodyObject testStar1 = new CelestialBodyObject("test star 1");
@@ -95,8 +97,8 @@ public class MissionControl extends Application
 
     private void updateLoop()
     {
-        PhysicsEngine.getInstance().update();
+        PhysicsEngine.getInstance().update(1);
 
-        PhysicsVisualizer.getInstance().update();
+        PhysicsVisualizer.getInstance().update(1);
     }
 }

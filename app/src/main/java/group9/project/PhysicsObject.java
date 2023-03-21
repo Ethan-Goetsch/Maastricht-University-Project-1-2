@@ -41,7 +41,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawabl
         acceleration = acceleration.add(force);
     };
 
-    public void setPosition(Vector3 newPosition)
+    public void setInitialPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
@@ -56,7 +56,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawabl
     {
         velocity = velocity.add(acceleration).multiplyBy(timeDelta);
         //System.out.println(name + " pos: " + pos);
-        pos = pos.add(velocity);
+        position = position.add(velocity);
         //System.out.println(name + " pos: " + pos);
         acceleration = acceleration.multiplyBy(0);
     }
