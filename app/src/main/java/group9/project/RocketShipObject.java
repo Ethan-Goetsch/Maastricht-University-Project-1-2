@@ -8,9 +8,9 @@ public class RocketShipObject extends PhysicsObject
 {
     private Rectangle shape;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String name, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String name, int width, int height, Color shipColour)
     {
-        super(startingPosition, startingVelocity, startingAcceleration, mass, name);
+        super(startingPosition, startingVelocity, mass, name);
 
         shape = new Rectangle();
         
@@ -24,7 +24,9 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void update()
     {
-        
+        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
+
+        setPosition(EulerSolver.getNewPosition(position, velocity));
     }
 
     @Override
@@ -36,8 +38,10 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        shape.setX(position.getX());
+        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
 
-        shape.setY(position.getY());
+        shape.setX(scaledVector.getX());
+
+        shape.setY(scaledVector.getY());
     }
 }

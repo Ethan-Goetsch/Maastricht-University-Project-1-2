@@ -8,29 +8,26 @@ public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String name, double planetRadius, Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String name, Color planetColour)
     {
-        super(startingPosition, startingVelocity, startingAcceleration, mass, name);
+        super(startingPosition, startingVelocity, mass, name);
 
         shape = new Circle();
 
         shape.setFill(planetColour);
 
-        shape.setRadius(planetRadius);
+        shape.setRadius(ScaleConverter.scaleRadiusFromMass(mass));
     }
 
     @Override
     public void update()
     {
-        Vector3 newVelocity = acceleration.multiplyBy(PhysicsEngine.STEP_TIME);
-
-        setVelocity(velocity.add(newVelocity));
+        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
 
         //System.out.println(name + " pos: " + pos);
-        setPosition(position.add(velocity));
+        setPosition(EulerSolver.getNewPosition(position, velocity));
 
         //System.out.println(name + " pos: " + pos);
-        //setAcceleration(acceleration.multiplyBy(0));
     }
 
     @Override
@@ -42,8 +39,10 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        shape.setCenterX(position.getX());
+        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
 
-        shape.setCenterY(position.getY());
+        shape.setCenterX(scaledVector.getX());
+
+        shape.setCenterY(scaledVector.getY());
     }
 }

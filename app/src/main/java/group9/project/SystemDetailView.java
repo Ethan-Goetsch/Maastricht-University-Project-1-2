@@ -4,9 +4,9 @@ import javafx.scene.control.Label;
 
 public class SystemDetailView extends PaneView
 {
-    public SystemDetailView(int parentWidth, int parentHeight, int widthPercentage, int heightPercentage)
+    public SystemDetailView(int width, int height)
     {
-        super(parentWidth, parentHeight, widthPercentage, heightPercentage);
+        super(width, height);
         
         start();
     }
