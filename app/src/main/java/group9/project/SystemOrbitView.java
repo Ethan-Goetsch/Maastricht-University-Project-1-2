@@ -26,6 +26,12 @@ public class SystemOrbitView extends PaneView
         {
             drawable.setShapePosition();
 
+            if (drawable instanceof CelestialBodyObject)
+            {
+                CelestialBodyObject planet = (CelestialBodyObject)drawable;
+                getChildren().add(planet.getArrow());
+            } 
+
             Shape shape = drawable.getShape();
 
             getChildren().add(shape);    

@@ -45,10 +45,11 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
      */
     public void applyForce(Vector3 force)
     {
-        force = force.divideBy(mass).multiplyBy(PhysicsEngine.STEP_TIME);
+        //force = force.divideBy(mass).multiplyBy(PhysicsEngine.STEP_TIME);
+        force = force.divideBy(mass);
 
         //System.out.println(force.normalize().toString());
-        System.out.println("force: " + force.getMagnitude());
+        //System.out.println("force on " + name + ": " + force.getMagnitude());
 
         acceleration = acceleration.add(force);
     }

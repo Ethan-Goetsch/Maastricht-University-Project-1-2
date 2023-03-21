@@ -25,9 +25,9 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     private SystemOrbitView systemCanvas;
 
-    private final int WIDTH = 800;
+    public static final int WIDTH = 800;
 
-    private final int HEIGHT = 600;
+    public static final int HEIGHT = 600;
 
     public Pane getView()
     {
@@ -48,7 +48,7 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     {
         view = new BorderPane();
 
-        view.setPrefSize(800, 600);
+        view.setPrefSize(WIDTH, HEIGHT);
 
 
         systemView = new SystemDetailView(WIDTH, HEIGHT, 100, 20);
