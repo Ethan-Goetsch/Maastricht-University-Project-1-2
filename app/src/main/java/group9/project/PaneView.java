@@ -14,7 +14,7 @@ public abstract class PaneView extends Pane implements IStartable, IUpdateable
     }
 
     @Override
-    public abstract void update(double timeDelta);
+    public abstract void update();
 
     @Override
     public abstract void start();

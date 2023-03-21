@@ -8,59 +8,42 @@ public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double planetRadius, Color planetColourString, String name)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String name, double planetRadius, Color planetColour)
     {
-        super(startingPosition, startingVelocity, startingAcceleration, name);
+        super(startingPosition, startingVelocity, startingAcceleration, mass, name);
 
         shape = new Circle();
 
-        shape.setFill(planetColourString);
-
-        shape.setCenterX(startingPosition.getX());
-
-        shape.setCenterY(startingPosition.getY());
+        shape.setFill(planetColour);
 
         shape.setRadius(planetRadius);
     }
 
-
-    public void setMass(double mass) 
-    {
-        this.mass = mass;
-    }
-
-
     @Override
-    public void applyForce(Vector3 newForce)
+    public void update()
     {
-        super.applyForce(newForce);
-    }
+        Vector3 newVelocity = acceleration.multiplyBy(PhysicsEngine.STEP_TIME);
 
-    public void setPosition(Vector3 newPosition)
-    {
-        shape.setCenterX(newPosition.getX());
+        setVelocity(velocity.add(newVelocity));
 
-        shape.setCenterY(newPosition.getY());
-    }
-
-    @Override
-    public void start()
-    {
-        velocity = new Vector3(0,0,0);
-        acceleration = new Vector3(0,0,0);
-
-    }
-
-    @Override
-    public void update(double timeDelta)
-    {
-        super.update(timeDelta);
+        //System.out.println(name + " pos: " + pos);
         setPosition(position.add(velocity));
+
+        //System.out.println(name + " pos: " + pos);
+        //setAcceleration(acceleration.multiplyBy(0));
     }
 
     @Override
     public Shape getShape()
     {
         return shape;
+    }
+
+    @Override
+    public void setShapePosition()
+    {
+        shape.setCenterX(position.getX());
+
+        shape.setCenterY(position.getY());
     }
 }

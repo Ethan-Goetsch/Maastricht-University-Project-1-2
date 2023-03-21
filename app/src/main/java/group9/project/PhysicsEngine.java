@@ -41,8 +41,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
         if (!physicsObjectsToUpdate.contains(physicsObject))
         {
             physicsObjectsToUpdate.add(physicsObject);
-
-            physicsObject.start();
         }
     }
 
@@ -50,29 +48,42 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void start()
     {
-        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, 1, 1), new Vector3(25, -25, 50), (double)50, Color.RED, "Sun");
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(450, 450, 0), new Vector3(1, -2, 1), new Vector3(1, 1, 1), 50, "Sun", 50, Color.RED);
 
-        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(), new Vector3(), 50, 75, Color.BLUE, "Rocket");
+        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(), 0, "Rocket", 50, 75, Color.BLUE);
+    }
+
+    @Override
+    public void update()
+    {
+        updateForces();
+
+        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
+        {
+            physicsObject.update();
+        }
     }
     
-
-    public static void updateForces() {
+    private void updateForces()
+    {
         // calculate and apply forces to all physics objects
 
         // gravity:
-
-        for (PhysicsObject body : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate()) {
-
-            for (PhysicsObject body2 : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate()) {
-                if (body.equals(body2)) continue; 
+        for (PhysicsObject physicsBodyOne : getPhysicsObjectsToUpdate())
+        {
+            for (PhysicsObject physicsBodyTwo : getPhysicsObjectsToUpdate()) 
+            {
+                if (physicsBodyOne.equals(physicsBodyTwo)) continue; 
 
                     // Calculate the distance vector between the two objects
-                    System.out.println(body2.getPosition().subtract(body.getPosition()));
-                    Vector3 r = Converter.scaleToSolarSystem(body2.getPosition().subtract(body.getPosition()));
+                    System.out.println(physicsBodyTwo.getPosition().subtract(physicsBodyOne.getPosition()));
+
+                    Vector3 r = Converter.scaleToSolarSystem(physicsBodyTwo.getPosition().subtract(physicsBodyOne.getPosition()));
+
                     System.out.println("distance: " + r.getMagnitude());
 
                     // Calculate the magnitude of the gravitational force using the universal law of gravitation
-                    double magF = GRAVITY * body.getMass() * body2.getMass() / Math.pow(r.getMagnitude(), 2);
+                    double magF = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass() / Math.pow(r.getMagnitude(), 2);
 
                     // Calculate the direction of the gravitational force
                     Vector3 dirF = r.normalize();
@@ -80,21 +91,8 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     // Calculate the gravitational force vector
                     Vector3 F = dirF.multiplyBy(magF);
 
-                    body.applyForce(F);
-                
+                    physicsBodyOne.applyForce(F);
             }
         }
-    }
-
-    @Override
-    public void update(double timeDelta)
-    {
-        updateForces();
-        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
-        {
-            physicsObject.update(10); // seconds in a day
-        }
-
-        //System.out.println("test");
     }
 }

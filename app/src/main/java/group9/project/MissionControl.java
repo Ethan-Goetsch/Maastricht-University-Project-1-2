@@ -97,8 +97,8 @@ public class MissionControl extends Application
 
     private void updateLoop()
     {
-        PhysicsEngine.getInstance().update(1);
+        PhysicsEngine.getInstance().update();
 
-        PhysicsVisualizer.getInstance().update(1);
+        PhysicsVisualizer.getInstance().update();
     }
 }

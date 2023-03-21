@@ -1,5 +1,7 @@
 package group9.project;
 
+import javafx.scene.shape.Shape;
+
 public class SystemOrbitView extends PaneView
 {
     public SystemOrbitView(int parentWidth, int parentHeight, int widthPercentage, int heightPercentage)
@@ -12,17 +14,21 @@ public class SystemOrbitView extends PaneView
     @Override
     public void start()
     {
-        update(1);
+        update();
     }
 
     @Override
-    public void update(double timeDelta)
+    public void update()
     {
         getChildren().clear();
 
         for (IDrawable drawable : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate())
         {
-            getChildren().add(drawable.getShape());    
+            drawable.setShapePosition();
+
+            Shape shape = drawable.getShape();
+
+            getChildren().add(shape);    
         }
     }
 }

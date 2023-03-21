@@ -8,9 +8,9 @@ public class RocketShipObject extends PhysicsObject
 {
     private Rectangle shape;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, int width, int height, Color shipColour, String name)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String name, int width, int height, Color shipColour)
     {
-        super(startingPosition, startingVelocity, startingAcceleration, name);
+        super(startingPosition, startingVelocity, startingAcceleration, mass, name);
 
         shape = new Rectangle();
         
@@ -19,36 +19,25 @@ public class RocketShipObject extends PhysicsObject
         shape.setWidth(width);
         
         shape.setHeight(height);
-
-        shape.setX(startingPosition.getX());
-
-        shape.setY(startingPosition.getY());
     }
 
     @Override
-    public void applyForce(Vector3 newForce)
+    public void update()
     {
-        super.applyForce(newForce);
+        
     }
 
     @Override
-    public void setInitialPosition(Vector3 newPosition)
+    public Shape getShape()
     {
-        shape.setX(newPosition.getX());
-
-        shape.setY(newPosition.getY());
-    }
-
-
-    @Override
-    public void start()
-    {
-
-    }
-
-    @Override
-    public Shape getShape() {
         return shape;
     }
 
+    @Override
+    public void setShapePosition()
+    {
+        shape.setX(position.getX());
+
+        shape.setY(position.getY());
+    }
 }

@@ -2,71 +2,91 @@ package group9.project;
 
 import javafx.scene.shape.Shape;
 
-public abstract class PhysicsObject implements IStartable, IUpdateable, IDrawable
+public abstract class PhysicsObject implements IUpdateable, IDrawable
 {
     protected Vector3 position, velocity, acceleration;
 
     protected double mass;
-    protected String name;
 
-    public double getMass()
-    {
-        return mass;
-    }
+    protected String name;
 
     public Vector3 getPosition()
     {
         return position;
     }
 
-    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, String name)
+    public double getMass()
     {
-        position = startingPosition;
+        return mass;
+    }
 
-        velocity = startingVelocity;
+    public String getName()
+    {
+        return name;
+    }
 
-        acceleration = startingAcceleration;
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String newName)
+    {
+        setPosition(startingPosition);
 
-        this.name = name;
+        setVelocity(startingVelocity);
+
+        setAcceleration(startingAcceleration);
+
+        setMass(mass);
+
+        name = newName;
+
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
     /*
-     * Apply force on object
+     * Apply force to an object
      */
-    public void applyForce(Vector3 force) {
-        force = force.divideBy(mass);
+    public void applyForce(Vector3 force)
+    {
+        force = force.divideBy(mass).multiplyBy(PhysicsEngine.STEP_TIME);
+
         //System.out.println(force.normalize().toString());
         System.out.println("force: " + force.getMagnitude());
-        acceleration = acceleration.add(force);
-    };
 
-    public void setInitialPosition(Vector3 newPosition)
+        acceleration = acceleration.add(force);
+    }
+
+    public void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
-    @Override
-    public abstract void start();
+    public void setVelocity(Vector3 newVelocity)
+    {
+        velocity = newVelocity;
+    }
+
+    public void setAcceleration(Vector3 newAcceleration)
+    {
+        acceleration = newAcceleration;
+    }
+
+    public void setMass(double newMass) 
+    {
+        mass = newMass;
+    }
 
     /*
-     * Update position of object
+     * Update position of an object
      */
-    public void update(double timeDelta) 
+    @Override
+    public abstract void update();
+
+    @Override
+    public abstract Shape getShape();
+
+    @Override
+    public abstract void setShapePosition();
+
+    public boolean equals(PhysicsObject otherObject)
     {
-        velocity = velocity.add(acceleration).multiplyBy(timeDelta);
-        //System.out.println(name + " pos: " + pos);
-        position = position.add(velocity);
-        //System.out.println(name + " pos: " + pos);
-        acceleration = acceleration.multiplyBy(0);
+        return otherObject.getName().equals(name);
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean equals(PhysicsObject o) {
-        return o.getName().equals(name);
-    }
-
 }

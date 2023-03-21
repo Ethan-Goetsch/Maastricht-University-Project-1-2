@@ -68,10 +68,10 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     }
 
     @Override
-    public void update(double timeDelta)
+    public void update()
     {
-        systemView.update(timeDelta);
+        systemView.update();
 
-        systemCanvas.update(1);
+        systemCanvas.update();
     }
 }
