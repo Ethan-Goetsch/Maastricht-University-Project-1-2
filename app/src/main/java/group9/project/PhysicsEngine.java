@@ -20,15 +20,24 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
     //#endregion
 
-    public static final double STEP_TIME = 0.1;
+    public static final double STEP_TIME = 0.0001;
 
-    public static final double GRAVITY = 6.6743015e-11;
+    private static final double increasedStepTime = 10000000;
+
+    public static final double SIMULATION_SPEED = 10;
+
+    private static final double GRAVITY = 6.6743E-20;
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
     public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
     {
         return physicsObjectsToUpdate;
+    }
+
+    public static double getSpedUpStepTime()
+    {
+        return STEP_TIME * increasedStepTime * SIMULATION_SPEED;
     }
 
     public PhysicsEngine()
@@ -47,29 +56,29 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void start()
     {
-        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, "Sun", Color.RED);
+        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsObjectType.Sun, 5, Color.RED);
 
-        CelestialBodyObject mercuryObject = new CelestialBodyObject(new Vector3(7.83E+06, 4.49E+07, 2.87E+06), new Vector3(-5.75E+01, 1.15E+01,	6.22E+00), 3.30E+23, "Mercury", Color.GREEN);
+        CelestialBodyObject mercuryObject = new CelestialBodyObject(new Vector3(7833268.43923962, 44885949.3703908, 2867693.20054382), new Vector3(-57.4967480139828, 11.52095127176, 6.21695374334136), 3.30E+23, PhysicsObjectType.Mercury, 10, Color.GREEN);
 
-        CelestialBodyObject venusObject = new CelestialBodyObject(new Vector3(-2.82E+07, 1.04E+08, 3.01E+06), new Vector3(-3.40E+01, -8.97E+00, 1.84E+00), 4.87E+24, "Venus", Color.PURPLE);
+        CelestialBodyObject venusObject = new CelestialBodyObject(new Vector3(-28216773.9426889, 103994008.541512, 3012326.64296788), new Vector3(-34.0236737066136, -8.96521274688838, 1.84061735279188), 4.87E+24, PhysicsObjectType.Venus, 7.5, Color.PURPLE);
 
-        CelestialBodyObject earthObject = new CelestialBodyObject(new Vector3(-1.48E+08, -2.78E+07, 3.37E+04), new Vector3(5.05E+00, -2.94E+01, 1.71E-03), 5.97E+24, "Earth", Color.BLUE);
+        CelestialBodyObject earthObject = new CelestialBodyObject(new Vector3(-148186906.893642, -27823158.5715694, 33746.8987977113), new Vector3(5.05251577575409, -29.3926687625899, 0.00170974277401292), 5.97E+24, PhysicsObjectType.Earth, 7.5, Color.BLUE);
 
-        CelestialBodyObject moonObject = new CelestialBodyObject(new Vector3(-1.48E+08, -2.75E+07, 7.02E+04), new Vector3(4.34E+00, -3.00E+01, -1.16E-02), 7.35E+22, "Moon", Color.GRAY);
+        CelestialBodyObject moonObject = new CelestialBodyObject(new Vector3(-148458048.395164, -27524868.1841142, 70233.6499287411), new Vector3(4.34032634654904, -30.0480834180741, -0.0116103535014229), 7.35E+22, PhysicsObjectType.Moon, 2.5, Color.GRAY);
 
-        CelestialBodyObject marsObject = new CelestialBodyObject(new Vector3(-1.59E+08,	1.89E+08, 7.87E+06), new Vector3(-1.77E+01, -1.35E+01, 1.52E-01), 6.42E+23, "Mars", Color.ORANGE);
+        CelestialBodyObject marsObject = new CelestialBodyObject(new Vector3(-1.59E+08,	1.89E+08, 7.87E+06), new Vector3(-17.6954469224752, -13.4635253412947, 1.52E-01), 0.152331928200531, PhysicsObjectType.Mars, 5, Color.ORANGE);
 
-        CelestialBodyObject jupiterObject = new CelestialBodyObject(new Vector3(6.93E+08,	2.59E+08, -1.66E+07), new Vector3(-4.71E+00, 1.29E+01, 5.22E-02), 1.90E+27, "Jupiter", Color.PINK);
+        CelestialBodyObject jupiterObject = new CelestialBodyObject(new Vector3(692722875.928222,	258560760.813524, -16570817.7105996), new Vector3(-4.71443059866156, 12.8555096964427, 0.0522118126939208), 1.90E+27, PhysicsObjectType.Jupiter, 20, Color.PINK);
 
-        CelestialBodyObject saturnObject = new CelestialBodyObject(new Vector3(1.25E+09, -7.60E+08, -3.67E+07), new Vector3(4.47E+00,	8.24E+00, -3.21E-01), 5.68E+26, "Saturn", Color.ROYALBLUE);
+        CelestialBodyObject saturnObject = new CelestialBodyObject(new Vector3(1253801723.95465, -760453007.810989, -36697431.1565206), new Vector3(4.46781341335014,	8.23989540475628, -0.320745376969732), 5.68E+26, PhysicsObjectType.Saturn, 15, Color.ROYALBLUE);
 
-        CelestialBodyObject titanObject = new CelestialBodyObject(new Vector3(1.25E+09, -7.61E+08,	-3.63E+07), new Vector3(9.00E+00, 1.11E+01, -2.25E+00), 1.35E+23, "Titan", Color.GOLD);
+        CelestialBodyObject titanObject = new CelestialBodyObject(new Vector3(1254501624.95946, -761340299.067828,	-36309613.8378104), new Vector3(8.99593229549645, 11.1085713608453, -2.25130986174761), 1.35E+23, PhysicsObjectType.Titan, 2.5, Color.GOLD);
 
-        CelestialBodyObject neptuneObject = new CelestialBodyObject(new Vector3(4.45E+09, -3.98E+08, -9.45E+07), new Vector3(4.48E-01, 5.45E+00, -1.23E-01), 1.02E+26, "Neptune", Color.BLACK);
+        CelestialBodyObject neptuneObject = new CelestialBodyObject(new Vector3(4454487339.09447, -397895128.763904, -94464151.3421107), new Vector3(0.447991656952326, 5.44610697514907, -0.122638125365954), 1.02E+26, PhysicsObjectType.Neptune, 7.5, Color.BLACK);
 
-        CelestialBodyObject uranusObject = new CelestialBodyObject(new Vector3(1.96E+09, 2.19E+09, -1.72E+07), new Vector3(-5.13E+00,	4.22E+00, 8.21E-02), 8.68E+25, "Uranus", Color.CRIMSON);
+        CelestialBodyObject uranusObject = new CelestialBodyObject(new Vector3(1958732435.99338, 2191808553.21893, -17235283.8321992), new Vector3(-5.12766216337626,	4.22055347264457, 0.0821190336403063), 8.68E+25, PhysicsObjectType.Uranus, 7.5, Color.CRIMSON);
 
-        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(450, 450, 0), new Vector3(10, 1, 0), 50000, "Rocket", 10, 10, Color.BLUE);
+        RocketShipObject rocketShipObject = new RocketShipObject(new Vector3(900, 900, 0), new Vector3(0, 0, 0), 50000, PhysicsObjectType.Rocket, 10, 10, Color.BLUE);
     }
 
     @Override
@@ -77,12 +86,9 @@ public class PhysicsEngine implements IStartable, IUpdateable
     {
         updateForces();
 
-        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
-        {
-            physicsObject.update();
-        }
+        updateObjects();
     }
-    
+
     private void updateForces()
     {
         for (PhysicsObject physicsBodyOne : getPhysicsObjectsToUpdate())
@@ -96,43 +102,37 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     continue;
                 }
 
+                double productOfMassAndGravity = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
+
+
                 Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
 
                 double distance = Mathematics.getDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
 
                 distance = Math.pow(distance, 3);
 
-                Vector3 force = positionDifference.divideBy(distance);
 
-                force = force.multiplyBy(GRAVITY);
+                Vector3 force = positionDifference.multiplyBy(productOfMassAndGravity);
+
+                force = force.divideBy(distance);
+
+
+                force = force.multiplyBy(-1);
 
                 physicsBodyOneForce = physicsBodyOneForce.add(force);
-
-                //#region Old Force
-                //     // Calculate the distance vector between the two objects
-                //     System.out.println(physicsBodyTwo.getPosition().subtract(physicsBodyOne.getPosition()));
-
-                //     Vector3 r = ScaleConverter.scaleToSolarSystem(physicsBodyTwo.getPosition().subtract(physicsBodyOne.getPosition()));
-
-                //     System.out.println("distance: " + r.getMagnitude());
-
-                //     // Calculate the magnitude of the gravitational force using the universal law of gravitation
-                //     double magF = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass() / Math.pow(r.getMagnitude(), 2);
-
-                //     // Calculate the direction of the gravitational force
-                //     Vector3 dirF = r.normalize();
-
-                //     // Calculate the gravitational force vector
-                //     Vector3 F = dirF.multiplyBy(magF);
-
-                //     physicsBodyOne.setForce(F);
-                // }
-                //#endregion
             }
 
             physicsBodyOne.setForce(physicsBodyOneForce);
 
             physicsBodyOne.setAcceleration(physicsBodyOne.getForce().divideBy(physicsBodyOne.getMass()));
+        }
+    }
+
+    private void updateObjects()
+    {
+        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
+        {
+            physicsObject.update();
         }
     }
 }

@@ -8,15 +8,15 @@ public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String name, Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double radius, Color planetColour)
     {
-        super(startingPosition, startingVelocity, mass, name);
+        super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
 
         shape = new Circle();
 
         shape.setFill(planetColour);
 
-        shape.setRadius(ScaleConverter.scaleRadiusFromMass(mass));
+        shape.setRadius(radius);
     }
 
     @Override
@@ -24,10 +24,7 @@ public class CelestialBodyObject extends PhysicsObject
     {
         setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
 
-        //System.out.println(name + " pos: " + pos);
         setPosition(EulerSolver.getNewPosition(position, velocity));
-
-        //System.out.println(name + " pos: " + pos);
     }
 
     @Override

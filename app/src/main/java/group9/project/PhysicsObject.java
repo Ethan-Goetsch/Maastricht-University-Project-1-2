@@ -8,7 +8,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
     protected double mass;
 
-    protected String name;
+    protected PhysicsObjectType physicsObjectType;
 
     public Vector3 getPosition()
     {
@@ -35,12 +35,12 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         return mass;
     }
 
-    public String getName()
+    public PhysicsObjectType getPhysicsObjectType()
     {
-        return name;
+        return physicsObjectType;
     }
 
-    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String newName)
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType)
     {
         setPosition(startingPosition);
 
@@ -52,7 +52,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
         setMass(mass);
 
-        name = newName;
+        physicsObjectType = newPhysicsObjectType;
 
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }

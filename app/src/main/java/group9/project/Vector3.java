@@ -46,24 +46,24 @@ public class Vector3
         return new Vector3(this.x, this.y, this.z);
     }
 
-    public Vector3 add(Vector3 v)
+    public Vector3 add(Vector3 vector)
     {
-        return new Vector3(this.x + v.getX(), this.y + v.getY(), this.z + v.getZ());
+        return new Vector3(this.x + vector.getX(), this.y + vector.getY(), this.z + vector.getZ());
     }
 
-    public Vector3 subtract(Vector3 v)
+    public Vector3 subtract(Vector3 vector)
     {
-        return new Vector3(this.x - v.getX(), this.y - v.getY(), this.z - v.getZ());
+        return new Vector3(this.x - vector.getX(), this.y - vector.getY(), this.z - vector.getZ());
     }
 
-    public Vector3 divideBy(double num)
+    public Vector3 divideBy(double number)
     {
-        return new Vector3(this.x / num, this.y / num, this.z / num);
+        return new Vector3(this.x / number, this.y / number, this.z / number);
     }
 
-    public Vector3 multiplyBy(double num)
+    public Vector3 multiplyBy(double number)
     {
-        return new Vector3(this.x * num, this.y * num, this.z * num);
+        return new Vector3(this.x * number, this.y * number, this.z * number);
     }
 
     public double getMagnitude()
@@ -79,8 +79,8 @@ public class Vector3
     }
 
     @Override
-    public String toString() {
-        return "(" + x + "," + y + ")";
+    public String toString()
+    {
+        return "(" + x + ", " + y + ", " + z +")";
     }
-
 }

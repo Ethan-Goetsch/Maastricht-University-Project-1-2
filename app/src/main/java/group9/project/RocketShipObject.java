@@ -8,7 +8,7 @@ public class RocketShipObject extends PhysicsObject
 {
     private Rectangle shape;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String name, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType name, int width, int height, Color shipColour)
     {
         super(startingPosition, startingVelocity, mass, name);
 
