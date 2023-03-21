@@ -23,7 +23,8 @@ public class PhysicsEngine implements IStartable, IUpdateable
     public static final double STEP_TIME = 0.001;
 
 
-    public static final double GRAVITY = 6.6743015e-11;
+    //public static final double GRAVITY = 6.6743015e-11;
+    public static final double GRAVITY = 6.6743015e-16;
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
@@ -92,18 +93,23 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
             for (PhysicsObject physicsBodyTwo : getPhysicsObjectsToUpdate()) 
             {
-                if (physicsBodyOne == physicsBodyTwo)
+                if (physicsBodyOne.equals(physicsBodyTwo))
                 {
                     continue;
                 }
 
-                Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
+                Vector3 positionDifference = physicsBodyTwo.getPosition().subtract(physicsBodyOne.getPosition());
 
                 double distance = Mathematics.getDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
 
-                distance = Math.pow(distance, 3);
+                distance = Math.pow(distance, 2);
 
+                double forceMagnitude = physicsBodyOne.getMass() * physicsBodyTwo.getMass() / distance;
+                Vector3 force = positionDifference.normalize().multiplyBy(forceMagnitude);
+                /* 
                 Vector3 force = positionDifference.divideBy(distance);
+                Vector3 force = physicsBodyOne.getMass()*physicsBodyTwo.getMass()
+                */
 
                 force = force.multiplyBy(GRAVITY);
 
