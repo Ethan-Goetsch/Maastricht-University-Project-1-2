@@ -24,25 +24,44 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     private static final double increasedStepTime = 10000000;
 
-    public static final double SIMULATION_SPEED = 10;
-
     private static final double GRAVITY = 6.6743E-20;
 
+
+    private static double simulationSpeed = 1;
+
+    private static double simulationTime = 0;
+
+    
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
+
+    public static double getSimulationSpeed()
+    {
+        return simulationSpeed;
+    }
+
+    public static double getSimulationTime()
+    {
+        return simulationTime;
+    }
+
+    public static double getSimulationStepTime()
+    {
+        return STEP_TIME * increasedStepTime * simulationSpeed;
+    }
 
     public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
     {
         return physicsObjectsToUpdate;
     }
 
-    public static double getSpedUpStepTime()
-    {
-        return STEP_TIME * increasedStepTime * SIMULATION_SPEED;
-    }
-
     public PhysicsEngine()
     {
         physicsObjectsToUpdate = new ArrayList<>();
+    }
+
+    public static void setSimulationSpeed(double newSimulationSpeed)
+    {
+        simulationSpeed = newSimulationSpeed;
     }
 
     public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
@@ -66,11 +85,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
         CelestialBodyObject moonObject = new CelestialBodyObject(new Vector3(-148458048.395164, -27524868.1841142, 70233.6499287411), new Vector3(4.34032634654904, -30.0480834180741, -0.0116103535014229), 7.35E+22, PhysicsObjectType.Moon, 2.5, Color.GRAY);
 
-        CelestialBodyObject marsObject = new CelestialBodyObject(new Vector3(-1.59E+08,	1.89E+08, 7.87E+06), new Vector3(-17.6954469224752, -13.4635253412947, 1.52E-01), 0.152331928200531, PhysicsObjectType.Mars, 5, Color.ORANGE);
+        CelestialBodyObject marsObject = new CelestialBodyObject(new Vector3(-159116303.422552,	189235671.561057, 7870476.08522969), new Vector3(-17.6954469224752, -13.4635253412947, 0.152331928200531), 6.42E+23, PhysicsObjectType.Mars, 5, Color.ORANGE);
 
         CelestialBodyObject jupiterObject = new CelestialBodyObject(new Vector3(692722875.928222,	258560760.813524, -16570817.7105996), new Vector3(-4.71443059866156, 12.8555096964427, 0.0522118126939208), 1.90E+27, PhysicsObjectType.Jupiter, 20, Color.PINK);
 
-        CelestialBodyObject saturnObject = new CelestialBodyObject(new Vector3(1253801723.95465, -760453007.810989, -36697431.1565206), new Vector3(4.46781341335014,	8.23989540475628, -0.320745376969732), 5.68E+26, PhysicsObjectType.Saturn, 15, Color.ROYALBLUE);
+        CelestialBodyObject saturnObject = new CelestialBodyObject(new Vector3(1253801723.95465, -760453007.810989, -36697431.1565206), new Vector3(4.46781341335014,	8.23989540475628, -0.320745376969732), 5.68E+26, PhysicsObjectType.Saturn, 10, Color.ROYALBLUE);
 
         CelestialBodyObject titanObject = new CelestialBodyObject(new Vector3(1254501624.95946, -761340299.067828,	-36309613.8378104), new Vector3(8.99593229549645, 11.1085713608453, -2.25130986174761), 1.35E+23, PhysicsObjectType.Titan, 2.5, Color.GOLD);
 
@@ -87,6 +106,8 @@ public class PhysicsEngine implements IStartable, IUpdateable
         updateForces();
 
         updateObjects();
+
+        updateTimer();
     }
 
     private void updateForces()
@@ -109,7 +130,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
                 double distance = Mathematics.getDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
 
-                distance = Math.pow(distance, 2);
+                distance = Math.pow(distance, 3);
 
 
                 Vector3 force = positionDifference.multiplyBy(productOfMassAndGravity);
@@ -134,5 +155,12 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             physicsObject.update();
         }
+    }
+
+    private void updateTimer()
+    {
+        simulationTime += getSimulationStepTime();
+
+        //System.out.println(simulationTime);
     }
 }

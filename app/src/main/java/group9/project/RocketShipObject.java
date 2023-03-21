@@ -20,7 +20,6 @@ public class RocketShipObject extends PhysicsObject
         shape.setWidth(width);
         
         shape.setHeight(height);
-
     }
 
     @Override
