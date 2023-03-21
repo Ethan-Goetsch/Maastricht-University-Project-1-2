@@ -11,32 +11,26 @@ public class CelestialBodyObject extends PhysicsObject
     private Circle shape;
     private Rectangle arrow;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String name, double planetRadius, Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String name, Color planetColour)
     {
-        super(startingPosition, startingVelocity, startingAcceleration, mass, name);
+        super(startingPosition, startingVelocity, mass, name);
 
         shape = new Circle();
 
         shape.setFill(planetColour);
 
-        shape.setRadius(planetRadius);
-
-        arrow = new Rectangle();
-        arrow.setFill(Color.BLACK);
-        arrow.setWidth(3);
-        arrow.setHeight(15);
+        shape.setRadius(ScaleConverter.scaleRadiusFromMass(mass));
     }
 
     @Override
     public void update()
     {
-        setVelocity(velocity.add(acceleration));
+        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
 
         //System.out.println(name + " pos: " + pos);
-        setPosition(position.add(velocity.multiplyBy(3600*12)));
+        setPosition(EulerSolver.getNewPosition(position, velocity));
 
         //System.out.println(name + " pos: " + pos);
-        setAcceleration(acceleration.multiplyBy(0));
     }
 
     @Override
@@ -52,16 +46,10 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        Vector3 scaledPosition = Converter.scaleToScreen(position);
-        shape.setCenterX(scaledPosition.getX());
+        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
 
-        shape.setCenterY(scaledPosition.getY());
+        shape.setCenterX(scaledVector.getX());
 
-        /* 
-        arrow.setX(position.getX());
-        arrow.setY(position.getY());
-        Rotate rotate = new Rotate();
-        rotate.setAngle(Math.atan2(velocity.getX(), velocity.getY()));
-        */
+        shape.setCenterY(scaledVector.getY());
     }
 }

@@ -25,9 +25,9 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     private SystemOrbitView systemCanvas;
 
-    public static final int WIDTH = 800;
+    public static final int WIDTH = 1800;
 
-    public static final int HEIGHT = 600;
+    public static final int HEIGHT = 1000;
 
     public Pane getView()
     {
@@ -44,6 +44,26 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         return systemCanvas;
     }
 
+    public static int getViewWidth()
+    {
+        return Mathematics.getPercentage(WIDTH, 100);
+    }
+
+    public static int getViewHeight()
+    {
+        return Mathematics.getPercentage(HEIGHT, 5);
+    }
+
+    public static int getCanvasWidth()
+    {
+        return Mathematics.getPercentage(WIDTH, 100);
+    }
+
+    public static int getCanvasHeight()
+    {
+        return Mathematics.getPercentage(HEIGHT, 95);
+    }
+
     public PhysicsVisualizer()
     {
         view = new BorderPane();
@@ -51,9 +71,9 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         view.setPrefSize(WIDTH, HEIGHT);
 
 
-        systemView = new SystemDetailView(WIDTH, HEIGHT, 100, 20);
+        systemView = new SystemDetailView(getViewWidth(), getViewHeight());
 
-        systemCanvas = new SystemOrbitView(WIDTH, HEIGHT, 100, 80);
+        systemCanvas = new SystemOrbitView(getCanvasWidth(), getCanvasHeight());
 
 
         view.setTop(systemView);

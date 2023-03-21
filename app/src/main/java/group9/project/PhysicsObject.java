@@ -4,7 +4,7 @@ import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject implements IUpdateable, IDrawable
 {
-    protected Vector3 position, velocity, acceleration;
+    protected Vector3 position, velocity, force, acceleration;
 
     protected double mass;
 
@@ -13,6 +13,21 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     public Vector3 getPosition()
     {
         return position;
+    }
+
+    public Vector3 getVelocity()
+    {
+        return velocity;
+    }
+
+    public Vector3 getForce()
+    {
+        return force;
+    }
+
+    public Vector3 getAcceleration()
+    {
+        return acceleration;
     }
 
     public double getMass()
@@ -25,33 +40,21 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         return name;
     }
 
-    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, Vector3 startingAcceleration, double mass, String newName)
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, String newName)
     {
         setPosition(startingPosition);
 
         setVelocity(startingVelocity);
 
-        setAcceleration(startingAcceleration);
+        setForce(new Vector3());
+
+        setAcceleration(new Vector3());
 
         setMass(mass);
 
         name = newName;
 
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
-    }
-
-    /*
-     * Apply force to an object
-     */
-    public void applyForce(Vector3 force)
-    {
-        //force = force.divideBy(mass).multiplyBy(PhysicsEngine.STEP_TIME);
-        force = force.divideBy(mass);
-
-        //System.out.println(force.normalize().toString());
-        //System.out.println("force on " + name + ": " + force.getMagnitude());
-
-        acceleration = acceleration.add(force);
     }
 
     public void setPosition(Vector3 newPosition)
@@ -62,6 +65,14 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     public void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
+    }
+
+    /*
+     * Apply force to an object
+     */
+    public void setForce(Vector3 newForce)
+    {
+        force = newForce;
     }
 
     public void setAcceleration(Vector3 newAcceleration)
@@ -85,9 +96,4 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
     @Override
     public abstract void setShapePosition();
-
-    public boolean equals(PhysicsObject otherObject)
-    {
-        return otherObject.getName().equals(name);
-    }
 }
