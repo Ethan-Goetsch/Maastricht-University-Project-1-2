@@ -53,7 +53,7 @@ public class MissionControl extends Application
 
     private void createTimeline()
     {
-        Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.STEP_TIME), x -> updateLoop()));
+        Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.ANIMATION_TICK), x -> updateLoop()));
 
         loopTimeline.setCycleCount(Animation.INDEFINITE);
 
