@@ -3,6 +3,7 @@ package group9.project;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
@@ -20,6 +21,9 @@ public class SimulationDetailView extends PaneView
     private Slider simulationSpeedSlider;
 
     private Slider simulationScaleSlider;
+
+
+    private Button pauseButton;
 
     public SimulationDetailView(int newWidth, int newHeight)
     {
@@ -80,6 +84,13 @@ public class SimulationDetailView extends PaneView
                 update();
             }
         });
+
+
+        pauseButton = GUI.createButton("Pause Simulation", event -> onPauseButton());
+
+        pauseButton.setPrefWidth(115);
+
+        HBox.setMargin(pauseButton, new Insets(0, 0, 0, width / 1.6));
         
 
         paneBox.getChildren().add(simulationSpeedLabel);
@@ -92,6 +103,9 @@ public class SimulationDetailView extends PaneView
         paneBox.getChildren().add(simulationScaleSlider);
 
 
+        paneBox.getChildren().add(pauseButton);
+
+
         getChildren().add(paneBox);
     }
 
@@ -101,5 +115,19 @@ public class SimulationDetailView extends PaneView
         simulationSpeedLabel.setText(getSpeedLabelText());
 
         simulationScaleLabel.setText(getScaleLabelText());
+    }
+
+    private void onPauseButton()
+    {
+        PhysicsEngine.getInstance().playOrPauseSimulation();
+
+        if (PhysicsEngine.getInstance().isPaused())
+        {
+            pauseButton.setText("Play Simulationn");
+        }
+        else
+        {
+            pauseButton.setText("Pause Simulationn");
+        }
     }
 }

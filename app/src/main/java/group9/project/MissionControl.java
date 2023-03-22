@@ -18,6 +18,9 @@ public class MissionControl extends Application
     private static Stage mainStage;
 
     private static Scene mainScene;
+    
+
+    private Timeline loopTimeline;
 
     public static void main(String[] args)
     {
@@ -55,7 +58,7 @@ public class MissionControl extends Application
 
     private void createTimeline()
     {
-        Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.UNIVERSE_TICK_TIME), x -> updateLoop()));
+        loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.UNIVERSE_TICK_TIME), x -> updateLoop()));
 
         loopTimeline.setCycleCount(Animation.INDEFINITE);
 

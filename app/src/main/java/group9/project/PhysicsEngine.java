@@ -19,7 +19,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
         return instance;
     }
     //#endregion
-
+   
     public static final double UNIVERSE_TICK_TIME = 0.0001;
 
     private static final double STEP_TIME = 1000;
@@ -27,11 +27,13 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private static final double GRAVITY = 6.6743E-20;
 
 
-    public static double simulationSpeed = 1;
+    private static double simulationSpeed = 1;
 
     private static double simulationTime = 0;
 
     
+    private boolean isPaused;
+
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
     public static double getSimulationSpeed()
@@ -49,6 +51,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
         return STEP_TIME * simulationSpeed;
     }
 
+    public boolean isPaused()
+    {
+        return isPaused;
+    }
+
     public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
     {
         return physicsObjectsToUpdate;
@@ -56,6 +63,8 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     public PhysicsEngine()
     {
+        instance = this;
+
         physicsObjectsToUpdate = new ArrayList<>();
     }
 
@@ -103,6 +112,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void update()
     {
+        if (isPaused)
+        {
+            return;
+        }
+
         updateForces();
 
         updateObjects();
@@ -160,5 +174,27 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private void updateTimer()
     {
         simulationTime += getSimulationStepTime();
+    }
+
+    public void playOrPauseSimulation()
+    {
+        if (isPaused)
+        {
+            playSimulation();
+        }
+        else
+        {
+            pauseSimulation();
+        }
+    }
+
+    private void playSimulation()
+    {
+        isPaused = false;
+    }
+
+    private void pauseSimulation()
+    {
+        isPaused = true;
     }
 }

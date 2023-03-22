@@ -1,7 +1,10 @@
 package group9.project;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.Background;
@@ -38,6 +41,15 @@ public class GUI
         Label newLabel = new Label(labelText);
 
         return newLabel;
+    }
+
+    public static Button createButton(String buttonText, EventHandler<ActionEvent> action)
+    {
+        Button newButton = new Button(buttonText);
+
+        newButton.setOnAction(action);
+
+        return newButton;
     }
 
     public static Slider createSlider(double minValue, double maxValue, double startingValue, ChangeListener<Number> valueChangeListener)

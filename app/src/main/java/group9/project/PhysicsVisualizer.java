@@ -73,18 +73,20 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         return yDragOffset;
     }
 
-    public static void addXDragOffset(double value)
+    public static void setXDragOffset(double value)
     {
-        xDragOffset += value - Math.abs(getCanvasWidth() / 2);
+        xDragOffset = value;
     }
 
-    public static void addYDragOffset(double value)
+    public static void setYDragOffset(double value)
     {
-        yDragOffset += value - Math.abs(getCanvasHeight() / 2);
+        yDragOffset = value;
     }
 
     public PhysicsVisualizer()
     {
+        instance = this;
+
         view = new BorderPane();
 
         view.setPrefSize(WIDTH, HEIGHT);

@@ -4,7 +4,7 @@ import javafx.scene.layout.Pane;
 
 public abstract class PaneView extends Pane implements IStartable, IUpdateable
 {
-    protected int width, height;
+    protected double width, height;
 
     public PaneView(int newWidth, int newHeight)
     {

@@ -42,7 +42,7 @@ public class SystemDetailView extends PaneView
         GUI.setBackground(this, "silver");
 
 
-        paneBox = GUI.createHBox(width, height, 50, new Insets(15, 12, 15, 12));
+        paneBox = GUI.createHBox(width, height, 25, new Insets(15, 12, 15, 12));
 
 
         distanceLabel = GUI.createLabel(getDistanceText());

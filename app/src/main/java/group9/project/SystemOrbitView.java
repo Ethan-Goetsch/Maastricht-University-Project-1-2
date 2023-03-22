@@ -1,5 +1,6 @@
 package group9.project;
 
+import javafx.scene.layout.Background;
 import javafx.scene.shape.Shape;
 
 public class SystemOrbitView extends PaneView
@@ -34,14 +35,11 @@ public class SystemOrbitView extends PaneView
             mouseClickedYPosition = event.getY();
         });
 
-        setOnMouseDragged(event->
+        setOnMouseDragged(event ->
         {
-            if (event.isPrimaryButtonDown())
-            {
-                PhysicsVisualizer.addXDragOffset(event.getX() - Math.abs(mouseClickedXPosition));
+            //PhysicsVisualizer.setXDragOffset(event.getX() - mouseClickedXPosition);
 
-                PhysicsVisualizer.addYDragOffset(event.getY() - Math.abs(mouseClickedYPosition));
-            }
+            //PhysicsVisualizer.setYDragOffset(event.getY() - mouseClickedYPosition);
         });
     }
 
