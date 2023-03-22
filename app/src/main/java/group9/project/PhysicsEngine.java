@@ -20,7 +20,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
     //#endregion
 
-    public static final double ANIMATION_TICK = 0.0001;
+    public static final double UNIVERSE_TICK_TIME = 0.0001;
 
     private static final double STEP_TIME = 1000;
 
