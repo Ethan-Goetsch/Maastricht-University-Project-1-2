@@ -14,6 +14,8 @@ public class SystemOrbitView extends PaneView
     @Override
     public void start()
     {
+        setBackground();
+
         update();
     }
 

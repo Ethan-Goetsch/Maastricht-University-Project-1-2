@@ -160,7 +160,5 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private void updateTimer()
     {
         simulationTime += getSimulationStepTime();
-
-        //System.out.println(simulationTime);
     }
 }
