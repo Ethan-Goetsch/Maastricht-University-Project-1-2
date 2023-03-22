@@ -1,24 +1,12 @@
 {
-    "configurations": [
+    "configurations":
+    [
         {
             "type": "java",
             "name": "MissionControl",
             "request": "launch",
             "mainClass": "group9.project/group9.project.MissionControl",
             "projectName": "app"
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch ReadGraph",
-            "request": "launch",
-            "mainClass": "ReadGraph",
-            "projectName": "graphColoring_f062b675"
         }
     ]
 }

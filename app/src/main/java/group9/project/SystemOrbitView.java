@@ -4,6 +4,10 @@ import javafx.scene.shape.Shape;
 
 public class SystemOrbitView extends PaneView
 {
+    private double mouseClickedXPosition;
+
+    private double mouseClickedYPosition;
+
     public SystemOrbitView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
@@ -16,7 +20,29 @@ public class SystemOrbitView extends PaneView
     {
         GUI.setBackground(this, "black");
 
+        setMouseEvents();
+
         update();
+    }
+
+    private void setMouseEvents()
+    {
+        setOnMousePressed(event ->
+        {
+            mouseClickedXPosition = event.getX();
+
+            mouseClickedYPosition = event.getY();
+        });
+
+        setOnMouseDragged(event->
+        {
+            if (event.isPrimaryButtonDown())
+            {
+                PhysicsVisualizer.addXDragOffset(event.getX() - Math.abs(mouseClickedXPosition));
+
+                PhysicsVisualizer.addYDragOffset(event.getY() - Math.abs(mouseClickedYPosition));
+            }
+        });
     }
 
     @Override

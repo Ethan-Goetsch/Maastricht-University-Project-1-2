@@ -69,7 +69,7 @@ public class SimulationDetailView extends PaneView
             }
         });
 
-        simulationScaleSlider = GUI.createSlider(0.1, 5, 2, new ChangeListener<Number>()
+        simulationScaleSlider = GUI.createSlider(0.1, 3, 2, new ChangeListener<Number>()
         {
             public void changed(ObservableValue <? extends Number> observable,
 

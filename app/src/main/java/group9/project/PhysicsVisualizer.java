@@ -21,15 +21,22 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     private BorderPane view;
 
+
     private SimulationDetailView simulationView;
 
     private SystemDetailView systemView;
 
     private SystemOrbitView systemCanvas;
 
-    public static final int WIDTH = 1800;
 
-    public static final int HEIGHT = 1000;
+    private static final int WIDTH = 1800;
+
+    private static final int HEIGHT = 1000;
+
+
+    private static double xDragOffset;
+
+    private static double yDragOffset;
 
     public Pane getView()
     {
@@ -54,6 +61,26 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     public static int getCanvasHeight()
     {
         return Mathematics.getPercentage(HEIGHT, 90);
+    }
+
+    public static double getXDragOffset()
+    {
+        return xDragOffset;
+    }
+
+    public static double getYDragOffset()
+    {
+        return yDragOffset;
+    }
+
+    public static void addXDragOffset(double value)
+    {
+        xDragOffset += value - Math.abs(getCanvasWidth() / 2);
+    }
+
+    public static void addYDragOffset(double value)
+    {
+        yDragOffset += value - Math.abs(getCanvasHeight() / 2);
     }
 
     public PhysicsVisualizer()

@@ -23,9 +23,9 @@ public class ScaleConverter
 
     public static Vector3 worldToScreenPosition(Vector3 vector)
     {
-        double x = vector.getX() / getSimulationScale() + PhysicsVisualizer.getCanvasWidth() / 2;
+        double x = vector.getX() / getSimulationScale() + PhysicsVisualizer.getXDragOffset() + PhysicsVisualizer.getCanvasWidth() / 2;
 
-        double y = vector.getY() / getSimulationScale() + PhysicsVisualizer.getCanvasHeight() / 2;
+        double y = vector.getY() / getSimulationScale() + PhysicsVisualizer.getYDragOffset() + PhysicsVisualizer.getCanvasHeight() / 2;
 
         double z = vector.getZ();
 
