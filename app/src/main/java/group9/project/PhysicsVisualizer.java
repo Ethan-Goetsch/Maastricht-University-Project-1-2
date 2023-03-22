@@ -51,7 +51,7 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     public static int getViewHeight()
     {
-        return Mathematics.getPercentage(HEIGHT, 5);
+        return Mathematics.getPercentage(HEIGHT, 10);
     }
 
     public static int getCanvasWidth()
@@ -61,7 +61,7 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     public static int getCanvasHeight()
     {
-        return Mathematics.getPercentage(HEIGHT, 95);
+        return Mathematics.getPercentage(HEIGHT, 90);
     }
 
     public PhysicsVisualizer()

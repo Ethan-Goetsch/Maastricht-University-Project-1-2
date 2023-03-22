@@ -27,7 +27,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private static final double GRAVITY = 6.6743E-20;
 
 
-    private static double simulationSpeed = 1;
+    public static double simulationSpeed = 1;
 
     private static double simulationTime = 0;
 
