@@ -7,6 +7,8 @@ public class SimulationDetailView extends PaneView
     public SimulationDetailView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
+
+        start();
     }
 
     @Override

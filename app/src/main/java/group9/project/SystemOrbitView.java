@@ -7,6 +7,8 @@ public class SystemOrbitView extends PaneView
     public SystemOrbitView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
+
+        start();
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.Date;
 
 import javafx.scene.control.Label;
 
-public class DateView
+public class DateView implements IUpdateable
 {
     private DateCalculator dateCalculator;
 
@@ -26,6 +26,7 @@ public class DateView
         }
     }
 
+    @Override
     public void update()
     {
         Date date = dateCalculator.getDate((long)PhysicsEngine.getSimulationTime());

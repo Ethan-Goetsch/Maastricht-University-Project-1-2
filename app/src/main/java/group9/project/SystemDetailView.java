@@ -27,6 +27,8 @@ public class SystemDetailView extends PaneView
         super(newWidth, newHeight);
 
         dateView = new DateView();
+
+        start();
     }
 
     @Override

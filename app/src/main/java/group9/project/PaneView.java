@@ -16,8 +16,6 @@ public abstract class PaneView extends Pane implements IStartable, IUpdateable
         height = newHeight;
 
         setPrefSize(newWidth, newHeight);
-
-        start();
     }
 
     protected HBox createHBox(double width, double height, double spacing, Insets padding)
