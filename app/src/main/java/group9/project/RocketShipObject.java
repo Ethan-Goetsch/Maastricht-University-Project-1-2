@@ -38,7 +38,7 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
         shape.setX(scaledVector.getX());
 

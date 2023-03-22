@@ -36,7 +36,7 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
         shape.setCenterX(scaledVector.getX());
 

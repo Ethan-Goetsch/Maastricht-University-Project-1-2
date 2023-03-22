@@ -25,7 +25,7 @@ public class DateView implements IUpdateable
     {
         dateFormat= new SimpleDateFormat("dd-MM-yyyy");
 
-        dateLabel = new Label();
+        dateLabel = GUI.createLabel("");
 
         try
         {

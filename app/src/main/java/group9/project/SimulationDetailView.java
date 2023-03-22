@@ -10,7 +10,9 @@ public class SimulationDetailView extends PaneView
 {
     private HBox paneBox;
 
-    private Slider sliderSimulationSpeed;
+    private Slider simulationnSpeedSlider;
+
+    private Slider simulationScaleSlider;
 
     public SimulationDetailView(int newWidth, int newHeight)
     {
@@ -22,39 +24,35 @@ public class SimulationDetailView extends PaneView
     @Override
     public void start()
     {
-        paneBox = createHBox(width, height, 50, new Insets(15, 12, 15, 12));
+        GUI.setBackground(this, "silver");
 
-        sliderSimulationSpeed = createSlider(0.1, 10, 1);
+        paneBox = GUI.createHBox(width, height, 50, new Insets(15, 12, 15, 12));
 
-        paneBox.getChildren().add(sliderSimulationSpeed);
+        simulationnSpeedSlider = GUI.createSlider(0.1, 10, 1, new ChangeListener<Number>()
+        {
+            public void changed(ObservableValue <? extends Number> observable,
+
+            Number oldValue, Number newValue)
+            {
+                PhysicsEngine.setSimulationSpeed(newValue.doubleValue());
+            }
+        });
+
+        simulationScaleSlider = GUI.createSlider(0.01, 5, 3, new ChangeListener<Number>()
+        {
+            public void changed(ObservableValue <? extends Number> observable,
+
+            Number oldValue, Number newValue)
+            {
+                ScaleConverter.setScaleFactor(newValue.doubleValue());
+            }
+        });
+
+        paneBox.getChildren().add(simulationnSpeedSlider);
+
+        paneBox.getChildren().add(simulationScaleSlider);
 
         getChildren().add(paneBox);
-    }
-
-    private Slider createSlider(double minValue, double maxValue, double startingValue)
-    {
-        Slider newSlider = new Slider(minValue, maxValue, startingValue);
-
-        newSlider.setBlockIncrement(0.1);
-
-        newSlider.setShowTickLabels(true);
-
-        newSlider.setShowTickMarks(true);
-
-        newSlider.valueProperty().addListener
-        (
-            new ChangeListener<Number>()
-            {
-                public void changed(ObservableValue <? extends Number> observable,
-
-                Number oldValue, Number newValue)
-                {
-                    PhysicsEngine.setSimulationSpeed(newValue.doubleValue());
-                }
-            }
-        );
-
-        return newSlider;
     }
 
     @Override
