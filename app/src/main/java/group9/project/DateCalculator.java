@@ -3,8 +3,8 @@ package group9.project;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateCalculator {
-
+public class DateCalculator
+{
     private Date startDate;
 
     public DateCalculator(Date startDate)
@@ -15,8 +15,11 @@ public class DateCalculator {
     public Date getDate(long seconds)
     {
         Calendar calender = Calendar.getInstance();
+
         calender.setTime(startDate);
+
         calender.add(Calendar.SECOND, (int)seconds);
+
         return calender.getTime();
     }
 }

@@ -7,12 +7,13 @@ import java.util.Date;
 
 import javafx.scene.control.Label;
 
-public class DateView{
-    
-    DateCalculator dateCalculator;
-    DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    Date startingDate;
-    Label dateLabel;
+public class DateView
+{
+    private DateCalculator dateCalculator;
+
+    private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private Date startingDate;
+    private Label dateLabel;
 
     public DateView()
     {

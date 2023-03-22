@@ -4,11 +4,9 @@ import javafx.scene.shape.Shape;
 
 public class SystemOrbitView extends PaneView
 {
-    public SystemOrbitView(int width, int height)
+    public SystemOrbitView(int newWidth, int newHeight)
     {
-        super(width, height);
-
-        start();
+        super(newWidth, newHeight);
     }
 
     @Override
