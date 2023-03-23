@@ -19,6 +19,8 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     }
     //#endregion
 
+    public static OrbitTrail orbitTrail = new OrbitTrail();
+
     private BorderPane view;
 
 
@@ -33,6 +35,15 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     private static final int HEIGHT = 1000;
 
+<<<<<<< HEAD
+=======
+
+    private static double xDragOffset;
+
+    private static double yDragOffset;
+
+
+>>>>>>> f9ec03719dd89e50e3a7f9c725274fb83a048466
     public Pane getView()
     {
         return view;
@@ -77,12 +88,13 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
         systemCanvas = new SystemOrbitView(getCanvasWidth(), getCanvasHeight());
 
-
         view.setBottom(simulationView);
 
         view.setTop(systemView);
 
         view.setCenter(systemCanvas);
+
+        
     }
 
     @Override

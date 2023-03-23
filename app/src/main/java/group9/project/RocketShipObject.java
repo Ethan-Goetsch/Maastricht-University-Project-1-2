@@ -21,6 +21,7 @@ public class RocketShipObject extends PhysicsObject
         shape.setHeight(height);
     }
 
+
     @Override
     public void update()
     {

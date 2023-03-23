@@ -24,6 +24,12 @@ public class CelestialBodyObject extends PhysicsObject
         shape.setRadius(newScaledSize);
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+
     @Override
     public void update()
     {
