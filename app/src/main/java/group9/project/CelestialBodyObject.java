@@ -1,27 +1,45 @@
 package group9.project;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 public class CelestialBodyObject extends PhysicsObject
 {
-    private double planetScaledSize;
+    private Pane celestialBodyPane;
 
     private Circle shape;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double newScaledSize, Color planetColour)
+    private Label shapeLabel;
+
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset,Color planetColour)
     {
         super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
 
-        planetScaledSize = newScaledSize;
+        celestialBodyPane = new Pane();
 
+
+        shapeLabel = GUI.createLabel(newPhysicsObjectType.toString());
+
+        shapeLabel.setTextFill(Color.WHITE);
+
+        shapeLabel.setTranslateX(-12.5);
+
+        shapeLabel.setTranslateY(-labelOffset);
+        
 
         shape = new Circle();
 
         shape.setFill(planetColour);
 
-        shape.setRadius(newScaledSize);
+        shape.setRadius(planetRadius);
+
+
+        celestialBodyPane.getChildren().add(shapeLabel);
+
+        celestialBodyPane.getChildren().add(shape);
     }
 
     @Override
@@ -33,18 +51,19 @@ public class CelestialBodyObject extends PhysicsObject
     }
 
     @Override
-    public Shape getShape()
+    public Node getDrawable()
     {
-        return shape;
+        return celestialBodyPane;
     }
 
     @Override
     public void draw()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position, planetScaledSize);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
-        shape.setCenterX(scaledVector.getX());
 
-        shape.setCenterY(scaledVector.getY());
+        celestialBodyPane.setTranslateX(scaledVector.getX());
+
+        celestialBodyPane.setTranslateY(scaledVector.getY());
     }
 }

@@ -1,10 +1,10 @@
 package group9.project;
 
-import javafx.scene.shape.Shape;
+import javafx.scene.Node;
 
 public interface IDrawable
 {
-    public Shape getShape();
+    public Node getDrawable();
 
     public void draw();
 }

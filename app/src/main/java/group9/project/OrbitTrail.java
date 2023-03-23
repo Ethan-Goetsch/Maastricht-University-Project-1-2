@@ -18,7 +18,7 @@ public class OrbitTrail
 
     public void addPosition(Vector3 position)
     {
-        position = ScaleConverter.worldToScreenPosition(position, 1);
+        position = ScaleConverter.worldToScreenPosition(position);
 
         if (prevPosition != null)
         {

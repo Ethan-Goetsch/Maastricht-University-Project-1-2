@@ -1,5 +1,6 @@
 package group9.project;
 
+import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -35,23 +36,19 @@ public class SystemOrbitView extends PaneView
         {
             drawable.draw();
 
-            Shape shape = drawable.getShape();
+            Node shape = drawable.getDrawable();
 
-            getChildren().add(shape);    
+            getChildren().add(shape);
 
-            if (drawable instanceof PhysicsObject)
-            {
-                PhysicsObject physicsObject = (PhysicsObject)drawable;
-                for (Line line : physicsObject.getOrbitTrail().getLines()) {
-                    getChildren().add(line);
-                }
-            }
+            // if (drawable instanceof PhysicsObject)
+            // {
+            //     PhysicsObject physicsObject = (PhysicsObject) drawable;
+
+            //     for (Line line : physicsObject.getOrbitTrail().getLines())
+            //     {
+            //         getChildren().add(line);
+            //     }
+            // }
         }
-
-        /* 
-        for (Line line : PhysicsVisualizer.orbitTrail.getLines()) {
-            getChildren().add(line);
-        }
-        */
     }
 }

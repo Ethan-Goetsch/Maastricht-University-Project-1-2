@@ -1,24 +1,48 @@
 package group9.project;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 public class RocketShipObject extends PhysicsObject
 {
+    private Pane rocketShipPane;
+
     private Rectangle shape;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType name, int width, int height, Color shipColour)
+    private Label shapeLabel;
+
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
     {
-        super(startingPosition, startingVelocity, mass, name);
+        super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
+
+
+        rocketShipPane = new Pane();
+
+
+        shapeLabel = GUI.createLabel(newPhysicsObjectType.toString());
+
+        shapeLabel.setTextFill(Color.WHITE);
+
+        shapeLabel.setTranslateX(-12.5);
+
+        shapeLabel.setTranslateY(-20);
+
 
         shape = new Rectangle();
-        
+
         shape.setFill(shipColour);
 
         shape.setWidth(width);
         
         shape.setHeight(height);
+
+
+        rocketShipPane.getChildren().add(shapeLabel);
+
+        rocketShipPane.getChildren().add(shape);
     }
 
 
@@ -31,18 +55,18 @@ public class RocketShipObject extends PhysicsObject
     }
 
     @Override
-    public Shape getShape()
+    public Node getDrawable()
     {
-        return shape;
+        return rocketShipPane;
     }
 
     @Override
     public void draw()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position, 5);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
-        shape.setX(scaledVector.getX());
+        rocketShipPane.setTranslateX(scaledVector.getX());
 
-        shape.setY(scaledVector.getY());
+        rocketShipPane.setTranslateY(scaledVector.getY());
     }
 }

@@ -1,5 +1,6 @@
 package group9.project;
 
+import javafx.scene.Node;
 import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject implements IUpdateable, IDrawable
@@ -106,7 +107,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     public abstract void update();
 
     @Override
-    public abstract Shape getShape();
+    public abstract Node getDrawable();
 
     @Override
     public abstract void draw();

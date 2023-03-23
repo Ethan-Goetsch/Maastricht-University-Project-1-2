@@ -21,7 +21,7 @@ public class ScaleConverter
         return SCALE_KM_TO_PIXELS * scaleFactor;
     }
 
-    public static Vector3 worldToScreenPosition(Vector3 worldPosition, double scaledSize)
+    public static Vector3 worldToScreenPosition(Vector3 worldPosition)
     {
         double x = worldPosition.getX() / getSimulationScale() + PhysicsVisualizer.getCanvasWidth() / 2;
 
