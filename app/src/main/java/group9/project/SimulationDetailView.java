@@ -25,6 +25,8 @@ public class SimulationDetailView extends PaneView
 
     private Button pauseButton;
 
+    private Button autoCompleteButton;
+
     public SimulationDetailView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
@@ -42,12 +44,22 @@ public class SimulationDetailView extends PaneView
         return "Simulation Scale : " + Math.round(ScaleConverter.getScaleFactor() * 100.0) / 100.0;
     }
 
+    private String getPauseButtonText()
+    {
+        return SimulationSettings.getIsSimulationPaused() ? "Resume Simulation" : "Pause Simulation";
+    }
+
+    private String getAutoCompleteButtonText()
+    {
+        return SimulationSettings.getIsAutoCompleteEnabled() ? "Disable Auto Complete" : "Enable Auto Complete";
+    }
+
     protected void start()
     {
         GUI.setBackground(this, "silver");
 
 
-        paneBox = GUI.createHBox(width, height, 25, new Insets(15, 12, 15, 12));
+        paneBox = GUI.createHBox(width, height, 10, new Insets(15, 12, 15, 12));
 
 
         simulationSpeedLabel = GUI.createLabel(getSpeedLabelText());
@@ -60,7 +72,7 @@ public class SimulationDetailView extends PaneView
         simulationScaleLabel.setPrefWidth(135);
 
 
-        simulationSpeedSlider = GUI.createSlider(0.1, 10, 1, new ChangeListener<Number>()
+        simulationSpeedSlider = GUI.createSlider(SimulationSettings.MIN_SIMULATION_SPEED, SimulationSettings.MAX_SIMULATION_SPEED, 1, new ChangeListener<Number>()
         {
             public void changed(ObservableValue <? extends Number> observable,
 
@@ -72,7 +84,7 @@ public class SimulationDetailView extends PaneView
             }
         });
 
-        simulationScaleSlider = GUI.createSlider(0.1, 3, 2, new ChangeListener<Number>()
+        simulationScaleSlider = GUI.createSlider(SimulationSettings.MIN_SCALE_FACTOR, SimulationSettings.MAX_SCALE_FACTOR, 0.5, new ChangeListener<Number>()
         {
             public void changed(ObservableValue <? extends Number> observable,
 
@@ -85,11 +97,17 @@ public class SimulationDetailView extends PaneView
         });
 
 
+        autoCompleteButton = GUI.createButton(getAutoCompleteButtonText(), event -> onAutoCompleteButton());
+
         pauseButton = GUI.createButton("Pause Simulation", event -> onPauseButton());
 
-        pauseButton.setPrefWidth(115);
 
-        HBox.setMargin(pauseButton, new Insets(0, 0, 0, width / 1.6));
+        autoCompleteButton.setPrefWidth(140);
+
+        pauseButton.setPrefWidth(140);
+
+
+        HBox.setMargin(autoCompleteButton, new Insets(0, 0, 0, width / 1.75));
         
 
         paneBox.getChildren().add(simulationSpeedLabel);
@@ -101,6 +119,8 @@ public class SimulationDetailView extends PaneView
 
         paneBox.getChildren().add(simulationScaleSlider);
 
+
+        paneBox.getChildren().add(autoCompleteButton);
 
         paneBox.getChildren().add(pauseButton);
 
@@ -116,17 +136,17 @@ public class SimulationDetailView extends PaneView
         simulationScaleLabel.setText(getScaleLabelText());
     }
 
+    private void onAutoCompleteButton()
+    {
+        SimulationSettings.enableDisableAutoComplete();
+
+        autoCompleteButton.setText(getAutoCompleteButtonText());
+    }
+
     private void onPauseButton()
     {
         SimulationSettings.playOrPauseSimulation();
 
-        if (SimulationSettings.getIsSimulationPaused())
-        {
-            pauseButton.setText("Play Simulationn");
-        }
-        else
-        {
-            pauseButton.setText("Pause Simulationn");
-        }
+        pauseButton.setText(getPauseButtonText());
     }
 }

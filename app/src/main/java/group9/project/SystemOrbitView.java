@@ -32,7 +32,7 @@ public class SystemOrbitView extends PaneView
 
         for (IDrawable drawable : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate())
         {
-            drawable.setShapePosition();
+            drawable.draw();
 
             Shape shape = drawable.getShape();
 

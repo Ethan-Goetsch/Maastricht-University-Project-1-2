@@ -95,5 +95,5 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     public abstract Shape getShape();
 
     @Override
-    public abstract void setShapePosition();
+    public abstract void draw();
 }

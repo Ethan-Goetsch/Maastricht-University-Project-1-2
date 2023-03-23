@@ -6,5 +6,5 @@ public interface IDrawable
 {
     public Shape getShape();
 
-    public void setShapePosition();
+    public void draw();
 }

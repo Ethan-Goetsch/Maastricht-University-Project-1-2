@@ -6,17 +6,22 @@ import javafx.scene.shape.Shape;
 
 public class CelestialBodyObject extends PhysicsObject
 {
+    private double planetScaledSize;
+
     private Circle shape;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double radius, Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double newScaledSize, Color planetColour)
     {
         super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
+
+        planetScaledSize = newScaledSize;
+
 
         shape = new Circle();
 
         shape.setFill(planetColour);
 
-        shape.setRadius(radius);
+        shape.setRadius(newScaledSize);
     }
 
     @Override
@@ -34,9 +39,9 @@ public class CelestialBodyObject extends PhysicsObject
     }
 
     @Override
-    public void setShapePosition()
+    public void draw()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position, planetScaledSize);
 
         shape.setCenterX(scaledVector.getX());
 

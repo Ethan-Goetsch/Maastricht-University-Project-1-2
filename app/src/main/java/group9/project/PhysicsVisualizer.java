@@ -33,11 +33,6 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
 
     private static final int HEIGHT = 1000;
 
-
-    private static double xDragOffset;
-
-    private static double yDragOffset;
-
     public Pane getView()
     {
         return view;
@@ -61,26 +56,6 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     public static int getCanvasHeight()
     {
         return Mathematics.getPercentage(HEIGHT, 90);
-    }
-
-    public static double getXDragOffset()
-    {
-        return xDragOffset;
-    }
-
-    public static double getYDragOffset()
-    {
-        return yDragOffset;
-    }
-
-    public static void setXDragOffset(double value)
-    {
-        xDragOffset = value;
-    }
-
-    public static void setYDragOffset(double value)
-    {
-        yDragOffset = value;
     }
 
     public PhysicsVisualizer()
