@@ -89,6 +89,7 @@ public class SimulationDetailView extends PaneView
             }
         });
 
+        
 
         pauseButton = GUI.createButton("Pause Simulation", event -> onPauseButton());
 
