@@ -52,7 +52,7 @@ public class PhysicsObjectData implements IStartable
 
         CelestialBodyObject uranusObject = new CelestialBodyObject(new Vector3(1958732435.99338, 2191808553.21893, -17235283.8321992), new Vector3(-5.12766216337626,	4.22055347264457, 0.0821190336403063), 8.68E+25, PhysicsObjectType.Uranus, 6, 25, Color.CRIMSON);
 
-        rocketShipObject = new RocketShipObject(new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113), new Vector3(40, -40, 0), 50000, PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
+        rocketShipObject = new RocketShipObject(new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113), new Vector3(43.07164438203265, -41.31788889917668, -3.8464189997186904), 50000, PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
     } 
 
     public double getRocketShipDistanceToTitan()
