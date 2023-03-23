@@ -6,6 +6,8 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 {
     protected Vector3 position, velocity, force, acceleration;
 
+    protected Vector3 startingPosition, startingVelocity, startingForce, startingAcceleration;
+
     protected double mass;
 
     protected PhysicsObjectType physicsObjectType;
@@ -36,6 +38,14 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     {
         return mass;
     }
+    
+    public void reset()
+    {
+        setPosition(startingPosition);
+        setVelocity(startingVelocity);
+        acceleration = new Vector3();
+        force = new Vector3();
+    }
 
     public PhysicsObjectType getPhysicsObjectType()
     {
@@ -59,6 +69,9 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         physicsObjectType = newPhysicsObjectType;
 
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
+
+        this.startingPosition = startingPosition;
+        this.startingVelocity = startingVelocity;
     }
 
     public void setPosition(Vector3 newPosition)

@@ -9,7 +9,7 @@ public class SimulationSettings
 
     private static double simulationSpeed = 1;
 
-    private static double simulationTime = 0;
+    public static double simulationTime = 0;
 
     
     private static boolean isSimulationPaused;

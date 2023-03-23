@@ -1,6 +1,7 @@
 package group9.project;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class PhysicsEngine implements IStartable, IUpdateable
 {
@@ -86,6 +87,10 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     continue;
                 }
 
+                if (physicsBodyOne.getPhysicsObjectType()== PhysicsObjectType.Rocket && physicsBodyTwo.getPhysicsObjectType() ==  PhysicsObjectType.Rocket)
+                {
+                    System.out.println("OOOOOOO");
+                }
                 double productOfMassAndGravity = SimulationSettings.GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
 
 
@@ -118,13 +123,25 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             physicsObject.update();
 
-            // update trail
-            if (iterations % (2000) == 0)
+            if (physicsObject instanceof RocketShipGA)
             {
-                physicsObject.updateOrbitTrail();
+                RocketShipGA rocket = (RocketShipGA)physicsObject;
+                rocket.logPositionAtTime(rocket.getPosition(), DateView.currentDate);
             }
-            iterations++;
+
+            // update trail
+            if (iterations % 2000 == 0)
+            {
+                //physicsObject.updateOrbitTrail();
+            }
         }
+        iterations++;
+    }
+
+    public void reset()
+    {
+        getPhysicsObjectsToUpdate().clear();
+        PhysicsObjectData.getInstance().start();
     }
 
     private void updateTimer()

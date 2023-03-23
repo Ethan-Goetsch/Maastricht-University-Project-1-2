@@ -1,5 +1,8 @@
 package group9.project;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -19,11 +22,6 @@ public class CelestialBodyObject extends PhysicsObject
         shape.setRadius(radius);
     }
 
-    public String getName()
-    {
-        return name;
-    }
-
 
     @Override
     public void update()
@@ -31,6 +29,7 @@ public class CelestialBodyObject extends PhysicsObject
         setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
 
         setPosition(EulerSolver.getNewPosition(position, velocity));
+
     }
 
     @Override

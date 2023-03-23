@@ -4,7 +4,7 @@ public class ScaleConverter
 {
     private static final double SCALE_KM_TO_PIXELS = 3779528.0352161;
 
-    private static double scaleFactor = 2;
+    private static double scaleFactor = 1;
 
     public static double getScaleFactor()
     {

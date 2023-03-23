@@ -21,12 +21,12 @@ public class OrbitTrail{
 
     public void addPosition(Vector3 position)
     {
-        position = ScaleConverter.scaleToScreen(position);
+        position = ScaleConverter.worldToScreenPosition(position);
         if (prevPosition != null)
         {
             Line line = new Line(prevPosition.getX(), prevPosition.getY(), position.getX(), position.getY());
             line.setStrokeWidth(1);
-            line.setStroke(Color.RED);
+            line.setStroke(Color.WHITE);
             line.setOpacity(0.3);
             lines.add(line);
         } 

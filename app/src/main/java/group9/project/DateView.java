@@ -12,9 +12,14 @@ public class DateView implements IUpdateable
 
     private DateFormat dateFormat;
 
-    private Date startingDate;
+    public static Date startingDate;
+    public static Date startDate;
+
+    public static DateView instance = null;
 
     private Label dateLabel;
+
+    public static Date currentDate;
 
     public Label getLabel()
     {
@@ -30,9 +35,36 @@ public class DateView implements IUpdateable
         try
         {
             startingDate = dateFormat.parse("01-04-2023");
+            currentDate = startingDate;
+            startDate = startingDate;
 
             dateCalculator = new DateCalculator(startingDate);
 
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+
+        instance = this;
+    }
+
+    public static DateView getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new DateView();
+        }
+        return instance;
+    }
+
+    public void reset()
+    {
+        try
+        {
+            startingDate = dateFormat.parse("01-04-2023");
+            currentDate = startingDate;
+            startDate = startingDate;
         }
         catch (ParseException e)
         {
@@ -44,7 +76,9 @@ public class DateView implements IUpdateable
     public void update()
     {
         Date date = dateCalculator.getDate((long)SimulationSettings.getSimulationTime());
+        currentDate = date;
 
         dateLabel.setText("Current date: " + dateFormat.format(date));
     }
+
 }
