@@ -1,8 +1,6 @@
 package group9.project;
 
 import javafx.scene.Node;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
 
 public class SystemOrbitView extends PaneView
 {
@@ -18,13 +16,9 @@ public class SystemOrbitView extends PaneView
     {
         GUI.setBackground(this, "black");
 
-        setMouseEvents();
+        setPickOnBounds(true);
 
         update();
-    }
-
-    private void setMouseEvents()
-    {
     }
 
     @Override
@@ -38,7 +32,10 @@ public class SystemOrbitView extends PaneView
 
             Node shape = drawable.getDrawable();
 
-            getChildren().add(shape);
+            if (inView(shape))
+            {
+                getChildren().add(shape);
+            }
 
             // if (drawable instanceof PhysicsObject)
             // {
@@ -50,5 +47,10 @@ public class SystemOrbitView extends PaneView
             //     }
             // }
         }
+    }
+
+    private boolean inView(Node node)
+    {
+        return node.getTranslateX() > 0 && node.getTranslateX() <= width && node.getTranslateY() > 0 && node.getTranslateY() <= height;
     }
 }

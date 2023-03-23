@@ -1,7 +1,6 @@
 package group9.project;
 
 import javafx.scene.Node;
-import javafx.scene.shape.Shape;
 
 public abstract class PhysicsObject implements IUpdateable, IDrawable
 {
