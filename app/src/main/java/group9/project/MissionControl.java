@@ -30,12 +30,13 @@ public class MissionControl extends Application
     @Override
     public void start(Stage stage) throws IOException
     {
+        createPhysicsSystems();
+        
+
         mainStage = stage;
 
         mainScene = new Scene(PhysicsVisualizer.getInstance().getView());
 
-
-        createPhysicsSystems();
 
         createTimeline();
 
@@ -51,6 +52,8 @@ public class MissionControl extends Application
 
     private void createPhysicsSystems()
     {
+        PhysicsObjectData.getInstance().start();
+
         PhysicsEngine.getInstance().start();
 
         PhysicsVisualizer.getInstance().start();

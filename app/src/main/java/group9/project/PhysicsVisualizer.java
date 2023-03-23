@@ -86,7 +86,11 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     public PhysicsVisualizer()
     {
         instance = this;
+    }
 
+    @Override
+    public void start()
+    {
         view = new BorderPane();
 
         view.setPrefSize(WIDTH, HEIGHT);
@@ -104,12 +108,6 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         view.setTop(systemView);
 
         view.setCenter(systemCanvas);
-    }
-
-    @Override
-    public void start()
-    {
-        
     }
 
     @Override

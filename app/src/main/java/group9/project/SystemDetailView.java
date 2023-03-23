@@ -28,12 +28,12 @@ public class SystemDetailView extends PaneView
 
     private String getDistanceText()
     {
-        return "Distance To Titan : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+        return "Distance To Titan : " + Math.round(PhysicsObjectData.getInstance().getRocketShipDistanceToTitan() * 100.0) / 100.0;
     }
 
     private String getSpeedText()
     {
-        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+        return "Rocket Ship Speed : " + Math.round(PhysicsObjectData.getInstance().getRocketShipSpeed() * 100.0) / 100.0;
     }
 
     protected void start()
@@ -51,9 +51,9 @@ public class SystemDetailView extends PaneView
         dateLabel = dateView.getLabel();
 
 
-        distanceLabel.setPrefWidth(135);
+        distanceLabel.setPrefWidth(200);
 
-        speedLabel.setPrefWidth(135);
+        speedLabel.setPrefWidth(200);
 
 
         paneBox.getChildren().add(dateLabel);
