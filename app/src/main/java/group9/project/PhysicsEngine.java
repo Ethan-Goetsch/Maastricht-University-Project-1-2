@@ -19,6 +19,8 @@ public class PhysicsEngine implements IStartable, IUpdateable
     //#endregion
 
     private static final double STEP_TIME = 100;
+
+
     private double iterations = 0;
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
@@ -118,11 +120,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             physicsObject.update();
 
-            // update trail
             if (iterations % (2000) == 0)
             {
                 physicsObject.updateOrbitTrail();
             }
+
             iterations++;
         }
     }

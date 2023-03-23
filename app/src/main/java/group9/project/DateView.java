@@ -8,11 +8,16 @@ import javafx.scene.control.Label;
 
 public class DateView implements IUpdateable
 {
+
     private DateCalculator dateCalculator;
 
     private DateFormat dateFormat;
 
+
     private Date startingDate;
+
+    private Date currentDate;
+
 
     private Label dateLabel;
 
@@ -43,8 +48,8 @@ public class DateView implements IUpdateable
     @Override
     public void update()
     {
-        Date date = dateCalculator.getDate((long)SimulationSettings.getSimulationTime());
+        currentDate = dateCalculator.getDate((long)SimulationSettings.getSimulationTime());
 
-        dateLabel.setText("Current date: " + dateFormat.format(date));
+        dateLabel.setText("Current date: " + dateFormat.format(currentDate));
     }
 }

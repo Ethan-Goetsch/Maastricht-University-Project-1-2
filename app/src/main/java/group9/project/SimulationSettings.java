@@ -22,8 +22,6 @@ public class SimulationSettings
     private static double simulationTime = 0;
 
 
-    private static boolean isAutoCompleteEnabled;
-    
     private static boolean isSimulationPaused;
 
     public static double getSimulationSpeed()
@@ -34,11 +32,6 @@ public class SimulationSettings
     public static double getSimulationTime()
     {
         return simulationTime;
-    }
-
-    public static boolean getIsAutoCompleteEnabled()
-    {
-        return isAutoCompleteEnabled;
     }
 
     public static boolean getIsSimulationPaused()
@@ -54,11 +47,6 @@ public class SimulationSettings
     public static void updateSimulationTime(double value)
     {
         simulationTime += value;
-    }
-
-    public static void enableDisableAutoComplete()
-    {
-        isAutoCompleteEnabled = !isAutoCompleteEnabled;
     }
 
     public static void playOrPauseSimulation()
