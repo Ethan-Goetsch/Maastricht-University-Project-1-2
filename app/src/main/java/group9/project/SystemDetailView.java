@@ -17,11 +17,6 @@ public class SystemDetailView extends PaneView
 
     private Label dateLabel;
 
-
-    private String distanceText;
-
-    private String speedText;
-
     public SystemDetailView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
@@ -31,29 +26,41 @@ public class SystemDetailView extends PaneView
         start();
     }
 
-    @Override
-    public void start()
+    private String getDistanceText()
     {
-        distanceText = "Distance : ";
+        return "Distance To Titan : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+    }
 
-        speedText = "Speed : ";
+    private String getSpeedText()
+    {
+        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+    }
+
+    protected void start()
+    {
+        GUI.setBackground(this, "silver");
 
 
-        paneBox = createHBox(width, height, 50, new Insets(15, 12, 15, 12));
+        paneBox = GUI.createHBox(width, height, 25, new Insets(15, 12, 15, 12));
 
 
-        distanceLabel = createLabel(distanceText);
+        distanceLabel = GUI.createLabel(getDistanceText());
 
-        speedLabel = createLabel(speedText);
+        speedLabel = GUI.createLabel(getSpeedText());
 
         dateLabel = dateView.getLabel();
 
 
+        distanceLabel.setPrefWidth(135);
+
+        speedLabel.setPrefWidth(135);
+
+
+        paneBox.getChildren().add(dateLabel);
+
         paneBox.getChildren().add(distanceLabel);
 
         paneBox.getChildren().add(speedLabel);
-
-        paneBox.getChildren().add(dateLabel);
 
         
         getChildren().add(paneBox);
@@ -64,8 +71,8 @@ public class SystemDetailView extends PaneView
     {
         dateView.update();
 
-        distanceLabel.setText(distanceText);
+        distanceLabel.setText(getDistanceText());
 
-        speedLabel.setText(speedText);
+        speedLabel.setText(getSpeedText());
     }
 }

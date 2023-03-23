@@ -18,6 +18,9 @@ public class MissionControl extends Application
     private static Stage mainStage;
 
     private static Scene mainScene;
+    
+
+    private Timeline loopTimeline;
 
     public static void main(String[] args)
     {
@@ -40,6 +43,8 @@ public class MissionControl extends Application
         mainStage.setTitle("Titanic Space Odyssey");
 
         mainStage.setScene(mainScene);
+
+        mainStage.setMaximized(true);
         
         mainStage.show();
     }
@@ -53,7 +58,7 @@ public class MissionControl extends Application
 
     private void createTimeline()
     {
-        Timeline loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.ANIMATION_TICK), x -> updateLoop()));
+        loopTimeline = new Timeline(new KeyFrame(Duration.seconds(SimulationSettings.UNIVERSE_TICK_TIME), x -> updateLoop()));
 
         loopTimeline.setCycleCount(Animation.INDEFINITE);
 

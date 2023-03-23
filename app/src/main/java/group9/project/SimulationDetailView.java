@@ -2,10 +2,29 @@ package group9.project;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
 
 public class SimulationDetailView extends PaneView
 {
+    private HBox paneBox;
+
+
+    private Label simulationSpeedLabel;
+
+    private Label simulationScaleLabel;
+
+
+    private Slider simulationSpeedSlider;
+
+    private Slider simulationScaleSlider;
+
+
+    private Button pauseButton;
+
     public SimulationDetailView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
@@ -13,30 +32,101 @@ public class SimulationDetailView extends PaneView
         start();
     }
 
-    @Override
-    public void start()
+    private String getSpeedLabelText()
     {
-        Slider sliderSimSpeed = new Slider(0,5,1);
-        sliderSimSpeed.setBlockIncrement(0.1);
-        sliderSimSpeed.setShowTickLabels(true);
-        sliderSimSpeed.setShowTickMarks(true);
+        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+    }
 
-        sliderSimSpeed.valueProperty().addListener(
-            new ChangeListener<Number>() {
-                public void changed(ObservableValue <? extends Number> observable,
-                Number oldValue, Number newValue)
-                {
-                    PhysicsEngine.setSimulationSpeed(newValue.doubleValue());
-                }
+    private String getScaleLabelText()
+    {
+        return "Simulation Scale : " + Math.round(ScaleConverter.getScaleFactor() * 100.0) / 100.0;
+    }
+
+    protected void start()
+    {
+        GUI.setBackground(this, "silver");
+
+
+        paneBox = GUI.createHBox(width, height, 25, new Insets(15, 12, 15, 12));
+
+
+        simulationSpeedLabel = GUI.createLabel(getSpeedLabelText());
+
+        simulationScaleLabel = GUI.createLabel(getScaleLabelText());
+
+
+        simulationSpeedLabel.setPrefWidth(135);
+
+        simulationScaleLabel.setPrefWidth(135);
+
+
+        simulationSpeedSlider = GUI.createSlider(0.1, 10, 1, new ChangeListener<Number>()
+        {
+            public void changed(ObservableValue <? extends Number> observable,
+
+            Number oldValue, Number newValue)
+            {
+                SimulationSettings.setSimulationSpeed(newValue.doubleValue());
+
+                update();
             }
-        );
+        });
+
+        simulationScaleSlider = GUI.createSlider(0.1, 3, 2, new ChangeListener<Number>()
+        {
+            public void changed(ObservableValue <? extends Number> observable,
+
+            Number oldValue, Number newValue)
+            {
+                ScaleConverter.setScaleFactor(newValue.doubleValue());
+
+                update();
+            }
+        });
+
+
+        pauseButton = GUI.createButton("Pause Simulation", event -> onPauseButton());
+
+        pauseButton.setPrefWidth(115);
+
+        HBox.setMargin(pauseButton, new Insets(0, 0, 0, width / 1.6));
         
-        getChildren().add(sliderSimSpeed);
+
+        paneBox.getChildren().add(simulationSpeedLabel);
+
+        paneBox.getChildren().add(simulationSpeedSlider);
+
+
+        paneBox.getChildren().add(simulationScaleLabel);
+
+        paneBox.getChildren().add(simulationScaleSlider);
+
+
+        paneBox.getChildren().add(pauseButton);
+
+
+        getChildren().add(paneBox);
     }
 
     @Override
     public void update()
     {
+        simulationSpeedLabel.setText(getSpeedLabelText());
 
+        simulationScaleLabel.setText(getScaleLabelText());
+    }
+
+    private void onPauseButton()
+    {
+        SimulationSettings.playOrPauseSimulation();
+
+        if (SimulationSettings.getIsSimulationPaused())
+        {
+            pauseButton.setText("Play Simulationn");
+        }
+        else
+        {
+            pauseButton.setText("Pause Simulationn");
+        }
     }
 }

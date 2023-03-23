@@ -5,6 +5,7 @@ import javafx.scene.shape.Shape;
 
 public class SystemOrbitView extends PaneView
 {
+
     public SystemOrbitView(int newWidth, int newHeight)
     {
         super(newWidth, newHeight);
@@ -12,10 +13,17 @@ public class SystemOrbitView extends PaneView
         start();
     }
 
-    @Override
-    public void start()
+    protected void start()
     {
+        GUI.setBackground(this, "black");
+
+        setMouseEvents();
+
         update();
+    }
+
+    private void setMouseEvents()
+    {
     }
 
     @Override

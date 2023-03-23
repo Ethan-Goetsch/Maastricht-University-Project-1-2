@@ -1,0 +1,12 @@
+{
+    "configurations":
+    [
+        {
+            "type": "java",
+            "name": "MissionControl",
+            "request": "launch",
+            "mainClass": "group9.project/group9.project.MissionControl",
+            "projectName": "app"
+        }
+    ]
+}

@@ -2,14 +2,11 @@ package group9.project;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
-    private Rectangle arrow;
-    private String name;
 
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double radius, Color planetColour)
     {
@@ -42,14 +39,10 @@ public class CelestialBodyObject extends PhysicsObject
         return shape;
     }
 
-    public Shape getArrow() {
-        return arrow;
-    }
-
     @Override
     public void setShapePosition()
     {
-        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
         shape.setCenterX(scaledVector.getX());
 

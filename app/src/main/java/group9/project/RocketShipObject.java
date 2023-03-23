@@ -7,7 +7,6 @@ import javafx.scene.shape.Shape;
 public class RocketShipObject extends PhysicsObject
 {
     private Rectangle shape;
-    private Rectangle arrow;
 
     public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType name, int width, int height, Color shipColour)
     {
@@ -40,7 +39,7 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void setShapePosition()
     {
-        Vector3 scaledVector = ScaleConverter.scaleToScreen(position);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
 
         shape.setX(scaledVector.getX());
 
