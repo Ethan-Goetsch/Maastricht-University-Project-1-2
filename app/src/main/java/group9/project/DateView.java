@@ -43,7 +43,7 @@ public class DateView implements IUpdateable
     @Override
     public void update()
     {
-        Date date = dateCalculator.getDate((long)PhysicsEngine.getSimulationTime());
+        Date date = dateCalculator.getDate((long)SimulationSettings.getSimulationTime());
 
         dateLabel.setText("Current date: " + dateFormat.format(date));
     }

@@ -28,16 +28,15 @@ public class SystemDetailView extends PaneView
 
     private String getDistanceText()
     {
-        return "Distance To Titan : " + Math.round(PhysicsEngine.getSimulationSpeed() * 100.0) / 100.0;
+        return "Distance To Titan : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
     }
 
     private String getSpeedText()
     {
-        return "Simulation Speed : " + Math.round(PhysicsEngine.getSimulationSpeed() * 100.0) / 100.0;
+        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
     }
 
-    @Override
-    public void start()
+    protected void start()
     {
         GUI.setBackground(this, "silver");
 

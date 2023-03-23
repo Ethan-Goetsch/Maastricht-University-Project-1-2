@@ -2,7 +2,7 @@ package group9.project;
 
 import javafx.scene.layout.Pane;
 
-public abstract class PaneView extends Pane implements IStartable, IUpdateable
+public abstract class PaneView extends Pane implements IUpdateable
 {
     protected double width, height;
 
@@ -15,9 +15,8 @@ public abstract class PaneView extends Pane implements IStartable, IUpdateable
         setPrefSize(newWidth, newHeight);
     }
 
-    @Override
-    public abstract void update();
+    protected abstract void start();
 
     @Override
-    public abstract void start();
+    public abstract void update();
 }

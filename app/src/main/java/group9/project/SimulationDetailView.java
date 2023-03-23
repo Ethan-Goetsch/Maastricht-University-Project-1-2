@@ -34,7 +34,7 @@ public class SimulationDetailView extends PaneView
 
     private String getSpeedLabelText()
     {
-        return "Simulation Speed : " + Math.round(PhysicsEngine.getSimulationSpeed() * 100.0) / 100.0;
+        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
     }
 
     private String getScaleLabelText()
@@ -42,8 +42,7 @@ public class SimulationDetailView extends PaneView
         return "Simulation Scale : " + Math.round(ScaleConverter.getScaleFactor() * 100.0) / 100.0;
     }
 
-    @Override
-    public void start()
+    protected void start()
     {
         GUI.setBackground(this, "silver");
 
@@ -67,7 +66,7 @@ public class SimulationDetailView extends PaneView
 
             Number oldValue, Number newValue)
             {
-                PhysicsEngine.setSimulationSpeed(newValue.doubleValue());
+                SimulationSettings.setSimulationSpeed(newValue.doubleValue());
 
                 update();
             }
@@ -119,9 +118,9 @@ public class SimulationDetailView extends PaneView
 
     private void onPauseButton()
     {
-        PhysicsEngine.getInstance().playOrPauseSimulation();
+        SimulationSettings.playOrPauseSimulation();
 
-        if (PhysicsEngine.getInstance().isPaused())
+        if (SimulationSettings.getIsSimulationPaused())
         {
             pauseButton.setText("Play Simulationn");
         }

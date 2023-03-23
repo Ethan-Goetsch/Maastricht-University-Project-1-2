@@ -19,41 +19,14 @@ public class PhysicsEngine implements IStartable, IUpdateable
         return instance;
     }
     //#endregion
-   
-    public static final double UNIVERSE_TICK_TIME = 0.0001;
 
     private static final double STEP_TIME = 1000;
 
-    private static final double GRAVITY = 6.6743E-20;
-
-
-    private static double simulationSpeed = 1;
-
-    private static double simulationTime = 0;
-
-    
-    private boolean isPaused;
-
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
-
-    public static double getSimulationSpeed()
-    {
-        return simulationSpeed;
-    }
-
-    public static double getSimulationTime()
-    {
-        return simulationTime;
-    }
 
     public static double getSimulationStepTime()
     {
-        return STEP_TIME * simulationSpeed;
-    }
-
-    public boolean isPaused()
-    {
-        return isPaused;
+        return STEP_TIME * SimulationSettings.getSimulationSpeed();
     }
 
     public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
@@ -66,11 +39,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
         instance = this;
 
         physicsObjectsToUpdate = new ArrayList<>();
-    }
-
-    public static void setSimulationSpeed(double newSimulationSpeed)
-    {
-        simulationSpeed = newSimulationSpeed;
     }
 
     public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
@@ -112,7 +80,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     @Override
     public void update()
     {
-        if (isPaused)
+        if (SimulationSettings.getIsSimulationPaused())
         {
             return;
         }
@@ -137,7 +105,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     continue;
                 }
 
-                double productOfMassAndGravity = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
+                double productOfMassAndGravity = SimulationSettings.GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
 
 
                 Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
@@ -173,28 +141,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     private void updateTimer()
     {
-        simulationTime += getSimulationStepTime();
-    }
-
-    public void playOrPauseSimulation()
-    {
-        if (isPaused)
-        {
-            playSimulation();
-        }
-        else
-        {
-            pauseSimulation();
-        }
-    }
-
-    private void playSimulation()
-    {
-        isPaused = false;
-    }
-
-    private void pauseSimulation()
-    {
-        isPaused = true;
+        SimulationSettings.updateSimulationTime(getSimulationStepTime());
     }
 }
