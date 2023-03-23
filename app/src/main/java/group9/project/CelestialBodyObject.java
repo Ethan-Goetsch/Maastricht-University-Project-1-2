@@ -9,6 +9,7 @@ public class CelestialBodyObject extends PhysicsObject
 {
     private Circle shape;
     private Rectangle arrow;
+    private String name;
 
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double radius, Color planetColour)
     {
@@ -20,6 +21,12 @@ public class CelestialBodyObject extends PhysicsObject
 
         shape.setRadius(radius);
     }
+
+    public String getName()
+    {
+        return name;
+    }
+
 
     @Override
     public void update()

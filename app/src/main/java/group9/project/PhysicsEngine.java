@@ -26,6 +26,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     private static final double GRAVITY = 6.6743E-20;
 
+    private static long iterations = 0;
 
     public static double simulationSpeed = 1;
 
@@ -154,12 +155,19 @@ public class PhysicsEngine implements IStartable, IUpdateable
         for (PhysicsObject physicsObject : physicsObjectsToUpdate)
         {
             physicsObject.update();
+
+            // update trail
+            if (iterations % (2000) == 0)
+            {
+                physicsObject.updateOrbitTrail();
+            }
         }
     }
 
     private void updateTimer()
     {
         simulationTime += getSimulationStepTime();
+        iterations++;
 
         //System.out.println(simulationTime);
     }

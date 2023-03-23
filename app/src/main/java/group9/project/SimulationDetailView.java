@@ -1,9 +1,7 @@
 package group9.project;
 
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
 public class SimulationDetailView extends PaneView

@@ -10,6 +10,8 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
     protected PhysicsObjectType physicsObjectType;
 
+    protected OrbitTrail orbitTrail;
+
     public Vector3 getPosition()
     {
         return position;
@@ -52,6 +54,8 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
         setMass(mass);
 
+        orbitTrail = new OrbitTrail();
+
         physicsObjectType = newPhysicsObjectType;
 
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
@@ -83,6 +87,16 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     public void setMass(double newMass) 
     {
         mass = newMass;
+    }
+
+    public OrbitTrail getOrbitTrail()
+    {
+        return orbitTrail;
+    }
+
+    public void updateOrbitTrail()
+    {
+        orbitTrail.addPosition(position);
     }
 
     /*
