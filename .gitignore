@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!TitanicSpaceOdyssey.jar
 *.war
 *.nar
 *.ear
