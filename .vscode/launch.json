@@ -3,6 +3,13 @@
     [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "group9.project/group9.project.Main",
+            "projectName": "app"
+        },
+        {
+            "type": "java",
             "name": "MissionControl",
             "request": "launch",
             "mainClass": "group9.project/group9.project.MissionControl",
