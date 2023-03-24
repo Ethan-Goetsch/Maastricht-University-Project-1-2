@@ -1,17 +1,16 @@
 package group9.project;
 
-import java.util.stream.IntStream;
-
 import javafx.scene.paint.Color;
 
 public class RocketLaunchGeneticAlgorithm {
-    private final double mutationRate;
+    private double mutationRate = 0.666;
     private double mutationSizeX = 20;
     private double mutationSizeY = 20;
     private double mutationSizeZ = 20;
     private final int populationSize;
     private RocketShipGA[] population;
     RocketShipGA bestRocket = null;
+    public int generation = 0;
 
     public RocketLaunchGeneticAlgorithm(double mutationRate, int populationSize)
     {
@@ -26,37 +25,36 @@ public class RocketLaunchGeneticAlgorithm {
         RocketShipGA[] newPopulation = new RocketShipGA[populationSize];
         int newPopulationSize = 0;
 
-        // create array of fitness scores
-        int[] fitnessScores = new int[populationSize];
-        for (int i = 0; i < population.length; i++) {
-            fitnessScores[i] = getFitnessScore(population[i]);
-        }
+        RocketShipGA parent = chooseParent(population);
 
-        RocketShipGA parent = chooseParent(population, fitnessScores);
-        setMutationRates(parent);
+        setMutationRates(parent); // dynamic mutation rates
+
         newPopulation[0] = parent;
-        int randomRocket = (int)(Math.random() * populationSize);
+
         for (int i = 1; i < populationSize; i++) {
+
             if (newPopulationSize >= populationSize)
             {
                 break;
             }
-            newPopulation[i] = mutate(parent, i == randomRocket);
-            if (newPopulation[i].getStartingVelocity().getMagnitude()>60)
-            {
-                System.out.println(newPopulation[i].getStartingVelocity().getMagnitude());
-            }
+
+            newPopulation[i] = mutate(parent); // clone + mutate parent
             newPopulationSize++;
         }
 
+        // remove old population from physics engine
         for (RocketShipGA rocket : population) {
             PhysicsEngine.getInstance().getPhysicsObjectsToUpdate().remove(rocket);
         }
 
         population = newPopulation;
+        generation++;
 
     }
     
+    /*
+     * Sets independent mutation rates for x, y and z components of the initial velocity vector of the rocket.
+     */
     private void setMutationRates(RocketShipGA bestRocket)
     {
         double closestX = bestRocket.getClosestX();
@@ -81,11 +79,23 @@ public class RocketLaunchGeneticAlgorithm {
         }
         if (closestX < 1e6)
         {
-            mutationSizeX = 0.1;
+            mutationSizeX = 0.01;
         }
         if (closestX < 1e5)
         {
-            mutationSizeX = 0.01;
+            mutationSizeX = 0.001;
+        }
+        if (closestX < 1e4)
+        {
+            mutationSizeX = 0.0001;
+        }
+        if (closestX < 100)
+        {
+            mutationSizeX = 0.00001;
+        }
+        if (closestX < 10)
+        {
+            mutationSizeX = 0.000001;
         }
 
         if (closestY < 4.5e8)
@@ -106,11 +116,23 @@ public class RocketLaunchGeneticAlgorithm {
         }
         if (closestY < 1e6)
         {
-            mutationSizeY = 0.1;
+            mutationSizeY = 0.01;
         }
         if (closestY < 1e5)
         {
-            mutationSizeY = 0.01;
+            mutationSizeY = 0.001;
+        }
+        if (closestY < 1e4)
+        {
+            mutationSizeY = 0.0001;
+        }
+        if (closestY < 100)
+        {
+            mutationSizeY = 0.00001;
+        }
+        if (closestY < 10)
+        {
+            mutationSizeY = 0.000001;
         }
 
         if (closestZ < 4.5e8)
@@ -131,74 +153,57 @@ public class RocketLaunchGeneticAlgorithm {
         }
         if (closestZ < 1e6)
         {
-            mutationSizeZ = 0.1;
+            mutationSizeZ = 0.01;
         }
         if (closestZ < 1e5)
         {
-            mutationSizeZ = 0.01;
+            mutationSizeZ = 0.001;
         }
-
-
-    }
-
-    private int getFitnessScore(RocketShipGA rocket)
-    {
-        if (rocket.getStartingVelocity().getMagnitude()>60)
+        if (closestZ < 1e4)
         {
-            return 0;
+            mutationSizeZ = 0.0001;
+        }
+        if (closestZ < 100)
+        {
+            mutationSizeZ = 0.00001;
+        }
+        if (closestZ < 10)
+        {
+            mutationSizeZ = 0.000001;
         }
 
-        return 1;
+
     }
 
-    public RocketShipGA mutate(RocketShipGA rocket, boolean randomRocket)
+    public RocketShipGA mutate(RocketShipGA rocket)
     {
+
         double rNum = Math.random();
         double x = rocket.getStartingVelocity().getX();
         double y = rocket.getStartingVelocity().getY();
         double z = rocket.getStartingVelocity().getZ();
-        if (rNum > 0.3334)
+
+        if (rNum < mutationRate)
         {
-            if (randomRocket)
-            {
-                x = rocket.getStartingVelocity().getX() - Math.random()*15 + 1;
-            }
-            else 
-            {
-                x = rocket.getStartingVelocity().getX() + Math.random()*(2*mutationSizeX)-mutationSizeX;
-            }
+            x = rocket.getStartingVelocity().getX() + (Math.random()*(2*mutationSizeX)-mutationSizeX); // add a number in the range of [-mutationSize, +mutationSize]
         }
 
         rNum = Math.random();
-        if (rNum > 0.3334)
+        if (rNum < mutationRate)
         {
-            if (randomRocket)
-            {
-                y = rocket.getStartingVelocity().getY() - Math.random()*15 + 1;
-            }
-            else 
-            {
-                y = rocket.getStartingVelocity().getY() - Math.random()*(2*mutationSizeY)-mutationSizeY;
-            }
+            y = rocket.getStartingVelocity().getY() - (Math.random()*(2*mutationSizeY)-mutationSizeY);
         }
 
         rNum = Math.random();
-        if (rNum > 0.3334)
+        if (rNum < mutationRate)
         {
-            if (randomRocket)
-            {
-                z = rocket.getStartingVelocity().getZ() - Math.random()*15 + 1;
-            }
-            else 
-            {
-                z = rocket.getStartingVelocity().getZ() - Math.random()*(2*mutationSizeZ)-mutationSizeZ;
-            }
+            z = rocket.getStartingVelocity().getZ() - (Math.random()*(2*mutationSizeZ)-mutationSizeZ);
         }
         
         Vector3 velocity = new Vector3(x, y, z);
         if (velocity.getMagnitude() > 60)
         {
-            velocity = velocity.divideBy(velocity.getMagnitude()).multiplyBy(60);
+            velocity = velocity.divideBy(velocity.getMagnitude()).multiplyBy(60); // make sure initial velocity is not over 60km/s in magnitude
         }
 
 
@@ -212,11 +217,12 @@ public class RocketLaunchGeneticAlgorithm {
         return bestRocket;
     }
 
-    public RocketShipGA chooseParent(RocketShipGA[] population, int[] fitnessScores)
+    public RocketShipGA chooseParent(RocketShipGA[] population)
     {
         RocketShipGA bestRocket = population[0];
         double closestDistance = Double.MAX_VALUE;
         for (RocketShipGA rocket : population) {
+            // store rocket that reached closest to titan
             if (rocket.getClosestDistance() < closestDistance)
             {
                 closestDistance = rocket.getClosestDistance();
@@ -225,33 +231,13 @@ public class RocketLaunchGeneticAlgorithm {
         }
         this.bestRocket = bestRocket;
         return bestRocket;
-        /* 
-        int p = (int)(Math.random() * IntStream.of(fitnessScores).sum());
-        for (int i = 0; i < fitnessScores.length; i++) {
-            p -= fitnessScores[i];
-            if (p <= 0)
-            {
-                return population[i];
-            }
-        }
-        return population[population.length-1];
-        */
-        /* 
-        def select_parent(population, fitness_values):
-            p = random.randint(0, sum(fitness_values))
-            for i, f in enumerate(fitness_values):
-                p -= f
-                if p <= 0:
-                    break
-            return i
-            */
     }
 
     public RocketShipGA[] createPopulation(int populationSize)
     {
         RocketShipGA[] population = new RocketShipGA[populationSize];
-        //population[0] = new RocketShipGA(new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113), new Vector3(43.07164438203265, -41.31788889917668, -3.8464189997186904), 50000, PhysicsObjectType.Rocket, 10, 10, Color.ORANGE);
-        for (int i = 0; i < populationSize; i++) {
+        population[0] = new RocketShipGA(new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113), new Vector3(43.055263066324734, -41.35587532316244, -3.3992847916377094), 50000, PhysicsObjectType.Rocket, 10, 10, Color.BLUE);
+        for (int i = 1; i < populationSize; i++) {
             Vector3 velocity = new Vector3(Math.random()*120-60, Math.random()*120-60, Math.random()*120-60);
             if (velocity.getMagnitude() > 60)
             {

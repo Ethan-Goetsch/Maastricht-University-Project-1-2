@@ -22,12 +22,11 @@ public class MissionControl extends Application
 
     private static RocketLaunchGeneticAlgorithm GA;
 
-
     private Timeline loopTimeline;
 
     public static void main(String[] args)
     {
-        GA = new RocketLaunchGeneticAlgorithm(1, 50);
+        GA = new RocketLaunchGeneticAlgorithm(0.334, 50);
         launch();
     }
 
@@ -35,15 +34,12 @@ public class MissionControl extends Application
     public void start(Stage stage) throws IOException
     {
         createPhysicsSystems();
-        
 
         mainStage = stage;
 
         mainScene = new Scene(PhysicsVisualizer.getInstance().getView());
 
-
         createTimeline();
-
 
         mainStage.setTitle("Titanic Space Odyssey");
 
@@ -102,7 +98,7 @@ public class MissionControl extends Application
                 object.reset();
             } 
             GA.nextGeneration();
-            System.out.println("NEW BEST ROCKET:");
+            System.out.println("NEW BEST ROCKET (generation " + GA.generation + "): ");
             System.out.println("distance: " + GA.getBestRocket().getClosestDistance());
             System.out.println("\tx: " + GA.getBestRocket().getClosestX());
             System.out.println("\ty: " + GA.getBestRocket().getClosestY());
