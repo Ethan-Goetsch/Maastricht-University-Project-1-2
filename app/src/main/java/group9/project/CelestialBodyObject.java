@@ -14,9 +14,9 @@ public class CelestialBodyObject extends PhysicsObject
 
     private Label shapeLabel;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset,Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset,Color planetColour)
     {
-        super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
+        super(startingPosition, startingVelocity, mass, newDifferentialSolver, newPhysicsObjectType);
 
         celestialBodyPane = new Pane();
 
@@ -40,14 +40,6 @@ public class CelestialBodyObject extends PhysicsObject
         celestialBodyPane.getChildren().add(shapeLabel);
 
         celestialBodyPane.getChildren().add(shape);
-    }
-
-    @Override
-    public void update()
-    {
-        setPosition(EulerSolver.getNewPosition(position, velocity));
-
-        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
     }
 
     @Override

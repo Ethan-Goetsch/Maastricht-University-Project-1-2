@@ -23,9 +23,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private static final double GRAVITY = 6.6743E-20;
 
     private static final double STEP_TIME = 100;
-
-
-    private double iterations = 0;
+    
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
 
@@ -131,13 +129,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
         for (PhysicsObject physicsObject : physicsObjectsToUpdate)
         {
             physicsObject.update();
-
-            if (iterations % (2000) == 0)
-            {
-                physicsObject.updateOrbitTrail();
-            }
-
-            iterations++;
         }
     }
 

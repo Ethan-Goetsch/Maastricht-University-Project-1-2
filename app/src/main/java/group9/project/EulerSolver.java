@@ -1,18 +1,17 @@
 package group9.project;
 
-public class EulerSolver
+public class EulerSolver extends DifferentialSolver
 {
-    public static Vector3 getNewVelocity(Vector3 currentVelocity, Vector3 currentAcceleration)
+    @Override
+    public void solveEquation(PhysicsObject physicsObject)
     {
-        Vector3 derivative = currentAcceleration.multiplyBy(PhysicsEngine.getSimulationStepTime());
+        Vector3 positionMoved = physicsObject.getVelocity().multiplyBy(PhysicsEngine.getSimulationStepTime());
 
-        return currentVelocity.add(derivative);
-    }
+        Vector3 velocityMoved = physicsObject.getAcceleration().multiplyBy(PhysicsEngine.getSimulationStepTime());
 
-    public static Vector3 getNewPosition(Vector3 currentPosition, Vector3 currentVelocity)
-    {
-        Vector3 derivative = currentVelocity.multiplyBy(PhysicsEngine.getSimulationStepTime());
 
-        return currentPosition.add(derivative);
+        physicsObject.setPosition(physicsObject.getPosition().add(positionMoved));
+
+        physicsObject.setVelocity(physicsObject.getVelocity().add(velocityMoved));
     }   
 }

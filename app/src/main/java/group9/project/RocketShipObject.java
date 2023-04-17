@@ -14,9 +14,9 @@ public class RocketShipObject extends PhysicsObject
 
     private Label shapeLabel;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
     {
-        super(startingPosition, startingVelocity, mass, newPhysicsObjectType);
+        super(startingPosition, startingVelocity, mass, newDifferentialSolver, newPhysicsObjectType);
 
 
         rocketShipPane = new Pane();
@@ -43,15 +43,6 @@ public class RocketShipObject extends PhysicsObject
         rocketShipPane.getChildren().add(shapeLabel);
 
         rocketShipPane.getChildren().add(shape);
-    }
-
-
-    @Override
-    public void update()
-    {
-        setPosition(EulerSolver.getNewPosition(position, velocity));
-
-        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
     }
 
     @Override

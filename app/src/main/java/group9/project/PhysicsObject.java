@@ -8,9 +8,9 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
     protected double mass;
 
-    protected PhysicsObjectType physicsObjectType;
+    protected DifferentialSolver differentialSolver;
 
-    protected OrbitTrail orbitTrail;
+    protected PhysicsObjectType physicsObjectType;
 
     public Vector3 getPosition()
     {
@@ -42,7 +42,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         return physicsObjectType;
     }
 
-    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, PhysicsObjectType newPhysicsObjectType)
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         setPosition(startingPosition);
 
@@ -54,9 +54,11 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
 
         setMass(mass);
 
-        orbitTrail = new OrbitTrail();
+
+        differentialSolver = newDifferentialSolver;
 
         physicsObjectType = newPhysicsObjectType;
+
 
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
@@ -89,21 +91,14 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         mass = newMass;
     }
 
-    public OrbitTrail getOrbitTrail()
-    {
-        return orbitTrail;
-    }
-
-    public void updateOrbitTrail()
-    {
-        orbitTrail.addPosition(position);
-    }
-
     /*
      * Update position of an object
      */
     @Override
-    public abstract void update();
+    public void update()
+    {
+        differentialSolver.solveEquation(this);
+    }
 
     @Override
     public abstract Node getDrawable();
