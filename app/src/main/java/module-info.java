@@ -1,4 +1,5 @@
-module group9.project {
+module group9.project
+{
     requires javafx.controls;
     requires javafx.fxml;
     requires transitive javafx.graphics;

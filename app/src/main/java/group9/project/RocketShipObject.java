@@ -49,9 +49,9 @@ public class RocketShipObject extends PhysicsObject
     @Override
     public void update()
     {
-        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
-
         setPosition(EulerSolver.getNewPosition(position, velocity));
+
+        setVelocity(EulerSolver.getNewVelocity(velocity, acceleration));
     }
 
     @Override

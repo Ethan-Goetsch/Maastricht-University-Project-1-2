@@ -18,6 +18,10 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
     //#endregion
 
+    public static final double UNIVERSE_TICK_TIME = 0.0001;
+
+    private static final double GRAVITY = 6.6743E-20;
+
     private static final double STEP_TIME = 100;
 
 
@@ -63,6 +67,14 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             return;
         }
+        else if (SimulationSettings.MAX_SIMULATION_TIME > 0 && SimulationSettings.getSimulationTime() > SimulationSettings.MAX_SIMULATION_TIME)
+        {
+            SimulationSettings.pauseSimulation();
+
+            return;
+        }
+
+        //System.out.println("-------- Time : " + SimulationSettings.getSimulationTime() + " --------");
 
         updateForces();
 
@@ -88,7 +100,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     continue;
                 }
 
-                double productOfMassAndGravity = SimulationSettings.GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
+                double productOfMassAndGravity = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
 
 
                 Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());

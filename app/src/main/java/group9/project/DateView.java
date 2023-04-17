@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 
 public class DateView implements IUpdateable
 {
-
     private DateCalculator dateCalculator;
 
     private DateFormat dateFormat;

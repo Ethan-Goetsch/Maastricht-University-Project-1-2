@@ -18,9 +18,7 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         return instance;
     }
     //#endregion
-
-    public static OrbitTrail orbitTrail = new OrbitTrail();
-
+    
     private BorderPane view;
 
 
