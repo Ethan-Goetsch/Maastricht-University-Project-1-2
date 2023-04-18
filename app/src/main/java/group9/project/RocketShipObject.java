@@ -14,9 +14,9 @@ public class RocketShipObject extends PhysicsObject
 
     private Label shapeLabel;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
     {
-        super(startingPosition, startingVelocity, mass, newDifferentialSolver, newPhysicsObjectType);
+        super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
 
         rocketShipPane = new Pane();

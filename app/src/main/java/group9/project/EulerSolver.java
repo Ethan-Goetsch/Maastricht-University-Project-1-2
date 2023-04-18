@@ -3,15 +3,8 @@ package group9.project;
 public class EulerSolver extends DifferentialSolver
 {
     @Override
-    public void solveEquation(PhysicsObject physicsObject)
+    public Vector3 solveEquation(Vector3 initialY, Vector3 function, double h)
     {
-        Vector3 positionMoved = physicsObject.getVelocity().multiplyBy(PhysicsEngine.getSimulationStepTime());
-
-        Vector3 velocityMoved = physicsObject.getAcceleration().multiplyBy(PhysicsEngine.getSimulationStepTime());
-
-
-        physicsObject.setPosition(physicsObject.getPosition().add(positionMoved));
-
-        physicsObject.setVelocity(physicsObject.getVelocity().add(velocityMoved));
+        return initialY.add(function.multiplyBy(h));
     }   
 }

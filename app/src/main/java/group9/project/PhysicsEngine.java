@@ -65,14 +65,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             return;
         }
-        else if (SimulationSettings.MAX_SIMULATION_TIME > 0 && SimulationSettings.getSimulationTime() > SimulationSettings.MAX_SIMULATION_TIME)
-        {
-            SimulationSettings.pauseSimulation();
-
-            return;
-        }
-
-        //System.out.println("-------- Time : " + SimulationSettings.getSimulationTime() + " --------");
 
         updateForces();
 

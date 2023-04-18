@@ -68,11 +68,17 @@ public class PhysicsObjectData implements IStartable
         rocketShipObject = new RocketShipObject(rocketShipStartingPosition, rocketShipStartingVelocity, 50000, rocketShipSolver, PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
     } 
 
+    /**
+    * @return the distance between the Rocket Ship and Titan
+    */
     public double getRocketShipDistanceToTitan()
     {
         return Mathematics.getDistance(rocketShipObject.getPosition(), titanObject.getPosition());
     }
 
+    /**
+    * @return the magnitude of the Rocket Ship's velocity
+    */
     public double getRocketShipSpeed()
     {
         return rocketShipObject.getVelocity().getMagnitude();

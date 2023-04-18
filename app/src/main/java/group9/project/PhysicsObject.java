@@ -42,18 +42,19 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         return physicsObjectType;
     }
 
-    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double mass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
+    public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
-        setPosition(startingPosition);
+        position = startingPosition;
 
-        setVelocity(startingVelocity);
+        velocity = startingVelocity;
+
 
         setForce(new Vector3());
 
         setAcceleration(new Vector3());
 
-        setMass(mass);
 
+        mass = newMass;
 
         differentialSolver = newDifferentialSolver;
 
@@ -63,19 +64,16 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
-    public void setPosition(Vector3 newPosition)
+    private void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
-    public void setVelocity(Vector3 newVelocity)
+    private void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
     }
 
-    /*
-     * Apply force to an object
-     */
     public void setForce(Vector3 newForce)
     {
         force = newForce;
@@ -86,18 +84,15 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         acceleration = newAcceleration;
     }
 
-    public void setMass(double newMass) 
-    {
-        mass = newMass;
-    }
-
-    /*
-     * Update position of an object
-     */
+    /**
+     * Updates the Position and Velocity of the object
+    */
     @Override
     public void update()
     {
-        differentialSolver.solveEquation(this);
+        setPosition(differentialSolver.solveEquation(getPosition(), getVelocity(), PhysicsEngine.getSimulationStepTime()));
+
+        setVelocity(differentialSolver.solveEquation(getVelocity(), getAcceleration(), PhysicsEngine.getSimulationStepTime()));
     }
 
     @Override

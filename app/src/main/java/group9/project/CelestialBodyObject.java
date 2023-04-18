@@ -14,9 +14,9 @@ public class CelestialBodyObject extends PhysicsObject
 
     private Label shapeLabel;
 
-    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double mass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset,Color planetColour)
+    public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset, Color planetColour)
     {
-        super(startingPosition, startingVelocity, mass, newDifferentialSolver, newPhysicsObjectType);
+        super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
         celestialBodyPane = new Pane();
 
@@ -48,11 +48,13 @@ public class CelestialBodyObject extends PhysicsObject
         return celestialBodyPane;
     }
 
+    /**
+     * Converts the Celestial Body's real world position to a screen position and moves this object's Circle to the screen position
+    */
     @Override
     public void draw()
     {
         Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
-
 
         celestialBodyPane.setTranslateX(scaledVector.getX());
 
