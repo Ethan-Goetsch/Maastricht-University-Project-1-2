@@ -35,9 +35,9 @@ public class PhysicsObjectData implements IStartable
 
     private RocketShipObject rocketShipObject;
 
-    public PhysicsObjectData()
+    private PhysicsObjectData()
     {
-        instance = this;
+        
     }
 
     @Override

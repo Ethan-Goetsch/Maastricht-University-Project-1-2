@@ -58,9 +58,9 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
         return Mathematics.getPercentage(HEIGHT, 90);
     }
 
-    public PhysicsVisualizer()
+    private PhysicsVisualizer()
     {
-        instance = this;
+        
     }
 
     @Override

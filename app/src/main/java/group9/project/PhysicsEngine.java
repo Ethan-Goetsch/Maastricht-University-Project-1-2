@@ -37,7 +37,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
         return physicsObjectsToUpdate;
     }
 
-    public PhysicsEngine()
+    private PhysicsEngine()
     {
         instance = this;
 
