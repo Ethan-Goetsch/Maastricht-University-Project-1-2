@@ -85,7 +85,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     }
 
     /**
-     * Updates the Position and Velocity of the object
+     * Updates the Position and Velocity of this Object using its Differential Solver
     */
     @Override
     public void update()

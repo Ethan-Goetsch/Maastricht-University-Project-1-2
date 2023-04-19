@@ -18,8 +18,9 @@ public class PhysicsObjectData implements IStartable
     }
     //#endregion
 
-    //The Good Positions ;(
-    //private static Vector3 rocketShipStartingVelocity = new Vector3(43.07164438203265, -41.31788889917668, -3.8464189997186904);
+    // The Good Initial Conditions ;(
+    // private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
+    // private static Vector3 rocketShipStartingVelocity = new Vector3(43.07164438203265, -41.31788889917668, -3.8464189997186904);
 
     private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
 
@@ -40,6 +41,7 @@ public class PhysicsObjectData implements IStartable
         
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void start()
     {
