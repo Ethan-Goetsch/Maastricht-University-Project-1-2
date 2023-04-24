@@ -27,7 +27,7 @@ public class PhysicsObjectData implements IStartable
     private Vector3 rocketShipStartingVelocity = new Vector3(43.055263066324734, -41.35587532316244, -3.3992847916377094);
 
 
-    private DifferentialSolver physicsObjectDifferentialSolver = new RungeKuttaFourthSolver();
+    private DifferentialSolver physicsObjectDifferentialSolver = new EulerSolver();
 
 
     private CelestialBodyObject titanObject;

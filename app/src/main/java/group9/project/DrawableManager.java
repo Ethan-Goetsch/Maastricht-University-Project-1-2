@@ -12,11 +12,12 @@ public class DrawableManager
 
   public static DrawableManager getInstance()
   {
-    if (instance == null)
-    {
-      instance = new DrawableManager();
-    }
-    return instance;
+      if (instance == null)
+      {
+        instance = new DrawableManager();
+      }
+      
+      return instance;
   }
   //#endregion
 
@@ -29,25 +30,24 @@ public class DrawableManager
   // adds a drawable to the drawables list
   public void add(IDrawable drawable)
   {
-    this.drawables.add(drawable);
+      this.drawables.add(drawable);
   }
 
   // returns true if the drawables list containt the argument drawable
   public boolean contains(IDrawable drawable)
   {
-    return drawables.contains(drawable);
+      return drawables.contains(drawable);
   }
 
   // removes a drawable from the list
   public void remove(IDrawable drawable)
   {
-    drawables.remove(drawable);
+      drawables.remove(drawable);
   }
 
   // returns an iterator for the drawables list
   public Iterator<IDrawable> getIterator()
   {
-    return drawables.iterator();
+      return drawables.iterator();
   }
-
 }

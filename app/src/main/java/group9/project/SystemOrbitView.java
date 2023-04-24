@@ -29,6 +29,7 @@ public class SystemOrbitView extends PaneView
 
         // iterate through drawables
         Iterator<IDrawable> drawableIterator = DrawableManager.getInstance().getIterator(); 
+
         while (drawableIterator.hasNext())
         {
             IDrawable drawable = drawableIterator.next();
@@ -41,18 +42,7 @@ public class SystemOrbitView extends PaneView
             {
                 getChildren().add(shape);
             }
-
-            // if (drawable instanceof PhysicsObject)
-            // {
-            //     PhysicsObject physicsObject = (PhysicsObject) drawable;
-
-            //     for (Line line : physicsObject.getOrbitTrail().getLines())
-            //     {
-            //         getChildren().add(line);
-            //     }
-            // }
         }
-
     }
 
     private boolean inView(Node node)
