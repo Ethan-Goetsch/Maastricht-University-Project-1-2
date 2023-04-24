@@ -1,6 +1,7 @@
 package group9.project;
 
 import javafx.scene.Node;
+import java.util.Iterator;
 
 public class SystemOrbitView extends PaneView
 {
@@ -26,8 +27,12 @@ public class SystemOrbitView extends PaneView
     {
         getChildren().clear();
 
-        for (IDrawable drawable : PhysicsEngine.getInstance().getPhysicsObjectsToUpdate())
+        // iterate through drawables
+        Iterator<IDrawable> drawableIterator = DrawableManager.getInstance().getIterator(); 
+        while (drawableIterator.hasNext())
         {
+            IDrawable drawable = drawableIterator.next();
+
             drawable.draw();
 
             Node shape = drawable.getDrawable();
@@ -47,6 +52,7 @@ public class SystemOrbitView extends PaneView
             //     }
             // }
         }
+
     }
 
     private boolean inView(Node node)

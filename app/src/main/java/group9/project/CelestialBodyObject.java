@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class CelestialBodyObject extends PhysicsObject
+public class CelestialBodyObject extends PhysicsObject implements IDrawable
 {
     private Pane celestialBodyPane;
 
@@ -17,6 +17,8 @@ public class CelestialBodyObject extends PhysicsObject
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset, Color planetColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
+
+        DrawableManager.getInstance().add((IDrawable)this);
 
         celestialBodyPane = new Pane();
 

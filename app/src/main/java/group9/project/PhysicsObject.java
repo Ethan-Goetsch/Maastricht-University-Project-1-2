@@ -1,8 +1,6 @@
 package group9.project;
 
-import javafx.scene.Node;
-
-public abstract class PhysicsObject implements IUpdateable, IDrawable
+public abstract class PhysicsObject implements IUpdateable 
 {
     protected Vector3 position, velocity, force, acceleration;
 
@@ -90,9 +88,4 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
     @Override
     public abstract void update();
 
-    @Override
-    public abstract Node getDrawable();
-
-    @Override
-    public abstract void draw();
 }

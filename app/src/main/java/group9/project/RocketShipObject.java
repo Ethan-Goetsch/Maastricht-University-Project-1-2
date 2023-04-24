@@ -6,14 +6,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class RocketShipObject extends PhysicsObject
+public class RocketShipObject extends PhysicsObject implements IDrawable
 {
     private double thrusterForce;
 
     private double impulseForce;
 
     private double fuel;
-
 
     private Pane rocketShipPane;
 
@@ -25,6 +24,7 @@ public class RocketShipObject extends PhysicsObject
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
+        DrawableManager.getInstance().add((IDrawable)this);
 
         setThrusterForce(0);
 
