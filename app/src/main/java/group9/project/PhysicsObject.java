@@ -64,12 +64,12 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
-    private void setPosition(Vector3 newPosition)
+    protected void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
-    private void setVelocity(Vector3 newVelocity)
+    protected void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
     }
@@ -88,12 +88,7 @@ public abstract class PhysicsObject implements IUpdateable, IDrawable
      * Updates the Position and Velocity of this Object using its Differential Solver
     */
     @Override
-    public void update()
-    {
-        setPosition(differentialSolver.solveEquation(getPosition(), getVelocity(), PhysicsEngine.getSimulationStepTime()));
-
-        setVelocity(differentialSolver.solveEquation(getVelocity(), getAcceleration(), PhysicsEngine.getSimulationStepTime()));
-    }
+    public abstract void update();
 
     @Override
     public abstract Node getDrawable();

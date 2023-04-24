@@ -8,6 +8,13 @@ import javafx.scene.shape.Rectangle;
 
 public class RocketShipObject extends PhysicsObject
 {
+    private double thrusterForce;
+
+    private double impulseForce;
+
+    private double fuel;
+
+
     private Pane rocketShipPane;
 
     private Rectangle shape;
@@ -18,6 +25,8 @@ public class RocketShipObject extends PhysicsObject
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
+
+        setThrusterForce(0);
 
         rocketShipPane = new Pane();
 
@@ -43,6 +52,40 @@ public class RocketShipObject extends PhysicsObject
         rocketShipPane.getChildren().add(shapeLabel);
 
         rocketShipPane.getChildren().add(shape);
+    }
+
+    @Override
+    public void setForce(Vector3 newForce)
+    {
+        force = newForce.add(new Vector3(thrusterForce, 0, 0));
+    }
+
+    private void updateFuel(double value)
+    {
+        fuel += value;
+    }
+
+    public void setThrusterForce(double newThrusterForce)
+    {
+        thrusterForce = newThrusterForce;
+    }
+
+    @Override
+    public void update()
+    {
+        impulseForce = thrusterForce * PhysicsEngine.getSimulationStepTime() - thrusterForce;
+
+        setVelocity(velocity.add(new Vector3(impulseForce / mass, 0, 0)));
+
+
+        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsEngine.getSimulationStepTime());
+
+        setPosition(state[0]);
+
+        setVelocity(state[1]);
+
+
+        updateFuel(impulseForce);
     }
 
     @Override

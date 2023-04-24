@@ -22,7 +22,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     private static final double GRAVITY = 6.6743E-20;
 
-    private static final double STEP_TIME = 100;
+    private static final double STEP_TIME = 0.1;
     
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();

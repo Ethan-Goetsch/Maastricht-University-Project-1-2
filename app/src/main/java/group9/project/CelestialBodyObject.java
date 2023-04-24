@@ -43,6 +43,16 @@ public class CelestialBodyObject extends PhysicsObject
     }
 
     @Override
+    public void update()
+    {
+        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsEngine.getSimulationStepTime());
+
+        setPosition(state[0]);
+
+        setVelocity(state[1]);
+    }
+
+    @Override
     public Node getDrawable()
     {
         return celestialBodyPane;

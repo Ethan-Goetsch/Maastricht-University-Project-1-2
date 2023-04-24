@@ -6,26 +6,27 @@ public abstract class DifferentialSolver
     * Solves and returns the answer to a differential equation using Euler's Method
     * 
     * @param initialY initial y value
-    * @param function the differential equation of the initial y value
+    * @param function the derivativ
     * @param h the Step Time to use in the calculation
     * 
     * @return the next y value
     */
     // This was put here so that the other solvers can access and use Euler's Method easily
     // Eulers Solver is in another class so that it is easy to test and change different solver's without having to change code by changing a Physics Object's Differential Solver
-    protected Vector3 solveEulerEquation(Vector3 initialY, Vector3 function, double h)
+    protected Vector3 solveEulerEquation(Vector3 initialY, Vector3 derivative, double h)
     {
-        return initialY.add(function.multiplyBy(h));
+        return initialY.add(derivative.multiplyBy(h));
     }
 
     /**
     * Solves and returns the answer to a differential equation
     * 
-    * @param initialY initial y value
-    * @param function the differential equation of the initial y value
+    * @param position initial y value
+    * @param velocity velocity
+    * @param acceleration acceleration
     * @param h the Step Time to use in the calculation
     * 
-    * @return the next y value
+    * @return the next position and velocity values
     */
-    public abstract Vector3 solveEquation(Vector3 initialY, Vector3 function, double h);
+    public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h);
 }
