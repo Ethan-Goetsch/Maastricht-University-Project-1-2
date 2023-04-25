@@ -7,16 +7,16 @@ public class RalstonSolver extends DifferentialSolver
     {
         Vector3[] state = new Vector3[2];
     
-        int a = 2/4; // a = 1/2 gives you the midpoint method
-                     // a = 1 gives you the modified Euler method 
-                     // a = 2/3 is the standart Ralston's method
+        int a = 2/3;  // a = 1/2 gives you the midpoint method
+                      // a = 1 gives you the modified Euler method 
+                      // a = 2/3 is the standart Ralston's method
 
 
-        Vector3 k1Position = solveEulerEquation(position, velocity, h);
+        Vector3 k1Position = velocity.multiplyBy(h);
 
         Vector3 k2Position = solveEulerEquation(position.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
 
-        Vector3 k1Velocity = solveEulerEquation(velocity, acceleration, h);
+        Vector3 k1Velocity = acceleration.multiplyBy(h);
 
         Vector3 k2Velocity = solveEulerEquation(velocity.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
 
