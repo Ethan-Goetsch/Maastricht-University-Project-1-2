@@ -6,7 +6,7 @@ public abstract class DifferentialSolver
     * Solves and returns the answer to a differential equation using Euler's Method
     * 
     * @param initialY initial y value
-    * @param function the derivativ
+    * @param function the derivative
     * @param h the Step Time to use in the calculation
     * 
     * @return the next y value

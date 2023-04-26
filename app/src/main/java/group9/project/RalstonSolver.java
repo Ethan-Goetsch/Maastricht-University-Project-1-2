@@ -37,6 +37,5 @@ public class RalstonSolver extends DifferentialSolver
         state[1] = nextVelocity;
 
         return state;
-
     }   
 }

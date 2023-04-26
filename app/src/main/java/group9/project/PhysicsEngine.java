@@ -16,21 +16,9 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
         return instance;
     }
-    //#endregion
-
-    public static final double UNIVERSE_TICK_TIME = 0.0001;
-
-    private static final double GRAVITY = 6.6743E-20;
-
-    private static final double STEP_TIME = 100;
-    
+    //#endregion  
 
     private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
-
-    public static double getSimulationStepTime()
-    {
-        return STEP_TIME * SimulationSettings.getSimulationSpeed();
-    }
 
     public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
     {
@@ -69,8 +57,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
         updateForces();
 
         updateObjects();
-
-        updateTimer();
     }
 
     private void updateForces()
@@ -90,7 +76,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
                     continue;
                 }
 
-                double productOfMassAndGravity = GRAVITY * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
+                double productOfMassAndGravity = PhysicsSettings.getGravity() * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
 
 
                 Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
@@ -122,10 +108,5 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             physicsObject.update();
         }
-    }
-
-    private void updateTimer()
-    {
-        SimulationSettings.updateSimulationTime(getSimulationStepTime());
     }
 }

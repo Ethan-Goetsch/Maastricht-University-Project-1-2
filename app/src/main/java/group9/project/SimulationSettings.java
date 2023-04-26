@@ -2,17 +2,14 @@ package group9.project;
 
 public class SimulationSettings
 {
-    public static final double MIN_SIMULATION_SPEED = 0.01;
+    private static final double MIN_SIMULATION_SPEED = 0.01;
 
-    public static final double MAX_SIMULATION_SPEED = 10;
-
-
-    public static final double MIN_SCALE_FACTOR = 0.1;
-
-    public static final double MAX_SCALE_FACTOR = 3;
+    private static final double MAX_SIMULATION_SPEED = 10;
 
 
-    public static double MAX_SIMULATION_TIME = 1000000000;
+    private static final double MIN_SCALE_FACTOR = 0.1;
+
+    private static final double MAX_SCALE_FACTOR = 3;
 
 
     private static double simulationSpeed = 1;
@@ -21,6 +18,26 @@ public class SimulationSettings
 
 
     private static boolean isSimulationPaused;
+
+    public static double getMinSimulationSpeed()
+    {
+        return MIN_SIMULATION_SPEED;
+    }
+
+    public static double getMaxSimulationSpeed()
+    {
+        return MAX_SIMULATION_SPEED;
+    }
+
+    public static double getMinScaleFactor()
+    {
+        return MIN_SCALE_FACTOR;
+    }
+
+    public static double getMaxScaleFactor()
+    {
+        return MAX_SCALE_FACTOR;
+    }
 
     public static double getSimulationSpeed()
     {

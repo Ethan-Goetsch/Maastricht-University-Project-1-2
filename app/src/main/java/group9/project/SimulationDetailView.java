@@ -65,7 +65,7 @@ public class SimulationDetailView extends PaneView
         simulationScaleLabel.setPrefWidth(135);
 
 
-        simulationSpeedSlider = GUI.createSlider(SimulationSettings.MIN_SIMULATION_SPEED, SimulationSettings.MAX_SIMULATION_SPEED, 1, new ChangeListener<Number>()
+        simulationSpeedSlider = GUI.createSlider(SimulationSettings.getMinSimulationSpeed(), SimulationSettings.getMaxSimulationSpeed(), 1, new ChangeListener<Number>()
         {
             public void changed(ObservableValue <? extends Number> observable,
 
@@ -77,7 +77,7 @@ public class SimulationDetailView extends PaneView
             }
         });
 
-        simulationScaleSlider = GUI.createSlider(SimulationSettings.MIN_SCALE_FACTOR, SimulationSettings.MAX_SCALE_FACTOR, 0.5, new ChangeListener<Number>()
+        simulationScaleSlider = GUI.createSlider(SimulationSettings.getMinScaleFactor(), SimulationSettings.getMaxScaleFactor(), 0.5, new ChangeListener<Number>()
         {
             public void changed(ObservableValue <? extends Number> observable,
 

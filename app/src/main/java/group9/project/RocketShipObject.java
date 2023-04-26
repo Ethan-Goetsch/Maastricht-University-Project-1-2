@@ -24,7 +24,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-        DrawableManager.getInstance().add((IDrawable)this);
+        DrawableManager.getInstance().add(this);
 
         setThrusterForce(0);
 
@@ -73,12 +73,12 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
     @Override
     public void update()
     {
-        impulseForce = thrusterForce * PhysicsEngine.getSimulationStepTime() - thrusterForce;
+        impulseForce = thrusterForce * PhysicsSettings.getSimulationStepTime() - thrusterForce;
 
         setVelocity(velocity.add(new Vector3(impulseForce / mass, 0, 0)));
 
 
-        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsEngine.getSimulationStepTime());
+        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getSimulationStepTime());
 
         setPosition(state[0]);
 
