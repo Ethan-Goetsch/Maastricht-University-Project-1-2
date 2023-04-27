@@ -10,6 +10,12 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+import group9.project.Physics.Managers.PhysicsEngine;
+import group9.project.Physics.Managers.PhysicsObjectData;
+import group9.project.Physics.Managers.PhysicsVisualizer;
+import group9.project.Settings.PhysicsSettings;
+import group9.project.Settings.SimulationSettings;
+
 /**
  * JavaFX App
  */
@@ -61,7 +67,7 @@ public class MissionControl extends Application
 
     private void createTimeline()
     {
-        loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsEngine.UNIVERSE_TICK_TIME), x -> updateLoop()));
+        loopTimeline = new Timeline(new KeyFrame(Duration.seconds(PhysicsSettings.getUniverseTickTime()), x -> updateLoop()));
 
         loopTimeline.setCycleCount(Animation.INDEFINITE);
 
@@ -73,5 +79,7 @@ public class MissionControl extends Application
         PhysicsVisualizer.getInstance().update();
 
         PhysicsEngine.getInstance().update();
+
+        SimulationSettings.updateSimulationTime(PhysicsSettings.getSimulationStepTime());
     }
 }
