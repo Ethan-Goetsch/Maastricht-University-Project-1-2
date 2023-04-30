@@ -27,18 +27,21 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
 
     private Label shapeLabel;
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
         DrawableManager.getInstance().add(this);
 
-        setThrusterForce(0);
+        createShipUI(shipWidth, shipHeight, shipColour);
+    }
 
+    private void createShipUI(double shipWidth, double shipHeight, Color shipColour)
+    {
         rocketShipPane = new Pane();
 
 
-        shapeLabel = GUI.createLabel(newPhysicsObjectType.toString());
+        shapeLabel = GUI.createLabel(physicsObjectType.toString());
 
         shapeLabel.setTextFill(Color.WHITE);
 
@@ -51,9 +54,9 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
 
         shape.setFill(shipColour);
 
-        shape.setWidth(width);
+        shape.setWidth(shipWidth);
         
-        shape.setHeight(height);
+        shape.setHeight(shipHeight);
 
 
         rocketShipPane.getChildren().add(shapeLabel);
@@ -64,7 +67,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
     @Override
     public void setForce(Vector3 newForce)
     {
-        force = newForce.add(new Vector3(thrusterForce, 0, 0));
+        force = newForce;
     }
 
     private void updateFuel(double value)

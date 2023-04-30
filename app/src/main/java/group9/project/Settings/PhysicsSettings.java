@@ -1,7 +1,6 @@
 package group9.project.Settings;
 
-import group9.project.Solvers.DifferentialSolver;
-import group9.project.Solvers.EulerSolver;
+import group9.project.Solvers.*;
 
 public class PhysicsSettings
 {

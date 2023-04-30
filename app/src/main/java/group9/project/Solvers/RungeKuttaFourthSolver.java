@@ -19,7 +19,7 @@ public class RungeKuttaFourthSolver extends DifferentialSolver
         Vector3 k4V = solveEulerEquation(velocity, acceleration, h).multiplyBy(h);
 
 
-        Vector3 k1P = position.multiplyBy(h);
+        Vector3 k1P = velocity.multiplyBy(h);
 
         Vector3 k2P = solveEulerEquation(velocity, acceleration, 1 / 3.0 * h).multiplyBy(h);
 
@@ -35,13 +35,12 @@ public class RungeKuttaFourthSolver extends DifferentialSolver
 
         Vector3 positionSum = k1P.add(k2P.multiplyBy(3).add(k3P.multiplyBy(3).add(k4P))).multiplyBy(1 / 8.0);
 
-        Vector3 nextPosition = velocity.add(positionSum);
+        Vector3 nextPosition = position.add(positionSum);
 
 
         state[0] = nextPosition;
 
         state[1] = nextVelocity;
-
 
         return state;
     }

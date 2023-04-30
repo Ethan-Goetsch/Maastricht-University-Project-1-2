@@ -27,10 +27,15 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
 
         DrawableManager.getInstance().add((IDrawable)this);
 
+        createDrawableUI(planetRadius, labelOffset, planetColour);
+    }
+
+    private void createDrawableUI(double planetRadius, double labelOffset, Color planetColour)
+    {
         celestialBodyPane = new Pane();
 
 
-        shapeLabel = GUI.createLabel(newPhysicsObjectType.toString());
+        shapeLabel = GUI.createLabel(physicsObjectType.toString());
 
         shapeLabel.setTextFill(Color.WHITE);
 
