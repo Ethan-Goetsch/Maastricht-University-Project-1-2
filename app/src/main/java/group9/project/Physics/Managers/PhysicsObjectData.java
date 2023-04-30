@@ -43,6 +43,16 @@ public class PhysicsObjectData implements IStartable
         
     }
 
+    public CelestialBodyObject getTitanObject()
+    {
+        return titanObject;
+    }
+
+    public RocketShipObject getRocketShipObject()
+    {
+        return rocketShipObject;
+    }
+
     @SuppressWarnings("unused")
     @Override
     public void start()
@@ -77,7 +87,7 @@ public class PhysicsObjectData implements IStartable
     */
     public double getRocketShipDistanceToTitan()
     {
-        return Mathematics.getDistance(rocketShipObject.getPosition(), titanObject.getPosition());
+        return Mathematics.calculateDistance(rocketShipObject.getPosition(), titanObject.getPosition());
     }
 
     /**

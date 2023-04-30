@@ -45,6 +45,11 @@ public abstract class PhysicsObject implements IUpdateable
         return physicsObjectType;
     }
 
+    public DifferentialSolver getDifferentialSolver()
+    {
+        return differentialSolver;
+    }
+
     public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         position = startingPosition;
@@ -67,12 +72,12 @@ public abstract class PhysicsObject implements IUpdateable
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
-    protected void setPosition(Vector3 newPosition)
+    public void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
-    protected void setVelocity(Vector3 newVelocity)
+    public void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
     }

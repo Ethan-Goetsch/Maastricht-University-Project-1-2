@@ -90,7 +90,7 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
                 Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
 
-                double distance = Mathematics.getDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
+                double distance = Mathematics.calculateDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
 
                 distance = Math.pow(distance, 3);
 
