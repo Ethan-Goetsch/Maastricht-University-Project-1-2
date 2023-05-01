@@ -9,7 +9,7 @@ public class SimulationSettings
 
     private static final double MIN_SCALE_FACTOR = 0.1;
 
-    private static final double MAX_SCALE_FACTOR = 3;
+    private static final double MAX_SCALE_FACTOR = 1.5;
 
 
     private static double simulationSpeed = 1;

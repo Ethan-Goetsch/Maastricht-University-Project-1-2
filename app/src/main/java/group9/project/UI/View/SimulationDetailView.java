@@ -1,6 +1,5 @@
 package group9.project.UI.View;
 
-import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
@@ -71,9 +70,7 @@ public class SimulationDetailView extends PaneView
 
         simulationSpeedSlider = GUI.createSlider(SimulationSettings.getMinSimulationSpeed(), SimulationSettings.getMaxSimulationSpeed(), 1, new ChangeListener<Number>()
         {
-            public void changed(ObservableValue <? extends Number> observable,
-
-            Number oldValue, Number newValue)
+            public void changed(ObservableValue <? extends Number> observable, Number oldValue, Number newValue)
             {
                 SimulationSettings.setSimulationSpeed(newValue.doubleValue());
 
@@ -83,11 +80,16 @@ public class SimulationDetailView extends PaneView
 
         simulationScaleSlider = GUI.createSlider(SimulationSettings.getMinScaleFactor(), SimulationSettings.getMaxScaleFactor(), 0.5, new ChangeListener<Number>()
         {
-            public void changed(ObservableValue <? extends Number> observable,
-
-            Number oldValue, Number newValue)
+            public void changed(ObservableValue <? extends Number> observable, Number oldValue, Number newValue)
             {
-                ScaleConverter.setScaleFactor(newValue.doubleValue());
+                if (SimulationSettings.getMaxScaleFactor() - newValue.doubleValue() > SimulationSettings.getMinScaleFactor())
+                {
+                    ScaleConverter.setScaleFactor(SimulationSettings.getMaxScaleFactor() - newValue.doubleValue());
+                }
+                else
+                {
+                    ScaleConverter.setScaleFactor(SimulationSettings.getMinScaleFactor());
+                }
 
                 update();
             }
