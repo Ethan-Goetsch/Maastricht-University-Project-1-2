@@ -27,7 +27,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
 
     private double impulseForce;
 
-    private double fuel;
+    private double fuelConsumed;
 
 
     private Pane rocketShipPane;
@@ -46,9 +46,9 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
         return impulseForce;
     }
 
-    public double getFuel()
+    public double getFuelConsumed()
     {
-        return fuel;
+        return fuelConsumed;
     }
 
     public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
@@ -103,7 +103,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
 
     public void updateFuel(double value)
     {
-        fuel += value;
+        fuelConsumed += value;
     }
 
     @Override

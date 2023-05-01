@@ -1,5 +1,6 @@
 package group9.project.UI.View;
 
+import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
@@ -35,14 +36,14 @@ public class SimulationDetailView extends PaneView
         start();
     }
 
-    private String getSpeedLabelText()
+    private String getSpeedText()
     {
-        return "Simulation Speed : " + Math.round(SimulationSettings.getSimulationSpeed() * 100.0) / 100.0;
+        return "Simulation Speed : " + String.format("%.2f", SimulationSettings.getSimulationSpeed());
     }
 
-    private String getScaleLabelText()
+    private String getScaleText()
     {
-        return "Simulation Scale : " + Math.round(ScaleConverter.getScaleFactor() * 100.0) / 100.0;
+        return "Simulation Scale : " + String.format("%.2f", ScaleConverter.getScaleFactor());
     }
 
     private String getPauseButtonText()
@@ -58,9 +59,9 @@ public class SimulationDetailView extends PaneView
         paneBox = GUI.createHBox(width, height, 10, new Insets(15, 12, 15, 12));
 
 
-        simulationSpeedLabel = GUI.createLabel(getSpeedLabelText());
+        simulationSpeedLabel = GUI.createLabel(getSpeedText());
 
-        simulationScaleLabel = GUI.createLabel(getScaleLabelText());
+        simulationScaleLabel = GUI.createLabel(getScaleText());
 
 
         simulationSpeedLabel.setPrefWidth(135);
@@ -119,9 +120,9 @@ public class SimulationDetailView extends PaneView
     @Override
     public void update()
     {
-        simulationSpeedLabel.setText(getSpeedLabelText());
+        simulationSpeedLabel.setText(getSpeedText());
 
-        simulationScaleLabel.setText(getScaleLabelText());
+        simulationScaleLabel.setText(getScaleText());
     }
 
     private void onPauseButton()
