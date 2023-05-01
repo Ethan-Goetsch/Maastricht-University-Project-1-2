@@ -1,20 +1,25 @@
 package group9.project.States.Rocket;
 
-import java.util.List;
-
-import group9.project.Hill_Climbing.DirectFlightFuelOptimizer;
-import group9.project.Physics.Managers.PhysicsObjectData;
+import group9.project.Hill_Climbing.DirectFuelOptimizer;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
+import group9.project.Trajectory_Guidance.TargetTrajectoryDirection;
+import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
 
-public class DirectFlightRocketState extends RocketState
+public class TargetRocketState extends RocketState
 {
-    public DirectFlightRocketState(RocketShipObject newRocketShip, List<RocketState> newNeighbourStates)
-    {
-        super(newRocketShip, newNeighbourStates);
+    private ITargetable target;
 
-        fuelOptimizer = new DirectFlightFuelOptimizer();
+    public TargetRocketState(RocketShipObject newRocketShip, ITargetable newTarget)
+    {
+        super(newRocketShip);
+
+        target = newTarget;
+
+        trajectoryDirection = new TargetTrajectoryDirection();
+
+        fuelOptimizer = new DirectFuelOptimizer();
     }
 
     @Override
@@ -30,13 +35,7 @@ public class DirectFlightRocketState extends RocketState
     }
 
     @Override
-    public boolean canTransition()
-    {
-        return true;
-    }
-
-    @Override
-    public void tick()
+    public void update()
     {
         tickThrusters();
 
@@ -45,21 +44,19 @@ public class DirectFlightRocketState extends RocketState
 
     private void tickThrusters()
     {
-        Vector3 directionToTitan = PhysicsObjectData.getInstance().getDirectionFromRocketShipToTitan();
-
-        directionToTitan = directionToTitan.normalize();
+        Vector3 directionToApplyMovement = trajectoryDirection.calculateDirectionToMove(rocketShip.getPosition(), target.getPosition());
 
 
         double optimalThrusterForce = fuelOptimizer.calculateOptimalThrusterForce(rocketShip.getVelocity());
 
         rocketShip.setThrusterForce(optimalThrusterForce);
 
-        rocketShip.applyForce(directionToTitan.multiplyBy(rocketShip.getThrusterForce()));
+        rocketShip.applyForce(directionToApplyMovement.multiplyBy(rocketShip.getThrusterForce()));
 
 
         double impulseForce = rocketShip.getThrusterForce() * PhysicsSettings.getStepTime() - rocketShip.getThrusterForce();
 
-        rocketShip.applyVelocity(directionToTitan.multiplyBy(impulseForce / rocketShip.getMass()));
+        rocketShip.applyVelocity(directionToApplyMovement.multiplyBy(impulseForce / rocketShip.getMass()));
 
 
         rocketShip.updateFuel(impulseForce);

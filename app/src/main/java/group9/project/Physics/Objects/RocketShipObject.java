@@ -2,10 +2,11 @@ package group9.project.Physics.Objects;
 
 import java.util.ArrayList;
 
+import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.States.IState;
 import group9.project.States.IStateManager;
-import group9.project.States.Rocket.DirectFlightRocketState;
+import group9.project.States.Rocket.TargetRocketState;
 import group9.project.States.Rocket.RocketState;
 import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
@@ -93,7 +94,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
 
     private void createRocketStates()
     {
-        currentRocketState = new DirectFlightRocketState(this, new ArrayList<>());
+        currentRocketState = new TargetRocketState(this, PhysicsObjectData.getInstance().getTitanObject());
     }
 
     public void setThrusterForce(double newThrusterForce)
@@ -144,7 +145,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
     @Override
     public void tickState()
     {
-        currentRocketState.tick();
+        currentRocketState.update();
 
         currentRocketState.checkStateTransitions();
     }

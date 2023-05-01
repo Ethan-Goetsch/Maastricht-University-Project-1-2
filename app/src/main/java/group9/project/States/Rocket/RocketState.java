@@ -1,25 +1,23 @@
 package group9.project.States.Rocket;
 
-import java.util.List;
-
 import group9.project.Hill_Climbing.FuelOptimizer;
 import group9.project.Physics.Objects.RocketShipObject;
-import group9.project.States.IState;
-import group9.project.States.IStateTransitionable;
+import group9.project.States.State;
+import group9.project.Trajectory_Guidance.TrajectoryDirection;
 
-public abstract class RocketState implements IState, IStateTransitionable
+public abstract class RocketState extends State
 {
     protected RocketShipObject rocketShip;
 
-    protected List<RocketState> neighbourStates;
+    protected TrajectoryDirection trajectoryDirection;
 
     protected FuelOptimizer fuelOptimizer;
 
-    public RocketState(RocketShipObject newRocketShip, List<RocketState> newNeighbourStates)
+    public RocketState(RocketShipObject newRocketShip)
     {
-        rocketShip = newRocketShip;
+        super(newRocketShip);
 
-        neighbourStates = newNeighbourStates;
+        rocketShip = newRocketShip;
     }
 
     @Override
@@ -29,21 +27,5 @@ public abstract class RocketState implements IState, IStateTransitionable
     public abstract void onStateExit();
 
     @Override
-    public abstract boolean canTransition();
-
-    @Override
-    public void checkStateTransitions()
-    {
-        for (RocketState rocketState : neighbourStates)
-        {
-            if (rocketState.canTransition())
-            {
-                rocketShip.transitionToState(rocketState);
-
-                return;
-            }    
-        }
-    }
-
-    public abstract void tick();
+    public abstract void update();
 }

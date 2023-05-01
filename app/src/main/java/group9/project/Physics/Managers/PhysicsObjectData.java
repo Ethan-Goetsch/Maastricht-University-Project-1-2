@@ -91,14 +91,6 @@ public class PhysicsObjectData implements IStartable
     }
 
     /**
-    * @return the direction vector to Titan from the Rocket Ship
-    */
-    public Vector3 getDirectionFromRocketShipToTitan()
-    {
-        return titanObject.getPosition().subtract(rocketShipObject.getPosition());
-    }
-
-    /**
     * @return the magnitude of the Rocket Ship's velocity
     */
     public double getRocketShipSpeed()

@@ -5,7 +5,7 @@ import java.util.List;
 
 import group9.project.Utility.Math.Vector3;
 
-public class DirectFlightFuelOptimizer extends FuelOptimizer
+public class DirectFuelOptimizer extends FuelOptimizer
 {
     @Override
     protected void setInitialSolution(Vector3 flightVelocity)

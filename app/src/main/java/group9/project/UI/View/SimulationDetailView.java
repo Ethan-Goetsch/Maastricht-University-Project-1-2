@@ -82,14 +82,7 @@ public class SimulationDetailView extends PaneView
         {
             public void changed(ObservableValue <? extends Number> observable, Number oldValue, Number newValue)
             {
-                if (SimulationSettings.getMaxScaleFactor() - newValue.doubleValue() > SimulationSettings.getMinScaleFactor())
-                {
-                    ScaleConverter.setScaleFactor(SimulationSettings.getMaxScaleFactor() - newValue.doubleValue());
-                }
-                else
-                {
-                    ScaleConverter.setScaleFactor(SimulationSettings.getMinScaleFactor());
-                }
+                ScaleConverter.setScaleFactor(newValue.doubleValue());
 
                 update();
             }
