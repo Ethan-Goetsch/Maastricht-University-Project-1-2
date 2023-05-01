@@ -82,9 +82,19 @@ public abstract class PhysicsObject implements IUpdateable
         velocity = newVelocity;
     }
 
+    public void applyVelocity(Vector3 newVelocity)
+    {
+        velocity = velocity.add(newVelocity);
+    }
+
     public void setForce(Vector3 newForce)
     {
         force = newForce;
+    }
+
+    public void applyForce(Vector3 newForce)
+    {
+        force = force.add(newForce);
     }
 
     public void setAcceleration(Vector3 newAcceleration)

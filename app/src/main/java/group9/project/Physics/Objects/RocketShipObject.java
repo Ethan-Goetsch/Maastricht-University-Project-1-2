@@ -96,12 +96,6 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
         currentRocketState = new DirectFlightRocketState(this, new ArrayList<>());
     }
 
-    @Override
-    public void setForce(Vector3 newForce)
-    {
-        force = newForce;
-    }
-
     public void setThrusterForce(double newThrusterForce)
     {
         thrusterForce = newThrusterForce;

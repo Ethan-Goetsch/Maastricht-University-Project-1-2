@@ -79,7 +79,5 @@ public class MissionControl extends Application
         PhysicsVisualizer.getInstance().update();
 
         PhysicsEngine.getInstance().update();
-
-        SimulationSettings.updateSimulationTime(PhysicsSettings.getStepTime());
     }
 }

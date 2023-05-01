@@ -6,7 +6,7 @@ public class PhysicsSettings
 {
     private static final double UNIVERSE_TICK_TIME = 0.0001;
 
-    private static final double MAX_UNIVERSE_TIME = 100;
+    private static final double MAX_UNIVERSE_TIME = 0;
 
     private static final double GRAVITY = 6.6743E-20;
 
