@@ -14,7 +14,6 @@ import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Managers.PhysicsVisualizer;
 import group9.project.Settings.PhysicsSettings;
-import group9.project.Settings.SimulationSettings;
 
 /**
  * JavaFX App
