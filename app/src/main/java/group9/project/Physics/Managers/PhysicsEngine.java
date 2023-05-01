@@ -62,7 +62,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
         {
             return;
         }
-
+        else if (SimulationSettings.getSimulationTime() > PhysicsSettings.getMaxUniverseTime())
+        {
+            return;
+        }
+        
         updateForces();
 
         updateObjects();

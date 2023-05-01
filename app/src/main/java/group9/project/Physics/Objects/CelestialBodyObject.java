@@ -59,7 +59,7 @@ public class CelestialBodyObject extends PhysicsObject implements IDrawable
     @Override
     public void update()
     {
-        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getSimulationStepTime());
+        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getStepTime());
 
         setPosition(state[0]);
 

@@ -2,6 +2,7 @@ package group9.project.States.Rocket;
 
 import java.util.List;
 
+import group9.project.Hill_Climbing.FuelOptimizer;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.States.IState;
 import group9.project.States.IStateTransitionable;
@@ -11,6 +12,8 @@ public abstract class RocketState implements IState, IStateTransitionable
     protected RocketShipObject rocketShip;
 
     protected List<RocketState> neighbourStates;
+
+    protected FuelOptimizer fuelOptimizer;
 
     public RocketState(RocketShipObject newRocketShip, List<RocketState> newNeighbourStates)
     {

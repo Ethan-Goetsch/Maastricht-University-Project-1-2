@@ -1,12 +1,11 @@
 package group9.project.Physics.Objects;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.States.IState;
 import group9.project.States.IStateManager;
-import group9.project.States.Rocket.DefaultRocketState;
+import group9.project.States.Rocket.DirectFlightRocketState;
 import group9.project.States.Rocket.RocketState;
 import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
@@ -47,6 +46,11 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
         return impulseForce;
     }
 
+    public double getFuel()
+    {
+        return fuel;
+    }
+
     public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
@@ -54,12 +58,12 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
 
         DrawableManager.getInstance().add(this);
 
-        createShipUI(shipWidth, shipHeight, shipColour);
+        createDrawableUI(shipWidth, shipHeight, shipColour);
 
         createRocketStates();
     }
 
-    private void createShipUI(double shipWidth, double shipHeight, Color shipColour)
+    private void createDrawableUI(double shipWidth, double shipHeight, Color shipColour)
     {
         rocketShipPane = new Pane();
 
@@ -89,7 +93,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
 
     private void createRocketStates()
     {
-        currentRocketState = new DefaultRocketState(this, new ArrayList<>());
+        currentRocketState = new DirectFlightRocketState(this, new ArrayList<>());
     }
 
     @Override
@@ -98,14 +102,14 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
         force = newForce;
     }
 
-    public void updateFuel(double value)
-    {
-        fuel += value;
-    }
-
     public void setThrusterForce(double newThrusterForce)
     {
         thrusterForce = newThrusterForce;
+    }
+
+    public void updateFuel(double value)
+    {
+        fuel += value;
     }
 
     @Override
@@ -147,5 +151,7 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
     public void tickState()
     {
         currentRocketState.tick();
+
+        currentRocketState.checkStateTransitions();
     }
 }
