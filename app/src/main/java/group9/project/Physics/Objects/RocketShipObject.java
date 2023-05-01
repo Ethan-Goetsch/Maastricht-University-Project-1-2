@@ -1,41 +1,27 @@
 package group9.project.Physics.Objects;
 
-import java.util.ArrayList;
-
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.States.IState;
 import group9.project.States.IStateManager;
 import group9.project.States.Rocket.TargetRocketState;
+import group9.project.UI.Drawable.DrawableRocketShipUI;
+import group9.project.UI.Drawable.DrawableUI;
 import group9.project.States.Rocket.RocketState;
-import group9.project.UI.GUI;
-import group9.project.UI.ScaleConverter;
-import group9.project.UI.Drawable.DrawableManager;
-import group9.project.UI.Drawable.IDrawable;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-public class RocketShipObject extends PhysicsObject implements IDrawable, IStateManager
+public class RocketShipObject extends PhysicsObject implements IStateManager
 {
     private RocketState currentRocketState;
 
+    private DrawableUI drawableRocketShipUI;
 
     private double thrusterForce;
 
     private double impulseForce;
 
     private double fuelConsumed;
-
-
-    private Pane rocketShipPane;
-
-    private Rectangle shape;
-
-    private Label shapeLabel;
 
     public double getThrusterForce()
     {
@@ -56,40 +42,9 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-
-        DrawableManager.getInstance().add(this);
-
-        createDrawableUI(shipWidth, shipHeight, shipColour);
+        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour);
 
         createRocketStates();
-    }
-
-    private void createDrawableUI(double shipWidth, double shipHeight, Color shipColour)
-    {
-        rocketShipPane = new Pane();
-
-
-        shapeLabel = GUI.createLabel(physicsObjectType.toString());
-
-        shapeLabel.setTextFill(Color.WHITE);
-
-        shapeLabel.setTranslateX(-12.5);
-
-        shapeLabel.setTranslateY(-20);
-
-
-        shape = new Rectangle();
-
-        shape.setFill(shipColour);
-
-        shape.setWidth(shipWidth);
-        
-        shape.setHeight(shipHeight);
-
-
-        rocketShipPane.getChildren().add(shapeLabel);
-
-        rocketShipPane.getChildren().add(shape);
     }
 
     private void createRocketStates()
@@ -110,23 +65,27 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
     @Override
     public void update()
     {
+        updateMovement();
+
+        updateDrawable();
+    }
+
+    private void updateMovement()
+    {
         tickState();
     }
 
-    @Override
-    public Node getDrawable()
+    private void updateDrawable()
     {
-        return rocketShipPane;
+        drawableRocketShipUI.update(getPosition());
     }
 
     @Override
-    public void draw()
+    public void tickState()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
+        currentRocketState.update();
 
-        rocketShipPane.setTranslateX(scaledVector.getX());
-
-        rocketShipPane.setTranslateY(scaledVector.getY());
+        currentRocketState.checkStateTransitions();
     }
 
     @Override
@@ -140,13 +99,5 @@ public class RocketShipObject extends PhysicsObject implements IDrawable, IState
         currentRocketState = (RocketState) state;
 
         currentRocketState.onStateEnter();
-    }
-
-    @Override
-    public void tickState()
-    {
-        currentRocketState.update();
-
-        currentRocketState.checkStateTransitions();
     }
 }
