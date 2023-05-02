@@ -1,5 +1,6 @@
 package group9.project.Solvers;
 
+import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
@@ -32,4 +33,14 @@ public abstract class DifferentialSolver
     * @return the next position and velocity values
     */
     public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType);
+
+    protected Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
+    {
+        return solveEulerEquation(initialValue, derivative, h);
+    }
+
+    protected Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
+    {
+        return PhysicsEngine.getInstance().calculateAccelerationAtPoint(h, physicsObjectType);
+    }
 }

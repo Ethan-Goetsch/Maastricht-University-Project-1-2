@@ -1,6 +1,5 @@
 package group9.project.Solvers;
 
-import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
@@ -45,15 +44,5 @@ public class RungeKuttaFourthSolver extends DifferentialSolver
         state[1] = nextVelocity;
 
         return state;
-    }
-
-    private Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
-    {
-        return solveEulerEquation(initialValue, derivative, h);
-    }
-
-    private Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
-    {
-        return PhysicsEngine.getInstance().calculateAccelerationAtPoint(h, physicsObjectType);
     }
 }
