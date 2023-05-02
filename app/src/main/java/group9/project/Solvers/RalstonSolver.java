@@ -1,38 +1,36 @@
 package group9.project.Solvers;
 
+import group9.project.Physics.Managers.PhysicsEngine;
+import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
 public class RalstonSolver extends DifferentialSolver
 {
     @Override
-    public Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h)
+    public Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType)
     {
         Vector3[] state = new Vector3[2];
-    
-        int a = 2/4; // a = 1/2 gives you the midpoint method
-                     // a = 1 gives you the modified Euler method 
-                     // a = 2/3 is the standart Ralston's method
 
 
-        Vector3 k1Position = solveEulerEquation(position, velocity, h);
+        Vector3 k1V = acceleration.multiplyBy(h);
 
-        Vector3 k2Position = solveEulerEquation(position.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
+        Vector3 k2V = getAccelerationAtPoint(2 / 3.0 * h, physicsObjectType).multiplyBy(h);
 
-        Vector3 k1Velocity = solveEulerEquation(velocity, acceleration, h);
 
-        Vector3 k2Velocity = solveEulerEquation(velocity.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
+        Vector3 k1P = velocity.multiplyBy(h);
 
-        k1Position.multiplyBy(1-(1/ 2* a));
+        Vector3 k2P = getVelocityAtPoint(velocity, acceleration, 2 / 3.0 * h).multiplyBy(h);
 
-        k2Position.multiplyBy(1 / 2* a);
 
-        k1Velocity.multiplyBy(1-(1/ 2* a));
+        Vector3 velocitySum = k1V.add(k2V.multiplyBy(3)).multiplyBy(1 / 4.0);
 
-        k2Velocity.multiplyBy(1 / 2* a);
+        Vector3 nextVelocity = velocity.add(velocitySum);
+        
 
-        Vector3 nextPosition = position.add(k1Position).add(k2Position);
+        Vector3 positionSum = k1P.add(k2P.multiplyBy(3)).multiplyBy(1 / 4.0);
 
-        Vector3 nextVelocity = velocity.add(k1Velocity).add(k2Velocity);
+        Vector3 nextPosition = position.add(positionSum);
+
 
         state[0] = nextPosition;
 
@@ -40,4 +38,14 @@ public class RalstonSolver extends DifferentialSolver
 
         return state;
     }   
+
+    private Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
+    {
+        return solveEulerEquation(initialValue, derivative, h);
+    }
+
+    private Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
+    {
+        return PhysicsEngine.getInstance().calculateAccelerationAtPoint(h, physicsObjectType);
+    }
 }

@@ -19,6 +19,12 @@ public abstract class FuelOptimizer
 
     protected abstract void setInitialSolution(Vector3 flightVelocity);
 
+    protected abstract double getAmountOfNeighbours();
+
+    protected abstract double getMinNeighboursRange();
+
+    protected abstract double getMaxNeighboursRange();
+
     protected abstract List<FuelSolution> generateNeighbourSolutions(FuelSolution solution, Vector3 flightVelocity);
 
     protected FuelSolution calculateOptimalSolution(Vector3 flightVelocity)

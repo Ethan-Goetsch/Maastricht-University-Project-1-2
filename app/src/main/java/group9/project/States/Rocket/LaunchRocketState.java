@@ -7,11 +7,11 @@ import group9.project.Trajectory_Guidance.TargetTrajectoryDirection;
 import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
 
-public class TargetRocketState extends RocketState
+public class LaunchRocketState extends RocketState
 {
     private ITargetable target;
 
-    public TargetRocketState(RocketShipObject newRocketShip, ITargetable newTarget)
+    public LaunchRocketState(RocketShipObject newRocketShip, ITargetable newTarget)
     {
         super(newRocketShip);
 
@@ -26,25 +26,6 @@ public class TargetRocketState extends RocketState
 
     @Override
     public void onStateEnter()
-    {
-
-    }
-
-    @Override
-    public void onStateExit()
-    {
-
-    }
-
-    @Override
-    public void update()
-    {
-        tickThrusters();
-
-        tickMovement();
-    }
-
-    private void tickThrusters()
     {
         Vector3 directionToApplyMovement = trajectoryDirection.calculateDirectionToMove(rocketShip.getPosition(), target.getPosition());
 
@@ -63,6 +44,18 @@ public class TargetRocketState extends RocketState
 
         rocketShip.updateFuel(impulseForce);
     }
+
+    @Override
+    public void onStateExit()
+    {
+
+    }
+
+    @Override
+    public void update()
+    {
+        tickMovement();
+    } 
 
     private void tickMovement()
     {

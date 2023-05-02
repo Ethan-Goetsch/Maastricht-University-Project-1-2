@@ -1,5 +1,6 @@
 package group9.project.Solvers;
 
+import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
 public abstract class DifferentialSolver
@@ -30,5 +31,5 @@ public abstract class DifferentialSolver
     * 
     * @return the next position and velocity values
     */
-    public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h);
+    public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType);
 }
