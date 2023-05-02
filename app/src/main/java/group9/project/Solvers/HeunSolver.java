@@ -14,14 +14,10 @@ public class HeunSolver extends DifferentialSolver
 
         Vector3 k1V = acceleration.multiplyBy(h);
 
-        Vector3 k2V = getAccelerationAtPoint(1 / 3.0 * h, physicsObjectType).multiplyBy(h);
-
         Vector3 k3V = getAccelerationAtPoint(2 / 3.0 * h, physicsObjectType).multiplyBy(h);
 
 
         Vector3 k1P = velocity.multiplyBy(h);
-
-        Vector3 k2P = getVelocityAtPoint(velocity, acceleration, 1 / 3.0 * h).multiplyBy(h);
 
         Vector3 k3P = getVelocityAtPoint(velocity, acceleration, 2 / 3.0 * h).multiplyBy(h);
 

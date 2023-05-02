@@ -12,7 +12,7 @@ public class PhysicsSettings
 
     private static final double STEP_TIME = 100;
 
-    private static final DifferentialSolver universeDifferentialSolver = new HeunSolver();
+    private static final DifferentialSolver universeDifferentialSolver = new RungeKuttaFourthSolver();
 
     public static double getUniverseTickTime()
     {
