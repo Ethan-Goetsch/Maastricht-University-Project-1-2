@@ -10,10 +10,24 @@ public class EulerSolver extends DifferentialSolver
     {
         Vector3[] state = new Vector3[2];
 
-        state[0] = solveEulerEquation(position, velocity, h);
+        state[0] = eulerAlgorithm(position, velocity, h);
 
-        state[1] = solveEulerEquation(velocity, acceleration, h);
+        state[1] = eulerAlgorithm(velocity, acceleration, h);
 
         return state;
     }   
+
+    /**
+    * Solves and returns the answer to a differential equation using Euler's Method
+    * 
+    * @param initialValue initial value
+    * @param derivative the derivative of y
+    * @param h the Step Time to use in the calculation
+    * 
+    * @return the next y value
+    */
+    public Vector3 eulerAlgorithm(Vector3 initialValue, Vector3 derivative, double h)
+    {
+        return initialValue.add(derivative.multiplyBy(h));
+    }
 }

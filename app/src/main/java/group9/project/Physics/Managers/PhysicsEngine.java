@@ -1,7 +1,5 @@
 package group9.project.Physics.Managers;
 
-import java.util.ArrayList;
-
 import group9.project.Physics.Objects.PhysicsObject;
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Settings.PhysicsSettings;
@@ -29,9 +27,9 @@ public class PhysicsEngine implements IStartable, IUpdateable
     }
     //#endregion  
 
-    private ArrayList<PhysicsObject> physicsObjectsToUpdate = new ArrayList<>();
+    private PhysicsObject[] physicsObjectsToUpdate;
 
-    public ArrayList<PhysicsObject> getPhysicsObjectsToUpdate()
+    public PhysicsObject[] getPhysicsObjectsToUpdate()
     {
         return physicsObjectsToUpdate;
     }
@@ -40,15 +38,12 @@ public class PhysicsEngine implements IStartable, IUpdateable
     {
         instance = this;
 
-        physicsObjectsToUpdate = new ArrayList<>();
+        physicsObjectsToUpdate = new PhysicsObject[12];
     }
 
     public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
     {
-        if (!physicsObjectsToUpdate.contains(physicsObject))
-        {
-            physicsObjectsToUpdate.add(physicsObject);
-        }
+        physicsObjectsToUpdate[physicsObject.getPhysicsObjectType().getValue()] = physicsObject; 
     }
 
     @Override
@@ -139,18 +134,18 @@ public class PhysicsEngine implements IStartable, IUpdateable
         Vector3 accelerationAtPoint;
         
 
-        Vector3[] oldPositions = new Vector3[physicsObjectsToUpdate.size()];
+        Vector3[] oldPositions = new Vector3[physicsObjectsToUpdate.length];
 
-        Vector3[] oldForces = new Vector3[physicsObjectsToUpdate.size()];
+        Vector3[] oldForces = new Vector3[physicsObjectsToUpdate.length];
 
-        Vector3[] oldAccelerations = new Vector3[physicsObjectsToUpdate.size()];
+        Vector3[] oldAccelerations = new Vector3[physicsObjectsToUpdate.length];
 
 
         movePhysicsObjectsInTime(differentialSolver, h, oldPositions, oldForces, oldAccelerations);
 
         updateForces();
 
-        accelerationAtPoint = getObjectAcceleration(physicsObjectType);
+        accelerationAtPoint = physicsObjectsToUpdate[(physicsObjectType.getValue())].getAcceleration();
         
         resetPhysicsObjectData(oldPositions, oldForces, oldAccelerations);
 
@@ -160,9 +155,9 @@ public class PhysicsEngine implements IStartable, IUpdateable
 
     private void movePhysicsObjectsInTime(DifferentialSolver differentialSolver, double h, Vector3[] oldPositions, Vector3[] oldForce, Vector3[] oldAcceleration)
     {
-        for (int i = 0; i < physicsObjectsToUpdate.size(); i++)
+        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
         {
-            PhysicsObject physicsObject = physicsObjectsToUpdate.get(i);
+            PhysicsObject physicsObject = physicsObjectsToUpdate[i];
 
 
             oldPositions[i] = physicsObject.getPosition();
@@ -176,24 +171,11 @@ public class PhysicsEngine implements IStartable, IUpdateable
         }
     }
 
-    private Vector3 getObjectAcceleration(PhysicsObjectType physicsObjectType)
-    {
-        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
-        {
-            if (physicsObject.getPhysicsObjectType() == physicsObjectType)
-            {
-                return physicsObject.getAcceleration();
-            }
-        }
-
-        return null;
-    }
-
     private void resetPhysicsObjectData(Vector3[] oldPositions, Vector3[] oldForce, Vector3[] oldAcceleration)
     {
-        for (int i = 0; i < physicsObjectsToUpdate.size(); i++)
+        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
         {
-            PhysicsObject physicsObject = physicsObjectsToUpdate.get(i);
+            PhysicsObject physicsObject = physicsObjectsToUpdate[i];
 
 
             physicsObject.setPosition(oldPositions[i]);

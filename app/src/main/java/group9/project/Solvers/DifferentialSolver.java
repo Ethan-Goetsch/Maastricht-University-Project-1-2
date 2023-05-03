@@ -7,24 +7,8 @@ import group9.project.Utility.Math.Vector3;
 public abstract class DifferentialSolver
 {
     /**
-    * Solves and returns the answer to a differential equation using Euler's Method
-    * 
-    * @param initialY initial y value
-    * @param function the derivative
-    * @param h the Step Time to use in the calculation
-    * 
-    * @return the next y value
-    */
-    // This was put here so that the other solvers can access and use Euler's Method easily
-    // Eulers Solver is in another class so that it is easy to test and change different solver's without having to change code by changing a Physics Object's Differential Solver
-    protected Vector3 solveEulerEquation(Vector3 initialY, Vector3 derivative, double h)
-    {
-        return initialY.add(derivative.multiplyBy(h));
-    }
-
-    /**
     * Solves and returns the answer to a differential equation
-    * 
+    *   
     * @param position initial y value
     * @param velocity velocity
     * @param acceleration acceleration
@@ -36,7 +20,7 @@ public abstract class DifferentialSolver
 
     protected Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
     {
-        return solveEulerEquation(initialValue, derivative, h);
+        return initialValue.add(derivative.multiplyBy(h));
     }
 
     protected Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
