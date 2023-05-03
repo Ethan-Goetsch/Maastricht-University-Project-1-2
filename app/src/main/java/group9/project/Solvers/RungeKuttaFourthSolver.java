@@ -1,5 +1,7 @@
 package group9.project.Solvers;
 
+import java.util.function.Function;
+
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
@@ -11,38 +13,34 @@ public class RungeKuttaFourthSolver extends DifferentialSolver
         Vector3[] state = new Vector3[2];
 
 
-        Vector3 k1V = acceleration.multiplyBy(h);
+        Function<Double, Vector3> velocityAtPoint = x -> getVelocityAtPoint(velocity, acceleration, x);
 
-        Vector3 k2V = getAccelerationAtPoint(1 / 3.0 * h, physicsObjectType).multiplyBy(h);
-
-        Vector3 k3V = getAccelerationAtPoint(2 / 3.0 * h, physicsObjectType).multiplyBy(h);
-
-        Vector3 k4V = getAccelerationAtPoint(h, physicsObjectType).multiplyBy(h);
+        Function<Double, Vector3> accelerationAtPoint = x -> getAccelerationAtPoint(x, physicsObjectType);
 
 
-        Vector3 k1P = velocity.multiplyBy(h);
+        state[0] = rungeKuttaAlgorithm(position, velocity, velocityAtPoint, h);
 
-        Vector3 k2P = getVelocityAtPoint(velocity, acceleration, 1 / 3.0 * h).multiplyBy(h);
+        state[1] = rungeKuttaAlgorithm(velocity, acceleration, accelerationAtPoint, h);
 
-        Vector3 k3P = getVelocityAtPoint(velocity, acceleration, 2 / 3.0 * h).multiplyBy(h);
-
-        Vector3 k4P = getVelocityAtPoint(velocity, acceleration, h).multiplyBy(h);
-
-
-        Vector3 velocitySum = k1V.add(k2V.multiplyBy(3).add(k3V.multiplyBy(3).add(k4V))).multiplyBy(1 / 8.0);
-
-        Vector3 nextVelocity = velocity.add(velocitySum);
-        
-
-        Vector3 positionSum = k1P.add(k2P.multiplyBy(3).add(k3P.multiplyBy(3).add(k4P))).multiplyBy(1 / 8.0);
-
-        Vector3 nextPosition = position.add(positionSum);
-
-
-        state[0] = nextPosition;
-
-        state[1] = nextVelocity;
 
         return state;
+    }
+
+    public Vector3 rungeKuttaAlgorithm(Vector3 initialValue, Vector3 derivative, Function<Double, Vector3> derivativeFunction, double h)
+    {
+        Vector3 k1V = derivative.multiplyBy(h);
+
+        Vector3 k2V = derivativeFunction.apply(1 / 3.0 * h).multiplyBy(h);
+
+        Vector3 k3V = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
+
+        Vector3 k4V = derivativeFunction.apply(h).multiplyBy(h);
+
+
+        Vector3 valueSum = k1V.add(k2V.multiplyBy(3).add(k3V.multiplyBy(3).add(k4V))).multiplyBy(1 / 8.0);
+
+        Vector3 nextValue = initialValue.add(valueSum);
+
+        return nextValue;
     }
 }

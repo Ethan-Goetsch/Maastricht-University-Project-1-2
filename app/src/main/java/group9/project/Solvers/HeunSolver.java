@@ -1,5 +1,7 @@
 package group9.project.Solvers;
 
+import java.util.function.Function;
+
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
@@ -11,30 +13,30 @@ public class HeunSolver extends DifferentialSolver
         Vector3[] state = new Vector3[2];
 
 
-        Vector3 k1V = acceleration.multiplyBy(h);
+        Function<Double, Vector3> velocityAtPoint = x -> getVelocityAtPoint(velocity, acceleration, x);
 
-        Vector3 k3V = getAccelerationAtPoint(2 / 3.0 * h, physicsObjectType).multiplyBy(h);
-
-
-        Vector3 k1P = velocity.multiplyBy(h);
-
-        Vector3 k3P = getVelocityAtPoint(velocity, acceleration, 2 / 3.0 * h).multiplyBy(h);
+        Function<Double, Vector3> accelerationAtPoint = x -> getAccelerationAtPoint(x, physicsObjectType);
 
 
-        Vector3 velocitySum = k1V.add(k3V.multiplyBy(3)).multiplyBy(1 / 4.0);
+        state[0] = heunAlgorithm(position, velocity, velocityAtPoint, h);
 
-        Vector3 nextVelocity = velocity.add(velocitySum);
+        state[1] = heunAlgorithm(velocity, acceleration, accelerationAtPoint, h);
+
         
-
-        Vector3 positionSum = k1P.add(k3P.multiplyBy(3)).multiplyBy(1 / 4.0);
-
-        Vector3 nextPosition = position.add(positionSum);
-
-
-        state[0] = nextPosition;
-
-        state[1] = nextVelocity;
-
         return state;
+    }
+
+    public Vector3 heunAlgorithm(Vector3 initialValue, Vector3 derivative, Function<Double, Vector3> derivativeFunction, double h)
+    {
+        Vector3 k1V = derivative.multiplyBy(h);
+
+        Vector3 k3V = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
+
+
+        Vector3 valueSum = k1V.add(k3V.multiplyBy(3)).multiplyBy(1 / 4.0);
+
+        Vector3 nextValue = initialValue.add(valueSum);
+
+        return nextValue;
     }
 }
