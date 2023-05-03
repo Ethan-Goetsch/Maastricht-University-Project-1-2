@@ -28,12 +28,12 @@ public class HeunSolver extends DifferentialSolver
 
     public Vector3 heunAlgorithm(Vector3 initialValue, Vector3 derivative, Function<Double, Vector3> derivativeFunction, double h)
     {
-        Vector3 k1V = derivative.multiplyBy(h);
+        Vector3 k1 = derivative.multiplyBy(h);
 
-        Vector3 k3V = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
+        Vector3 k3 = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
 
 
-        Vector3 valueSum = k1V.add(k3V.multiplyBy(3)).multiplyBy(1 / 4.0);
+        Vector3 valueSum = k1.add(k3.multiplyBy(3)).multiplyBy(1 / 4.0);
 
         Vector3 nextValue = initialValue.add(valueSum);
 

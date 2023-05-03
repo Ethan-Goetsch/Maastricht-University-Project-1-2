@@ -28,16 +28,16 @@ public class RungeKuttaFourthSolver extends DifferentialSolver
 
     public Vector3 rungeKuttaAlgorithm(Vector3 initialValue, Vector3 derivative, Function<Double, Vector3> derivativeFunction, double h)
     {
-        Vector3 k1V = derivative.multiplyBy(h);
+        Vector3 k1 = derivative.multiplyBy(h);
 
-        Vector3 k2V = derivativeFunction.apply(1 / 3.0 * h).multiplyBy(h);
+        Vector3 k2 = derivativeFunction.apply(1 / 3.0 * h).multiplyBy(h);
 
-        Vector3 k3V = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
+        Vector3 k3 = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
 
-        Vector3 k4V = derivativeFunction.apply(h).multiplyBy(h);
+        Vector3 k4 = derivativeFunction.apply(h).multiplyBy(h);
 
 
-        Vector3 valueSum = k1V.add(k2V.multiplyBy(3).add(k3V.multiplyBy(3).add(k4V))).multiplyBy(1 / 8.0);
+        Vector3 valueSum = k1.add(k2.multiplyBy(3).add(k3.multiplyBy(3).add(k4))).multiplyBy(1 / 8.0);
 
         Vector3 nextValue = initialValue.add(valueSum);
 
