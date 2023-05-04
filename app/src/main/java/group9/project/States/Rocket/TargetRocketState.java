@@ -2,7 +2,6 @@ package group9.project.States.Rocket;
 
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
-import group9.project.Trajectory_Guidance.TargetTrajectoryDirection;
 import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
 
@@ -15,8 +14,6 @@ public class TargetRocketState extends RocketState
         super(newRocketShip);
 
         target = newTarget;
-
-        trajectoryDirection = new TargetTrajectoryDirection();
     }
 
     @Override

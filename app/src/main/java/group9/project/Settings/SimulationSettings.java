@@ -5,6 +5,8 @@ import group9.project.Events.IEventListener;
 
 public class SimulationSettings
 {
+    private static final boolean DEVELOPMENT_MODE = true;
+
     private static final double MIN_SIMULATION_SPEED = 0.01;
 
     private static final double MAX_SIMULATION_SPEED = 10;
@@ -25,6 +27,11 @@ public class SimulationSettings
     private static Event simulationPausedEvent = new Event();
 
     private static Event simulationCompletedEvent = new Event();
+
+    public static boolean getDEVELOPMENT_MODE()
+    {
+        return DEVELOPMENT_MODE;
+    }
 
     public static double getMinSimulationSpeed()
     {
@@ -82,7 +89,7 @@ public class SimulationSettings
     {
         if (SimulationSettings.getIsSimulationPaused())
         {
-            playSimulation();
+            unpauseSimulation();
         }
         else
         {
@@ -90,7 +97,7 @@ public class SimulationSettings
         }
     }
 
-    public static void playSimulation()
+    public static void unpauseSimulation()
     {
         isSimulationPaused = false;
     }

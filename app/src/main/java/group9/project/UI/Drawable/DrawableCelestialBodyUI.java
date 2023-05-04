@@ -1,6 +1,7 @@
 package group9.project.UI.Drawable;
 
 import group9.project.UI.GUI;
+import group9.project.Utility.Math.Vector3;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,7 +18,7 @@ public class DrawableCelestialBodyUI extends DrawableUI
 
     private Color planetColour;
 
-    public DrawableCelestialBodyUI(double newPlanetRadius, double newLabelOffset, String newLabelText, Color newPlanetColour)
+    public DrawableCelestialBodyUI(double newPlanetRadius, double newLabelOffset, String newLabelText, Color newPlanetColour, Vector3 newDrawablePosition)
     {
         super();
 
@@ -30,6 +31,8 @@ public class DrawableCelestialBodyUI extends DrawableUI
 
         planetColour = newPlanetColour;
 
+
+        drawablePosition = newDrawablePosition;
 
         createDrawableUI();
     }

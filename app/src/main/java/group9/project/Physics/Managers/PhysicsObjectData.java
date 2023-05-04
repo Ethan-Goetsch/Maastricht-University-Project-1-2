@@ -53,9 +53,16 @@ public class PhysicsObjectData implements IStartable
         return rocketShipObject;
     }
 
-    @SuppressWarnings("unused")
     @Override
     public void start()
+    {
+        createCelestialBodies();
+
+        createRocket();
+    } 
+
+    @SuppressWarnings("unused")
+    private void createCelestialBodies()
     {
         CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Sun, 10, 25, Color.RED);
 
@@ -78,9 +85,12 @@ public class PhysicsObjectData implements IStartable
         CelestialBodyObject neptuneObject = new CelestialBodyObject(new Vector3(4454487339.09447, -397895128.763904, -94464151.3421107), new Vector3(0.447991656952326, 5.44610697514907, -0.122638125365954), 1.02E+26, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Neptune, 5, 25, Color.BLUE);
 
         CelestialBodyObject uranusObject = new CelestialBodyObject(new Vector3(1958732435.99338, 2191808553.21893, -17235283.8321992), new Vector3(-5.12766216337626,	4.22055347264457, 0.0821190336403063), 8.68E+25, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Uranus, 6, 25, Color.CRIMSON);
+    }
 
+    private void createRocket()
+    {
         rocketShipObject = new RocketShipObject(rocketShipStartingPosition, rocketShipStartingVelocity, 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
-    } 
+    }
 
     /**
     * @return the distance between the Rocket Ship and Titan

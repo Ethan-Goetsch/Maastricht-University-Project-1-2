@@ -19,7 +19,7 @@ public class DrawableRocketShipUI extends DrawableUI
 
     private Color shipColour;
 
-    public DrawableRocketShipUI(double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour)
+    public DrawableRocketShipUI(double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour, Vector3 newDrawablePosition)
     {
         super();
 
@@ -31,6 +31,9 @@ public class DrawableRocketShipUI extends DrawableUI
         labelText = newLabelText;
 
         shipColour = newShipColour;
+
+
+        drawablePosition = newDrawablePosition;
 
 
         createDrawableUI();

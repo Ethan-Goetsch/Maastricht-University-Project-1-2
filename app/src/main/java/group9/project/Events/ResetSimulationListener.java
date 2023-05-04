@@ -7,12 +7,10 @@ import group9.project.UI.Drawable.DrawableManager;
 
 public class ResetSimulationListener implements IEventListener
 {
-    private static final boolean DEBUG = true;
-
     @Override
     public void onEvent()
     {
-        if (!DEBUG)
+        if (!SimulationSettings.getDEVELOPMENT_MODE())
         {
             return;
         }
@@ -22,14 +20,14 @@ public class ResetSimulationListener implements IEventListener
 
     private void restartSimulation()
     {
-        PhysicsEngine.getInstance().getPhysicsObjectsToUpdate().clear();
-
         DrawableManager.getInstance().clear();
+
+        PhysicsEngine.getInstance().getPhysicsObjectsToUpdate().clear();
 
         SimulationSettings.updateSimulationTime(-SimulationSettings.getSimulationTime());
 
-        SimulationSettings.playSimulation();
-
         MissionControl.getInstance().restart();
+
+        SimulationSettings.unpauseSimulation();
     }
 }

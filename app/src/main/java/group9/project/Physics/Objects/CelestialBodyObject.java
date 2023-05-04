@@ -15,13 +15,13 @@ public class CelestialBodyObject extends PhysicsObject
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-        drawableCelestialBody = new DrawableCelestialBodyUI(planetRadius, labelOffset, newPhysicsObjectType.toString(), planetColour);
+        drawableCelestialBody = new DrawableCelestialBodyUI(planetRadius, labelOffset, newPhysicsObjectType.toString(), planetColour, getPosition());
     }
 
     @Override
     public void start()
     {
-        
+
     }
 
     @Override

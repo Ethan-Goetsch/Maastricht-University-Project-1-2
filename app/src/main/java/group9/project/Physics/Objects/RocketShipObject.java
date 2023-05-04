@@ -41,7 +41,7 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour);
+        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
     public void setThrusterForce(double newThrusterForce)
@@ -58,13 +58,13 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
     public void start()
     {
         createRocketStates();
-
-        currentRocketState.onStateEnter();
     }
 
     private void createRocketStates()
     {
-        currentRocketState = new TargetRocketState(this, PhysicsObjectData.getInstance().getTitanObject());
+        RocketState launchState = new LaunchRocketState(this, PhysicsObjectData.getInstance().getTitanObject());
+
+        transitionToState(launchState);
     }
 
     @Override
