@@ -50,4 +50,10 @@ public class DrawableManager
   {
       return drawables.iterator();
   }
+
+    // clears all drawables from iterator
+  public void clear()
+  {
+      drawables.clear();
+  }
 }

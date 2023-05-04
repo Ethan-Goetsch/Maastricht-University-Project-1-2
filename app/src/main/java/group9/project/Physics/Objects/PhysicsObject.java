@@ -2,11 +2,12 @@ package group9.project.Physics.Objects;
 
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Solvers.DifferentialSolver;
+import group9.project.Utility.Interfaces.IStartable;
 import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Vector3;
 
-public abstract class PhysicsObject implements IUpdateable, ITargetable
+public abstract class PhysicsObject implements IStartable, IUpdateable, ITargetable
 {
     protected Vector3 position, velocity, force, acceleration;
 
@@ -102,6 +103,9 @@ public abstract class PhysicsObject implements IUpdateable, ITargetable
     {
         acceleration = newAcceleration;
     }
+
+    @Override
+    public abstract void start();
 
     /**
      * Updates the Position and Velocity of this Object using its Differential Solver

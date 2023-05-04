@@ -19,6 +19,12 @@ public class CelestialBodyObject extends PhysicsObject
     }
 
     @Override
+    public void start()
+    {
+        
+    }
+
+    @Override
     public void update()
     {
         updateMovement();

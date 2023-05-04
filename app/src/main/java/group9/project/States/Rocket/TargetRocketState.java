@@ -1,6 +1,5 @@
 package group9.project.States.Rocket;
 
-import group9.project.Hill_Climbing.DirectFuelOptimizer;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Trajectory_Guidance.TargetTrajectoryDirection;
@@ -18,10 +17,6 @@ public class TargetRocketState extends RocketState
         target = newTarget;
 
         trajectoryDirection = new TargetTrajectoryDirection();
-
-        fuelOptimizer = new DirectFuelOptimizer();
-
-        onStateEnter();
     }
 
     @Override
@@ -46,22 +41,22 @@ public class TargetRocketState extends RocketState
 
     private void tickThrusters()
     {
-        Vector3 directionToApplyMovement = trajectoryDirection.calculateDirectionToMove(rocketShip.getPosition(), target.getPosition());
+        // Vector3 directionToApplyMovement = trajectoryDirection.calculateDirectionToMove(rocketShip.getPosition(), target.getPosition());
 
 
-        double optimalThrusterForce = fuelOptimizer.calculateOptimalThrusterForce(rocketShip.getVelocity());
+        // double optimalThrusterForce = fuelOptimizer.calculateOptimalValue(rocketShip.getVelocity());
 
-        rocketShip.setThrusterForce(optimalThrusterForce);
+        // rocketShip.setThrusterForce(optimalThrusterForce);
 
-        rocketShip.applyForce(directionToApplyMovement.multiplyBy(rocketShip.getThrusterForce()));
-
-
-        double impulseForce = rocketShip.getThrusterForce() * PhysicsSettings.getStepTime() - rocketShip.getThrusterForce();
-
-        rocketShip.applyVelocity(directionToApplyMovement.multiplyBy(impulseForce / rocketShip.getMass()));
+        // rocketShip.applyForce(directionToApplyMovement.multiplyBy(rocketShip.getThrusterForce()));
 
 
-        rocketShip.updateFuel(impulseForce);
+        // double impulseForce = rocketShip.getThrusterForce() * PhysicsSettings.getStepTime() - rocketShip.getThrusterForce();
+
+        // rocketShip.applyVelocity(directionToApplyMovement.multiplyBy(impulseForce / rocketShip.getMass()));
+
+
+        // rocketShip.updateFuel(impulseForce);
     }
 
     private void tickMovement()
