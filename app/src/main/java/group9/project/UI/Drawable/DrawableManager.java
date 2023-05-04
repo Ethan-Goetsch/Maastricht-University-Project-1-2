@@ -3,7 +3,9 @@ package group9.project.UI.Drawable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class DrawableManager 
+import group9.project.Utility.Interfaces.IResetable;
+
+public class DrawableManager implements IResetable
 {
   private ArrayList<IDrawable> drawables;
 
@@ -51,9 +53,10 @@ public class DrawableManager
       return drawables.iterator();
   }
 
-    // clears all drawables from iterator
-  public void clear()
+  // resets all drawables by clearing the list of drawables
+  @Override
+  public void reset()
   {
-      drawables.clear();
+    drawables.clear();
   }
 }

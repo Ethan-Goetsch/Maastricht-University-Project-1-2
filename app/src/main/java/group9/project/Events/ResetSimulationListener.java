@@ -20,9 +20,9 @@ public class ResetSimulationListener implements IEventListener
 
     private void restartSimulation()
     {
-        DrawableManager.getInstance().clear();
+        DrawableManager.getInstance().reset();
 
-        PhysicsEngine.getInstance().getPhysicsObjectsToUpdate().clear();
+        PhysicsEngine.getInstance().reset();
 
         SimulationSettings.updateSimulationTime(-SimulationSettings.getSimulationTime());
 

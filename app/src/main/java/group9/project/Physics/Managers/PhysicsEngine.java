@@ -1,8 +1,5 @@
 package group9.project.Physics.Managers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import group9.project.Physics.PhysicsStateData;
 import group9.project.Physics.Objects.PhysicsObject;
 import group9.project.Physics.Objects.PhysicsObjectType;
@@ -10,12 +7,13 @@ import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.Solvers.EulerSolver;
+import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IStartable;
 import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Mathematics;
 import group9.project.Utility.Math.Vector3;
 
-public class PhysicsEngine implements IStartable, IUpdateable
+public class PhysicsEngine implements IStartable, IUpdateable, IResetable
 {
     //#region Singleton
     private static PhysicsEngine instance;
@@ -34,11 +32,6 @@ public class PhysicsEngine implements IStartable, IUpdateable
     private PhysicsObject[] physicsObjectsToUpdate;
 
     private PhysicsStateData[] physicsStateData;
-
-    public PhysicsObject[] getPhysicsObjectsToUpdate()
-    {
-        return physicsObjectsToUpdate;
-    }
 
     private PhysicsEngine()
     {
@@ -80,13 +73,22 @@ public class PhysicsEngine implements IStartable, IUpdateable
         updateTimer();
     }
 
+    @Override
+    public void reset()
+    {
+        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
+        {
+            physicsObjectsToUpdate[i] = null;
+        }
+    }
+
     private void updateForces()
     {
-        for (PhysicsObject physicsBodyOne : getPhysicsObjectsToUpdate())
+        for (PhysicsObject physicsBodyOne : physicsObjectsToUpdate)
         {
             Vector3 physicsBodyOneForce = new Vector3();
 
-            for (PhysicsObject physicsBodyTwo : getPhysicsObjectsToUpdate()) 
+            for (PhysicsObject physicsBodyTwo : physicsObjectsToUpdate) 
             {
                 if (physicsBodyOne.equals(physicsBodyTwo))
                 {
