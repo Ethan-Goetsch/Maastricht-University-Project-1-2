@@ -22,8 +22,6 @@ public class SystemOrbitView extends PaneView
         GUI.setBackground(this, "black");
 
         setPickOnBounds(true);
-
-        update();
     }
 
     @Override

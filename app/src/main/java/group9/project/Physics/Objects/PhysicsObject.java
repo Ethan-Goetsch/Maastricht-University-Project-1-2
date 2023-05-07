@@ -2,10 +2,12 @@ package group9.project.Physics.Objects;
 
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Solvers.DifferentialSolver;
+import group9.project.Utility.Interfaces.IStartable;
+import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Vector3;
 
-public abstract class PhysicsObject implements IUpdateable 
+public abstract class PhysicsObject implements IStartable, IUpdateable, ITargetable
 {
     protected Vector3 position, velocity, force, acceleration;
 
@@ -45,6 +47,11 @@ public abstract class PhysicsObject implements IUpdateable
         return physicsObjectType;
     }
 
+    public DifferentialSolver getDifferentialSolver()
+    {
+        return differentialSolver;
+    }
+
     public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         position = startingPosition;
@@ -67,14 +74,19 @@ public abstract class PhysicsObject implements IUpdateable
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
-    protected void setPosition(Vector3 newPosition)
+    public void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
-    protected void setVelocity(Vector3 newVelocity)
+    public void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
+    }
+
+    public void applyVelocity(Vector3 newVelocity)
+    {
+        velocity = velocity.add(newVelocity);
     }
 
     public void setForce(Vector3 newForce)
@@ -82,10 +94,18 @@ public abstract class PhysicsObject implements IUpdateable
         force = newForce;
     }
 
+    public void applyForce(Vector3 newForce)
+    {
+        force = force.add(newForce);
+    }
+
     public void setAcceleration(Vector3 newAcceleration)
     {
         acceleration = newAcceleration;
     }
+
+    @Override
+    public abstract void start();
 
     /**
      * Updates the Position and Velocity of this Object using its Differential Solver

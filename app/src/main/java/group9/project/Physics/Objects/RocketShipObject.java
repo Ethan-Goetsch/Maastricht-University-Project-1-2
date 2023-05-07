@@ -1,75 +1,47 @@
 package group9.project.Physics.Objects;
 
-import group9.project.Settings.PhysicsSettings;
+import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Solvers.DifferentialSolver;
-import group9.project.UI.GUI;
-import group9.project.UI.ScaleConverter;
-import group9.project.UI.Drawable.DrawableManager;
-import group9.project.UI.Drawable.IDrawable;
+import group9.project.States.IState;
+import group9.project.States.IStateManager;
+import group9.project.States.Rocket.*;
+import group9.project.UI.Drawable.DrawableRocketShipUI;
+import group9.project.UI.Drawable.DrawableUI;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-public class RocketShipObject extends PhysicsObject implements IDrawable
+public class RocketShipObject extends PhysicsObject implements IStateManager
 {
+    private RocketState currentRocketState;
+
+    private DrawableUI drawableRocketShipUI;
+
     private double thrusterForce;
 
     private double impulseForce;
 
-    private double fuel;
+    private double fuelConsumed;
 
-    private Pane rocketShipPane;
+    public double getThrusterForce()
+    {
+        return thrusterForce;
+    }
 
-    private Rectangle shape;
+    public double getImpulseForce()
+    {
+        return impulseForce;
+    }
 
-    private Label shapeLabel;
+    public double getFuelConsumed()
+    {
+        return fuelConsumed;
+    }
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int width, int height, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-        DrawableManager.getInstance().add(this);
-
-        setThrusterForce(0);
-
-        rocketShipPane = new Pane();
-
-
-        shapeLabel = GUI.createLabel(newPhysicsObjectType.toString());
-
-        shapeLabel.setTextFill(Color.WHITE);
-
-        shapeLabel.setTranslateX(-12.5);
-
-        shapeLabel.setTranslateY(-20);
-
-
-        shape = new Rectangle();
-
-        shape.setFill(shipColour);
-
-        shape.setWidth(width);
-        
-        shape.setHeight(height);
-
-
-        rocketShipPane.getChildren().add(shapeLabel);
-
-        rocketShipPane.getChildren().add(shape);
-    }
-
-    @Override
-    public void setForce(Vector3 newForce)
-    {
-        force = newForce.add(new Vector3(thrusterForce, 0, 0));
-    }
-
-    private void updateFuel(double value)
-    {
-        fuel += value;
+        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
     public void setThrusterForce(double newThrusterForce)
@@ -77,37 +49,60 @@ public class RocketShipObject extends PhysicsObject implements IDrawable
         thrusterForce = newThrusterForce;
     }
 
+    public void updateFuel(double value)
+    {
+        fuelConsumed += value;
+    }
+
+    @Override
+    public void start()
+    {
+        createRocketStates();
+    }
+
+    private void createRocketStates()
+    {
+        RocketState launchState = new LaunchRocketState(this, PhysicsObjectData.getInstance().getTitanObject());
+
+        transitionToState(launchState);
+    }
+
     @Override
     public void update()
     {
-        impulseForce = thrusterForce * PhysicsSettings.getSimulationStepTime() - thrusterForce;
+        updateState();
 
-        setVelocity(velocity.add(new Vector3(impulseForce / mass, 0, 0)));
+        updateDrawable();
+    }
 
+    private void updateState()
+    {
+        tickState();
+    }
 
-        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getSimulationStepTime());
-
-        setPosition(state[0]);
-
-        setVelocity(state[1]);
-
-
-        updateFuel(impulseForce);
+    private void updateDrawable()
+    {
+        drawableRocketShipUI.update(getPosition());
     }
 
     @Override
-    public Node getDrawable()
+    public void tickState()
     {
-        return rocketShipPane;
+        currentRocketState.update();
+
+        currentRocketState.checkStateTransitions();
     }
 
     @Override
-    public void draw()
+    public void transitionToState(IState state)
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(position);
+        if (currentRocketState != null)
+        {
+            currentRocketState.onStateExit();
+        }
 
-        rocketShipPane.setTranslateX(scaledVector.getX());
+        currentRocketState = (RocketState) state;
 
-        rocketShipPane.setTranslateY(scaledVector.getY());
+        currentRocketState.onStateEnter();
     }
 }

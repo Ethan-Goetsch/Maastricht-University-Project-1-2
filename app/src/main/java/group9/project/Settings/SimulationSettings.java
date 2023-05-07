@@ -1,7 +1,12 @@
 package group9.project.Settings;
 
+import group9.project.Events.Event;
+import group9.project.Events.IEventListener;
+
 public class SimulationSettings
 {
+    private static final boolean DEVELOPMENT_MODE = true;
+
     private static final double MIN_SIMULATION_SPEED = 0.01;
 
     private static final double MAX_SIMULATION_SPEED = 10;
@@ -9,7 +14,7 @@ public class SimulationSettings
 
     private static final double MIN_SCALE_FACTOR = 0.1;
 
-    private static final double MAX_SCALE_FACTOR = 3;
+    private static final double MAX_SCALE_FACTOR = 1.5;
 
 
     private static double simulationSpeed = 1;
@@ -18,6 +23,15 @@ public class SimulationSettings
 
 
     private static boolean isSimulationPaused;
+
+    private static Event simulationPausedEvent = new Event();
+
+    private static Event simulationCompletedEvent = new Event();
+
+    public static boolean getDEVELOPMENT_MODE()
+    {
+        return DEVELOPMENT_MODE;
+    }
 
     public static double getMinSimulationSpeed()
     {
@@ -62,13 +76,20 @@ public class SimulationSettings
     public static void updateSimulationTime(double value)
     {
         simulationTime += value;
+
+        if (PhysicsSettings.getMaxUniverseTime() > 0 && simulationTime >= PhysicsSettings.getMaxUniverseTime())
+        {
+            pauseSimulation();
+
+            completeSimulation();
+        }
     }
 
     public static void playOrPauseSimulation()
     {
         if (SimulationSettings.getIsSimulationPaused())
         {
-            playSimulation();
+            unpauseSimulation();
         }
         else
         {
@@ -76,7 +97,7 @@ public class SimulationSettings
         }
     }
 
-    public static void playSimulation()
+    public static void unpauseSimulation()
     {
         isSimulationPaused = false;
     }
@@ -84,5 +105,32 @@ public class SimulationSettings
     public static void pauseSimulation()
     {
         isSimulationPaused = true;
+
+        simulationPausedEvent.raiseEvent();
+    }
+
+    private static void completeSimulation()
+    {
+        simulationCompletedEvent.raiseEvent();
+    }
+
+    public static void subscribeListenerToPausedEvent(IEventListener listener)
+    {
+        simulationPausedEvent.subscribeListener(listener);
+    }
+
+    public static void unsubscribeListenerFromPausedEvent(IEventListener listener)
+    {
+        simulationPausedEvent.unsubscribeListener(listener);
+    }
+
+    public static void subscribeListenerToCompletedEvent(IEventListener listener)
+    {
+        simulationCompletedEvent.subscribeListener(listener);
+    }
+
+    public static void unsubscribeListenerFromCompletedEvent(IEventListener listener)
+    {
+        simulationCompletedEvent.unsubscribeListener(listener);
     }
 }

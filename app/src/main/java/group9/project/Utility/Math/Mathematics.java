@@ -2,12 +2,12 @@ package group9.project.Utility.Math;
 
 public class Mathematics
 {
-    public static int getPercentage(int number, int percentage)
+    public static int calculatePercentage(int number, int percentage)
     {
         return (number / 100) * percentage;
     }
 
-    public static double getDistance(Vector3 positionOne, Vector3 positionTwo)
+    public static double calculateDistance(Vector3 positionOne, Vector3 positionTwo)
     {
         double x = Math.pow(positionOne.getX() - positionTwo.getX(), 2);
 

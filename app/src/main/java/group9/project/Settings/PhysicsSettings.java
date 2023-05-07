@@ -1,19 +1,20 @@
 package group9.project.Settings;
 
-import group9.project.Solvers.DifferentialSolver;
-import group9.project.Solvers.EulerSolver;
+import group9.project.Solvers.*;
 
 public class PhysicsSettings
 {
-    private static final double UNIVERSE_TICK_TIME = 0.0001;
+    private static final double UNIVERSE_TICK_TIME = 0.001;
 
-    private static final double MAX_UNIVERSE_TIME = 0;
+    private static final double SECONDS_IN_MONTH = 2.628E+6;
+
+    private static final double MAX_UNIVERSE_TIME = 12 * SECONDS_IN_MONTH;
 
     private static final double GRAVITY = 6.6743E-20;
 
-    private static final double STEP_TIME = 10;
+    private static final double STEP_TIME = 1000;
 
-    private static final DifferentialSolver universeDifferentialSolver = new EulerSolver();
+    private static final DifferentialSolver universeDifferentialSolver = new RungeKuttaFourthSolver();
 
     public static double getUniverseTickTime()
     {
@@ -30,7 +31,7 @@ public class PhysicsSettings
         return GRAVITY;
     }
 
-    public static double getSimulationStepTime()
+    public static double getStepTime()
     {
         return STEP_TIME * SimulationSettings.getSimulationSpeed();
     }

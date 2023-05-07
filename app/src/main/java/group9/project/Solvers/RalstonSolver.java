@@ -1,43 +1,42 @@
 package group9.project.Solvers;
 
+import java.util.function.Function;
+
+import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Utility.Math.Vector3;
 
 public class RalstonSolver extends DifferentialSolver
 {
     @Override
-    public Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h)
+    public Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType)
     {
         Vector3[] state = new Vector3[2];
-    
-        int a = 2/3;  // a = 1/2 gives you the midpoint method
-                      // a = 1 gives you the modified Euler method 
-                      // a = 2/3 is the standart Ralston's method
 
 
-        Vector3 k1Position = velocity.multiplyBy(h);
+        Function<Double, Vector3> velocityAtPoint = x -> getVelocityAtPoint(velocity, acceleration, x);
 
-        Vector3 k2Position = solveEulerEquation(position.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
+        Function<Double, Vector3> accelerationAtPoint = x -> getAccelerationAtPoint(x, physicsObjectType);
 
-        Vector3 k1Velocity = acceleration.multiplyBy(h);
 
-        Vector3 k2Velocity = solveEulerEquation(velocity.add(k1Position.multiplyBy(a)), solveEulerEquation(velocity, acceleration, h) , h);
+        state[0] = ralstonAlgorithm(position, velocity, velocityAtPoint, h);
 
-        k1Position.multiplyBy(1-(1/ 2* a));
+        state[1] = ralstonAlgorithm(velocity, acceleration, accelerationAtPoint, h);
 
-        k2Position.multiplyBy(1 / 2* a);
-
-        k1Velocity.multiplyBy(1-(1/ 2* a));
-
-        k2Velocity.multiplyBy(1 / 2* a);
-
-        Vector3 nextPosition = position.add(k1Position).add(k2Position);
-
-        Vector3 nextVelocity = velocity.add(k1Velocity).add(k2Velocity);
-
-        state[0] = nextPosition;
-
-        state[1] = nextVelocity;
-
+        
         return state;
-    }   
+    }  
+    
+    public Vector3 ralstonAlgorithm(Vector3 initialValue, Vector3 derivative, Function<Double, Vector3> derivativeFunction, double h)
+    {
+        Vector3 k1 = derivative.multiplyBy(h);
+
+        Vector3 k2 = derivativeFunction.apply(2 / 3.0 * h).multiplyBy(h);
+
+
+        Vector3 valueSum = k1.add(k2.multiplyBy(3)).multiplyBy(1 / 4.0);
+
+        Vector3 nextValue = initialValue.add(valueSum);
+
+        return nextValue;
+    }
 }
