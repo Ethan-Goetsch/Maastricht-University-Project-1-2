@@ -20,8 +20,6 @@ public class LaunchRocketState extends RocketState
     public void onStateEnter()
     {
         
-
-        rocketShip.setVelocity(new Vector3(100, 100, 100));
     }
 
     @Override

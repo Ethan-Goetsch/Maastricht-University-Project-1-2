@@ -1,5 +1,6 @@
 package group9.project.Physics.Managers;
 
+import group9.project.Optimization.Optimization;
 import group9.project.Physics.Objects.CelestialBodyObject;
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Physics.Objects.RocketShipObject;
@@ -89,7 +90,7 @@ public class PhysicsObjectData implements IStartable
 
     private void createRocket()
     {
-        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, rocketShipStartingVelocity, 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
+        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, Optimization.getInstance().getOptimalSolution().getVelocity(), 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
     }
 
     /**

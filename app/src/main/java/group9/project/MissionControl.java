@@ -11,10 +11,12 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 import group9.project.Events.EventManager;
+import group9.project.Optimization.Optimization;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Managers.PhysicsVisualizer;
 import group9.project.Settings.PhysicsSettings;
+import group9.project.Settings.SimulationSettings;
 
 /**
  * JavaFX App
@@ -108,5 +110,10 @@ public class MissionControl extends Application
         PhysicsEngine.getInstance().update();
 
         PhysicsVisualizer.getInstance().update();
+
+        if (SimulationSettings.getDEVELOPMENT_MODE())
+        {
+            Optimization.getInstance().update();
+        }
     }
 }
