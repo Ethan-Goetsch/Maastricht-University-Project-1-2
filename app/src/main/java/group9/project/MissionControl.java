@@ -82,7 +82,7 @@ public class MissionControl extends SimpleApplication
         MissionControl app = new MissionControl();
         AppSettings settings = new AppSettings(true);
         settings.setResolution(WIDTH, HEIGHT);
-        settings.setVSync(false);
+        settings.setVSync(true);
         
         
         app.setSettings(settings);
@@ -92,13 +92,13 @@ public class MissionControl extends SimpleApplication
     @Override
     public void simpleInitApp()
     {
-        initCamera();
-        
         createSystems();
         
         initSpatials();
         
         initDrawables();
+        
+        initCamera();
         
         initEffectsAndFilters();
    
@@ -107,10 +107,7 @@ public class MissionControl extends SimpleApplication
         initLights();
         
         initKeys();
-        
-        
-        
-        
+
         
         // create view switcher
         ViewSwitcher viewSwitcher = new ViewSwitcher(this, inputManager, camControl);
@@ -172,7 +169,9 @@ public class MissionControl extends SimpleApplication
         Quaternion rotation = new Quaternion();
         rotation.fromAngles(0,0,0);
         cameraNode.setLocalRotation(rotation);
-        
+                
+        cameraNode.setLocalTranslation(0, 0, DrawableManager.getInstance().getObjectWithName("sun").getPreferredViewDistance() * -1);
+
         // add custom camera control to camera node
         camControl = new CustomCameraControl();
         camControl.setInput(inputManager);
