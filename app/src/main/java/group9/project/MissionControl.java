@@ -11,6 +11,9 @@ import javafx.util.Duration;
 */
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
@@ -28,13 +31,23 @@ import group9.project.Events.EventManager;
 import group9.project.Optimization.Optimization;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
-import group9.project.Physics.Managers.PhysicsVisualizer;
+import group9.project.Physics.Objects.CelestialBodyObject;
+import group9.project.Physics.Objects.PhysicsObject;
+import group9.project.Physics.Objects.PhysicsObjectType;
+import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.Camera.CustomCameraControl;
 import group9.project.UI.Camera.ViewSwitcher;
+import group9.project.UI.Drawable.DrawableCelestialBodyUI;
+import group9.project.UI.Drawable.DrawableManager;
+import group9.project.UI.Drawable.DrawableRocketShipUI;
+import group9.project.UI.Drawable.DrawableUI;
 import group9.project.UI.HUD;
 import group9.project.UI.ScaleConverter;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * JavaFX App
@@ -63,10 +76,6 @@ public class MissionControl extends SimpleApplication
     //#endregion
 
 
-    public MissionControl()
-    {
-        
-    }
 
     public static void main(String[] args)
     {
@@ -83,17 +92,25 @@ public class MissionControl extends SimpleApplication
     @Override
     public void simpleInitApp()
     {
-        createSystems();
-        
         initCamera();
         
-        getRootNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/8k_stars_milky_way.jpg", SkyFactory.EnvMapType.SphereMap)); // set background/hdri
+        createSystems();
         
         initSpatials();
         
-        initLights();
+        initDrawables();
         
         initEffectsAndFilters();
+   
+        getRootNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/8k_stars_milky_way.jpg", SkyFactory.EnvMapType.SphereMap)); // set background/hdri
+        
+        initLights();
+        
+        initKeys();
+        
+        
+        
+        
         
         // create view switcher
         ViewSwitcher viewSwitcher = new ViewSwitcher(this, inputManager, camControl);
@@ -171,8 +188,35 @@ public class MissionControl extends SimpleApplication
         cam.update();
         
         inputManager.setCursorVisible(false); // make cursor invisible
+    }
+    
+    public void initDrawables()
+    {
+        PhysicsObject[] physicsObjects = PhysicsEngine.getInstance().getPhysicsObjects();
         
+        DrawableManager dmanager = DrawableManager.getInstance();
         
+        System.out.println("sun spatial: " + sunSpatial);
+        
+        new DrawableCelestialBodyUI("sun", sunSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Sun.getValue()]);
+        new DrawableCelestialBodyUI("mercury", mercurySpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Mercury.getValue()]);
+        new DrawableCelestialBodyUI("venus", venusSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Venus.getValue()]);
+        new DrawableCelestialBodyUI("earth", earthSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Earth.getValue()]);
+        new DrawableCelestialBodyUI("moon", moonSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Moon.getValue()]);
+        new DrawableCelestialBodyUI("mars", marsSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Mars.getValue()]);
+        new DrawableCelestialBodyUI("jupiter",jupiterSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Jupiter.getValue()]);
+        new DrawableCelestialBodyUI("saturn", saturnSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Saturn.getValue()]);
+        new DrawableCelestialBodyUI("titan", titanSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Titan.getValue()]);
+        new DrawableCelestialBodyUI("uranus", uranusSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Uranus.getValue()]);
+        new DrawableCelestialBodyUI("neptune", neptuneSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Neptune.getValue()]);
+        
+        new DrawableRocketShipUI("rocket", (float)ScaleConverter.worldToScreenLength(50000), rocketSpatial, (RocketShipObject)physicsObjects[PhysicsObjectType.Rocket.getValue()]);
+        
+        Iterator<DrawableUI> dIterator = DrawableManager.getInstance().getIterator();
+        while (dIterator.hasNext())
+        {
+            rootNode.attachChild(dIterator.next().getDrawable());
+        }
     }
 
     public void restart()
@@ -181,6 +225,28 @@ public class MissionControl extends SimpleApplication
 
         PhysicsEngine.getInstance().start();
     }
+    
+    public void initKeys()
+    {
+        inputManager.addMapping("Reduce Simulation Speed", new KeyTrigger(KeyInput.KEY_COMMA));
+        inputManager.addMapping("Increase Simulation Speed", new KeyTrigger(KeyInput.KEY_PERIOD));
+        
+        inputManager.addListener(newActionListener, new String[]{"Reduce Simulation Speed","Increase Simulation Speed"});
+    }
+    
+    ActionListener newActionListener = new ActionListener() {
+        @Override
+        public void onAction(String name, boolean isPressed, float tpf) {
+            if (name.equals("Reduce Simulation Speed") && isPressed)
+            {
+                SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()-0.04);
+            }
+            else if (name.equals("Increase Simulation Speed") && isPressed)
+            {
+                SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()+0.04);
+            }
+        }
+    };
 
     private void createSystems()
     {
@@ -188,22 +254,25 @@ public class MissionControl extends SimpleApplication
 
         PhysicsEngine.getInstance().start();
 
-        PhysicsVisualizer.getInstance().start();
-
         EventManager.getInstance().start();
     }
 
     @Override
     public void simpleUpdate(float tpf)
     {
-        PhysicsEngine.getInstance().update();
+   
+            PhysicsEngine.getInstance().update();
+            
+            if (SimulationSettings.getDEVELOPMENT_MODE())
+            {
+                Optimization.getInstance().update();
+            }
+            
+            DrawableManager.getInstance().update();
+            
+            camControl.update(tpf);
+            hud.update();
 
-        PhysicsVisualizer.getInstance().update();
-
-        if (SimulationSettings.getDEVELOPMENT_MODE())
-        {
-            Optimization.getInstance().update();
-        }
     }
     
     

@@ -15,6 +15,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
 import group9.project.UI.Drawable.DrawableManager;
+import group9.project.UI.Drawable.DrawableUI;
 import group9.project.UI.Drawable.IDrawable;
 
 /**
@@ -102,7 +103,10 @@ public class ViewSwitcher implements ActionListener{
         };
         
         for (int i = 0; i < chaseCams.length; i++) {
-            IDrawable target = DrawableManager.getInstance().getObjectWithName(camTargets[i]);
+            DrawableUI target = DrawableManager.getInstance().getObjectWithName(camTargets[i]);
+            System.out.println(DrawableManager.getInstance().getDrawables().toString());
+            System.out.println(target);
+            System.out.println(target.getDrawable());
             chaseCams[i] = new ChaseCamera(app.getCamera(), target.getDrawable(), inputManager);
             chaseCams[i].setEnabled(false);
             chaseCams[i].setDefaultDistance(target.getPreferredViewDistance());
@@ -180,6 +184,8 @@ public class ViewSwitcher implements ActionListener{
         camControl.setEnabled(false);
         app.getCamera().update();
         inputManager.setCursorVisible(false);
+        
+        System.out.println("switched view");
             
     }
     
@@ -190,6 +196,7 @@ public class ViewSwitcher implements ActionListener{
         {
           switch (name) {
             case sun:
+                System.out.println("hello");
                 switchView(chaseCams[0]);
                 break;
             case mercury:

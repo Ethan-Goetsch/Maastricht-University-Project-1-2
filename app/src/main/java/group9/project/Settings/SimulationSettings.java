@@ -17,7 +17,7 @@ public class SimulationSettings
     private static final double MAX_SCALE_FACTOR = 1.5;
 
 
-    private static double simulationSpeed = 1;
+    private static double simulationSpeed = 0.1;
 
     private static double simulationTime = 0;
 
@@ -70,6 +70,7 @@ public class SimulationSettings
 
     public static void setSimulationSpeed(double value)
     {
+        System.out.println("Simulation speed set to: " + value);
         simulationSpeed = value;
     }
 

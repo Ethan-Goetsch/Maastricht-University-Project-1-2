@@ -86,6 +86,11 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
             physicsObjects[i] = null;
         }
     }
+    
+    public PhysicsObject[] getPhysicsObjects()
+    {
+        return physicsObjects;
+    }
 
     private void updateForces()
     {
