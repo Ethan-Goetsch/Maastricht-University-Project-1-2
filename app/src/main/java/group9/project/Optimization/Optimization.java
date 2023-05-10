@@ -27,17 +27,29 @@ public class Optimization implements IUpdateable, IResetable
 
     private final static int AMOUNT_OF_NEIGHBOURS = 10;
 
+
+    private final static double MAX_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.5;
+
+    private final static double MIN_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.5;
+
+
+    private final static double MAX_NEIGHBOUR_FORCE_DIFFERENCE = 0.25;
+
+    private final static double MIN_NEIGHBOUR_FORCE_DIFFERENCE = 0.25;
+
+
     private List<Solution> currentNeighbours = new ArrayList<>();
 
-    private Solution optimalSolution;
+    private Solution optimalSolution = new Solution(new Vector3(53.30770478376297, -37.90506754552283, 0.754782488353855), 5.269428369727088, 1.068334069897194E7);
 
     private Solution currentSolution;
 
+    // Genetic Algorithm Initial Velocity :
+    // 43.055263066324734, -41.35587532316244, -3.3992847916377094
+
     private Optimization()
     {
-        currentSolution = new Solution(new Vector3(49.595840993199005, -36.715240499873744, -1.9967249585376932), 2.8764492527789156);
-
-        optimalSolution = currentSolution;
+        currentSolution = optimalSolution; 
     }
 
     public Solution getOptimalSolution()
@@ -49,7 +61,7 @@ public class Optimization implements IUpdateable, IResetable
 
         if (optimalSolution.getScore() < 2000)
         {
-            System.out.println("Optimal Score : " + optimalSolution.getScore() + " | " + "Optimal Solution : " + optimalSolution.getVelocity());
+            System.out.println("Optimal Solution : " + optimalSolution.toString());
 
             System.exit(0);
         }
@@ -83,14 +95,14 @@ public class Optimization implements IUpdateable, IResetable
 
     private Vector3 generateNeighbourVelocity(Vector3 initialVelocity)
     {
-        Vector3 neighbourVelocity = new Vector3(initialVelocity.getX() + (Math.random() * 4) - 2, initialVelocity.getY() + (Math.random() * 4) - 2, initialVelocity.getZ() + (Math.random() * 4) - 2);
+        Vector3 neighbourVelocity = new Vector3(initialVelocity.getX() + (Math.random() * MAX_NEIGHBOUR_VELOCITY_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE, initialVelocity.getY() + (Math.random() * MAX_NEIGHBOUR_FORCE_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE, initialVelocity.getZ() + (Math.random() * MAX_NEIGHBOUR_VELOCITY_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE);
 
         return neighbourVelocity;
     }
 
     private double generateNeighbourForce(double initialForce)
     {
-        double neighbourForce = initialForce + Math.random() * 2;
+        double neighbourForce = initialForce + (Math.random() * MAX_NEIGHBOUR_FORCE_DIFFERENCE) - MIN_NEIGHBOUR_FORCE_DIFFERENCE;
 
         return neighbourForce;
     }
