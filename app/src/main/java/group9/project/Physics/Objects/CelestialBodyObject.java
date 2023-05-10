@@ -27,9 +27,16 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void update()
     {
+        updateAcceleration();
+
         updateMovement();
 
         updateDrawable();
+    }
+
+    private void updateAcceleration()
+    {
+        setAcceleration(getForce().divideBy(getMass()));
     }
 
     private void updateMovement()

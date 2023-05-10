@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group9.project.Physics.Managers.PhysicsObjectData;
+import group9.project.Settings.SimulationSettings;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Vector3;
@@ -34,13 +35,18 @@ public class Optimization implements IUpdateable, IResetable
 
     private Optimization()
     {
-        currentSolution = new Solution(new Vector3(52.26404953296766, -38.971911234595815, -2.1304928775104455), 0, Integer.MAX_VALUE);
+        currentSolution = new Solution(new Vector3(49.595840993199005, -36.715240499873744, -1.9967249585376932), 2.8764492527789156);
 
         optimalSolution = currentSolution;
     }
 
     public Solution getOptimalSolution()
     {
+        if (!SimulationSettings.getDEVELOPMENT_MODE())
+        {
+            return optimalSolution;
+        }
+
         if (optimalSolution.getScore() < 2000)
         {
             System.out.println("Optimal Score : " + optimalSolution.getScore() + " | " + "Optimal Solution : " + optimalSolution.getVelocity());
@@ -67,7 +73,7 @@ public class Optimization implements IUpdateable, IResetable
 
         for (int i = 0; i < AMOUNT_OF_NEIGHBOURS; i++)
         {
-            Solution neighbour = new Solution(generateNeighbourVelocity(optimalSolution.getVelocity()), generateNeighbourForce(optimalSolution.getForce()), Integer.MAX_VALUE);
+            Solution neighbour = new Solution(generateNeighbourVelocity(optimalSolution.getVelocity()), generateNeighbourForce(optimalSolution.getThrusterForce()));
 
             newNeighbours.add(neighbour);
         }
@@ -107,16 +113,16 @@ public class Optimization implements IUpdateable, IResetable
         {
             optimalSolution = currentSolution;
 
-            
+
             System.out.println("-----------------------------------------------------------");
 
-            System.out.println("Optimal Solution : " + currentSolution.toString());
+            System.out.println("Optimal Solution : " + optimalSolution.toString());
 
             System.out.println("-----------------------------------------------------------");
         }
         else
         {
-            System.out.println("Optimal Score : " + optimalSolution.getScore() + " | " + "Current Score : " + currentSolution.getScore());
+            System.out.println("Optimal Solution : " + optimalSolution.toString() + "\n" + "Current Solution : " + currentSolution.toString() +"\n");
         }
     }
 }

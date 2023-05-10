@@ -1,10 +1,16 @@
 package group9.project.Physics;
 
 import group9.project.Physics.Objects.PhysicsObject;
+import group9.project.Physics.Objects.PhysicsObjectType;
+import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Vector3;
 
-public class PhysicsStateData
+public class PhysicsStateData implements IUpdateable
 {
+    private PhysicsObject physicsObject;
+
+    private PhysicsObjectType physicsObjectType;
+
     private Vector3 currentPosition;
 
     private Vector3 currentVelocity;
@@ -13,18 +19,17 @@ public class PhysicsStateData
 
     private Vector3 currentAcceleration;
 
-    public PhysicsStateData(Vector3 newCurrentPosition, Vector3 newCurrentVelocity, Vector3 newCurrentForce, Vector3 newCurrentAcceleration)
+    public PhysicsStateData(PhysicsObject newPhysicsObject)
     {
-        currentPosition = newCurrentPosition;
+        physicsObject = newPhysicsObject;
 
-        currentVelocity = newCurrentVelocity;
+        physicsObjectType = newPhysicsObject.getPhysicsObjectType();
 
-        currentForce = newCurrentForce;
-        
-        currentAcceleration = newCurrentAcceleration;
+        update();
     }
 
-    public PhysicsStateData(PhysicsObject physicsObject)
+    @Override
+    public void update()
     {
         currentPosition = physicsObject.getPosition();
 
@@ -33,6 +38,16 @@ public class PhysicsStateData
         currentForce = physicsObject.getForce();
         
         currentAcceleration = physicsObject.getAcceleration();
+    }
+
+    public PhysicsObject getPhysicsObject()
+    {
+        return physicsObject;
+    }
+
+    public PhysicsObjectType getPhysicsObjectType()
+    {
+        return physicsObjectType;
     }
 
     public Vector3 getCurrentPosition()

@@ -4,15 +4,15 @@ import group9.project.Solvers.*;
 
 public class PhysicsSettings
 {
-    private static final double UNIVERSE_TICK_TIME = 0.001;
+    private static final double UNIVERSE_TICK_TIME = 0.0001;
 
     private static final double SECONDS_IN_MONTH = 2.628E+6;
 
-    private static final double MAX_UNIVERSE_TIME = 12 * SECONDS_IN_MONTH;
+    private static final double MAX_UNIVERSE_TIME = 6 * SECONDS_IN_MONTH;
 
     private static final double GRAVITY = 6.6743E-20;
 
-    private static final double STEP_TIME = 1000;
+    private static final double STEP_TIME = 100;                                                                                                                                                                                                                                                                                                  ;
 
     private static final DifferentialSolver universeDifferentialSolver = new RungeKuttaFourthSolver();
 

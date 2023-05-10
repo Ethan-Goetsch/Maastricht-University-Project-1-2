@@ -25,6 +25,6 @@ public abstract class DifferentialSolver
 
     protected Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
     {
-        return PhysicsEngine.getInstance().calculateAccelerationAtPoint(h, physicsObjectType);
+        return PhysicsEngine.getInstance().calculateAcceleration(h, physicsObjectType);
     }
 }
