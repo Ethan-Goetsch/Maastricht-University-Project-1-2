@@ -1,10 +1,14 @@
 package group9.project.UI.Drawable;
 
-import javafx.scene.Node;
+import com.jme3.scene.Spatial;
 
 public interface IDrawable
 {
-    public Node getDrawable();
+    public Spatial getDrawable();
 
     public void draw();
+
+    public String getName();
+
+    public float getPreferredViewDistance();
 }

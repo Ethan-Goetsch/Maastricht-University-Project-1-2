@@ -1,66 +1,47 @@
 package group9.project.UI.Drawable;
 
+import com.jme3.scene.Spatial;
+import group9.project.Physics.Objects.CelestialBodyObject;
 import group9.project.UI.GUI;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class DrawableCelestialBodyUI extends DrawableUI
 {
-    private Circle drawableShape;
-
     private double planetRadius;
-
-    private double labelOffset;
 
     private String labelText;
 
-    private Color planetColour;
+    private Spatial spatial;
 
-    public DrawableCelestialBodyUI(double newPlanetRadius, double newLabelOffset, String newLabelText, Color newPlanetColour, Vector3 newDrawablePosition)
+    private CelestialBodyObject celestialBody;
+
+    public DrawableCelestialBodyUI(float newPlanetRadius, String newLabelText, Spatial spatial, CelestialBodyObject celestialBody)
     {
         super();
 
+        this.celestialBody = celestialBody;
+
+        spatial.setLocalScale((float)newPlanetRadius, (float)newPlanetRadius, (float)newPlanetRadius);
+        this.spatial = spatial;
 
         planetRadius = newPlanetRadius;
 
-        labelOffset = newLabelOffset;
-
         labelText = newLabelText;
-
-        planetColour = newPlanetColour;
-
-
-        drawablePosition = newDrawablePosition;
-
-        createDrawableUI();
     }
 
     @Override
-    public void createDrawableUI()
+    public void draw()
     {
-        drawablePane = new Pane();
-
-
-        drawableLabel = GUI.createLabel(labelText);
-
-        drawableLabel.setTextFill(Color.WHITE);
-
-        drawableLabel.setTranslateX(-12.5);
-
-        drawableLabel.setTranslateY(-labelOffset);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(celestialBody.getPosition());
         
-
-        drawableShape = new Circle();
-
-        drawableShape.setFill(planetColour);
-
-        drawableShape.setRadius(planetRadius);
-
-
-        drawablePane.getChildren().add(drawableLabel);
-
-        drawablePane.getChildren().add(drawableShape);
+        spatial.setLocalTranslation((float)scaledVector.getX(), (float)scaledVector.getY(), (float)scaledVector.getZ());
     }
+
+    @Override
+    public float getPreferredViewDistance()
+    {
+        return (float)(4*planetRadius);
+    }
+
 }

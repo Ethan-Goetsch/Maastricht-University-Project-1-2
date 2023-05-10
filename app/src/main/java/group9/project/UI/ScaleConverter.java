@@ -34,4 +34,9 @@ public class ScaleConverter
 
         return new Vector3(x, y, z);
     }
+    
+    public static double worldToScreenLength(double length)
+    {
+        return length / getSimulationScale();
+    }
 }

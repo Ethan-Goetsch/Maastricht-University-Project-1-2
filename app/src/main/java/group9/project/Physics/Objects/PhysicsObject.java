@@ -9,7 +9,7 @@ import group9.project.Utility.Math.Vector3;
 
 public abstract class PhysicsObject implements IStartable, IUpdateable, ITargetable
 {
-    protected Vector3 position, velocity, force, acceleration;
+    protected Vector3 position, prevPosition, velocity, force, acceleration;
 
     protected double mass;
 
@@ -20,6 +20,11 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
     public Vector3 getPosition()
     {
         return position;
+    }
+    
+    public Vector3 getDirection()
+    {
+        return position.subtract(prevPosition);
     }
 
     public Vector3 getVelocity()
@@ -55,6 +60,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
     public PhysicsObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         position = startingPosition;
+        prevPosition = position;
 
         velocity = startingVelocity;
 
@@ -76,6 +82,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
 
     public void setPosition(Vector3 newPosition)
     {
+        prevPosition = position;
         position = newPosition;
     }
 
