@@ -11,8 +11,10 @@ public abstract class DrawableUI implements IDrawable
 
     protected String name;
 
-    public DrawableUI()
+    public DrawableUI(String name, Spatial spatial)
     {
+        this.name = name;
+        this.spatial = spatial;
         DrawableManager.getInstance().add(this);
     }
 

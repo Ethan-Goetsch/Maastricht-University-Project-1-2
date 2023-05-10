@@ -2,14 +2,18 @@ package group9.project.Physics.Objects;
 
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Solvers.DifferentialSolver;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 
 public class CelestialBodyObject extends PhysicsObject
 {
 
+    double planetRadius;
+    
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
+        this.planetRadius = planetRadius;
     }
 
     @Override
@@ -31,6 +35,11 @@ public class CelestialBodyObject extends PhysicsObject
     {
         setAcceleration(getForce().divideBy(getMass()));
     }
+    
+    public double getRadius()
+    {
+        return planetRadius;
+    }
 
     private void updateMovement()
     {
@@ -39,6 +48,7 @@ public class CelestialBodyObject extends PhysicsObject
         setPosition(state[0]);
 
         setVelocity(state[1]);
+
     }
 
 }

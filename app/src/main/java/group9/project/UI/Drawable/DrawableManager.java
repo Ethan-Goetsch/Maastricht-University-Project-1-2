@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class DrawableManager implements IResetable
 {
-  private HashMap<String, IDrawable> drawablesMap;
+  private HashMap<String, DrawableUI> drawablesMap;
 
   //#region Singleton
   private static DrawableManager instance;
@@ -30,7 +30,7 @@ public class DrawableManager implements IResetable
   }
 
   // adds a drawable to the drawables list
-  public void add(IDrawable drawable)
+  public void add(DrawableUI drawable)
   {
       if (!drawablesMap.containsKey(drawable.getName()))
       {
@@ -39,9 +39,14 @@ public class DrawableManager implements IResetable
   }
 
   // returns true if the drawables list containt the argument drawable
-  public boolean contains(IDrawable drawable)
+  public boolean contains(DrawableUI drawable)
   {
       return drawablesMap.containsValue(drawable);
+  }
+  
+  public HashMap<String, DrawableUI> getDrawables()
+  {
+      return drawablesMap;
   }
 
   // removes a drawable from the list
@@ -52,14 +57,23 @@ public class DrawableManager implements IResetable
 
 
   // returns an iterator for the drawables list
-  public Iterator<IDrawable> getIterator()
+  public Iterator<DrawableUI> getIterator()
   {
       return drawablesMap.values().iterator();
   }
   
-  public IDrawable getObjectWithName(String name) 
+  public DrawableUI getObjectWithName(String name) 
   {
       return drawablesMap.get(name);
+  }
+  
+  public void update()
+  {
+      Iterator<DrawableUI> iterator = getIterator();
+      while (iterator.hasNext())
+      {
+          iterator.next().draw();
+      }
   }
   
   @Override

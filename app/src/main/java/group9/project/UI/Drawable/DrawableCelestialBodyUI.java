@@ -2,32 +2,25 @@ package group9.project.UI.Drawable;
 
 import com.jme3.scene.Spatial;
 import group9.project.Physics.Objects.CelestialBodyObject;
-import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 
 public class DrawableCelestialBodyUI extends DrawableUI
 {
-    private double planetRadius;
-
-    private String labelText;
-
-    private Spatial spatial;
+    private float planetRadius;
 
     private CelestialBodyObject celestialBody;
 
-    public DrawableCelestialBodyUI(float newPlanetRadius, String newLabelText, Spatial spatial, CelestialBodyObject celestialBody)
+    public DrawableCelestialBodyUI(String name, Spatial spatial, CelestialBodyObject celestialBody)
     {
-        super();
+        super(name, spatial);
 
         this.celestialBody = celestialBody;
+        
+        planetRadius = (float) ScaleConverter.worldToScreenLength(celestialBody.getRadius());
 
-        spatial.setLocalScale((float)newPlanetRadius, (float)newPlanetRadius, (float)newPlanetRadius);
-        this.spatial = spatial;
+        spatial.setLocalScale(planetRadius, planetRadius, planetRadius);
 
-        planetRadius = newPlanetRadius;
-
-        labelText = newLabelText;
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
 import group9.project.Physics.Objects.RocketShipObject;
-import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 
@@ -14,25 +13,19 @@ public class DrawableRocketShipUI extends DrawableUI
    
     private float scale;
 
-    private Spatial spatial;
-
     private RocketShipObject rocketShip;
 
-    public DrawableRocketShipUI(String name, float scale, Vector3 newDrawablePosition, Spatial spatial, RocketShipObject rocketShip)
+    public DrawableRocketShipUI(String name, float scale, Spatial spatial, RocketShipObject rocketShip)
     {
-        super();
+        super(name, spatial);
 
         this.scale = scale;
 
         this.name = name;
 
         spatial.setLocalScale(scale);
-        this.spatial = spatial;
 
         this.rocketShip = rocketShip;
-
-        drawablePosition = newDrawablePosition;
-
     }
 
     @Override
