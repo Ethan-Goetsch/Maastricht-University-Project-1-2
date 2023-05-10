@@ -45,6 +45,9 @@ import group9.project.UI.Drawable.DrawableRocketShipUI;
 import group9.project.UI.Drawable.DrawableUI;
 import group9.project.UI.HUD;
 import group9.project.UI.ScaleConverter;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,8 +57,8 @@ import java.util.logging.Logger;
  */
 public class MissionControl extends SimpleApplication
 {
-    public static final int WIDTH = (int) (2560/1.2);
-    public static final int HEIGHT = (int) (1440/1.2);
+    public static int WIDTH = (int) (2560/1.2);
+    public static int HEIGHT = (int) (1440/1.2);
     private HUD hud;
     
     CustomCameraControl camControl;
@@ -79,6 +82,12 @@ public class MissionControl extends SimpleApplication
 
     public static void main(String[] args)
     {
+        // display fullscreen
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        DisplayMode mode = gd.getDisplayMode();
+        MissionControl.WIDTH = mode.getWidth();
+        MissionControl.HEIGHT = mode.getHeight();
+        
         MissionControl app = new MissionControl();
         AppSettings settings = new AppSettings(true);
         settings.setResolution(WIDTH, HEIGHT);
