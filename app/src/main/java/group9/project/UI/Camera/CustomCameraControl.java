@@ -34,7 +34,7 @@ public class CustomCameraControl extends AbstractControl {
     float delta = 0;
     float speed = 0;
     float rotationSpeed = 5;
-    float speedSensitivity = 1f;
+    float speedSensitivity = 2f;
     
     //boolean enabled = true;
         
