@@ -32,7 +32,7 @@ public class HUD {
     private CustomCameraControl camControl;
     
     private BitmapText sunLabel,mercuryLabel,venusLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel;
-    private BitmapText speedLabel, dateLabel, distanceLabel, rocketSpeedLabel;
+    private BitmapText speedLabel, dateLabel, distanceLabel, rocketSpeedLabel, positionLabel;
     
     
     
@@ -47,10 +47,13 @@ public class HUD {
         this.distanceLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-100, 0);
         this.rocketSpeedLabel = new BitmapText(font);
         this.rocketSpeedLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-150, 0);
+        this.positionLabel = new BitmapText(font);
+        this.positionLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-200, 0);
         
         app.getGuiNode().attachChild(dateLabel);
         app.getGuiNode().attachChild(distanceLabel);
         app.getGuiNode().attachChild(rocketSpeedLabel);
+        app.getGuiNode().attachChild(positionLabel);
         initialize();
         registerInputs();
     }
@@ -144,6 +147,7 @@ public class HUD {
         dateLabel.setText("Date: " + DateCalculator.getInstance().getCurrentDate() + "");
         rocketSpeedLabel.setText("Rocket speed: " + PhysicsObjectData.getInstance().getRocketShipSpeed() + " km/s");
         distanceLabel.setText("Distance to titan: " + (float)((int)(PhysicsObjectData.getInstance().getRocketShipDistanceToTitan()*100000))/100000.0 + " km");
+        positionLabel.setText(app.getCamera().getLocation().toString());
 
         sunLabel.setLocalTranslation(app.getCamera().getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("sun").getDrawable().getLocalTranslation()));
         mercuryLabel.setLocalTranslation(app.getCamera().getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("mercury").getDrawable().getLocalTranslation()));

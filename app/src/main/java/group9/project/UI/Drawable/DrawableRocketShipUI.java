@@ -50,5 +50,11 @@ public class DrawableRocketShipUI extends DrawableUI
     {
         return 8*scale;
     }
+    
+    @Override
+    public DrawableRocketShipUI clone()
+    {
+        return new DrawableRocketShipUI(name, scale, spatial.clone(), rocketShip);
+    }
 
 }

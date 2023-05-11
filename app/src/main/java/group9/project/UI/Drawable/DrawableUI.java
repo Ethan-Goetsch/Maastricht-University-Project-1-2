@@ -15,7 +15,7 @@ public abstract class DrawableUI implements IDrawable
     {
         this.name = name;
         this.spatial = spatial;
-        DrawableManager.getInstance().add(this);
+        //DrawableManager.getInstance().add(this);
     }
 
     @Override
@@ -35,4 +35,7 @@ public abstract class DrawableUI implements IDrawable
 
     @Override
     public abstract void draw();
+    
+    @Override
+    public abstract DrawableUI clone();
 }
