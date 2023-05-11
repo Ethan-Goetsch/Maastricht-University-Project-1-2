@@ -36,5 +36,11 @@ public class DrawableCelestialBodyUI extends DrawableUI
     {
         return (float)(4*planetRadius);
     }
+    
+    @Override
+    public DrawableCelestialBodyUI clone()
+    {
+        return new DrawableCelestialBodyUI(name, spatial.scale(planetRadius), celestialBody);
+    }
 
 }

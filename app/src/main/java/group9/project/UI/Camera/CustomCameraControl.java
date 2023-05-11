@@ -36,7 +36,7 @@ public class CustomCameraControl extends AbstractControl {
     float rotationSpeed = 5;
     float speedSensitivity = 2f;
     
-    //boolean enabled = true;
+    boolean enabled = true;
         
     public CustomCameraControl()
     {
@@ -73,6 +73,12 @@ public class CustomCameraControl extends AbstractControl {
         initialUpVec = cam.getUp().clone();
     }
     
+    @Override
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+    
     public void setInput(InputManager inputManager)
     {
         this.inputManager = inputManager;
@@ -90,6 +96,7 @@ public class CustomCameraControl extends AbstractControl {
         AnalogListener analogListener = new AnalogListener() {
             @Override
             public void onAnalog(String name, float value, float tpf) {
+                if (!enabled) return;
                 if (name.equals("Increase Move Speed"))
                 {
                     speed = changeSpeed(true, tpf);
@@ -184,7 +191,7 @@ public class CustomCameraControl extends AbstractControl {
         if (!enabled) return;
         this.getSpatial().move(cam.getDirection().normalize().mult(speed).mult(tpf));
         //System.out.println("speed: " + speed);
-        inputManager.setCursorVisible(false);
+        //inputManager.setCursorVisible(false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'groovy'
 }
 
 group 'group9.project'
@@ -52,6 +53,8 @@ dependencies {
   // Additional Libraries
   implementation "org.jmonkeyengine:jme3-effects:$jmeVer"
   implementation "com.github.Jeddic:particlemonkey:1.0.2"
+  
+  implementation 'org.codehaus.groovy:groovy-all:2.4.5'
 
   // Assets sub-project
   runtimeOnly project(':assets')
