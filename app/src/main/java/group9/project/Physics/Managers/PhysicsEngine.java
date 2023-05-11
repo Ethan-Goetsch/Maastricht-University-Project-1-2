@@ -153,6 +153,11 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
 
     public Vector3 calculateAcceleration(double h, PhysicsObjectType physicsObjectType)
     {
+        if (h == 0)
+        {
+            return physicsObjects[physicsObjectType.getValue()].getAcceleration();
+        }
+
         DifferentialSolver differentialSolver = new EulerSolver();
 
         movePhysicsObjectsInTime(h, differentialSolver);

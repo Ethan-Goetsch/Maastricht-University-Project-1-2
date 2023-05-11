@@ -2,6 +2,7 @@ package group9.project.Solvers;
 
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.PhysicsObjectType;
+import group9.project.Utility.Interfaces.INumericalFunction;
 import group9.project.Utility.Math.Vector3;
 
 public abstract class DifferentialSolver
@@ -16,7 +17,23 @@ public abstract class DifferentialSolver
     * 
     * @return the next position and velocity values
     */
-    public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType);
+    public Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType)
+    {
+        Vector3[] state = new Vector3[2];
+
+
+        INumericalFunction<Double, Vector3, Vector3> velocityAtPoint = (t, w) -> getVelocityAtPoint(velocity, acceleration, t);
+
+        INumericalFunction<Double, Vector3, Vector3> accelerationAtPoint = (t, w) -> getAccelerationAtPoint(t, physicsObjectType);
+
+
+        state[0] = differentialAlgorithm(position, velocityAtPoint, h, 0);
+
+        state[1] = differentialAlgorithm(velocity, accelerationAtPoint, h, 0);
+
+        
+        return state;
+    }
 
     protected Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
     {
@@ -27,4 +44,6 @@ public abstract class DifferentialSolver
     {
         return PhysicsEngine.getInstance().calculateAcceleration(h, physicsObjectType);
     }
+
+    public abstract Vector3 differentialAlgorithm(Vector3 initialValue, INumericalFunction<Double, Vector3, Vector3> derivativeFunction, double h, double t);
 }

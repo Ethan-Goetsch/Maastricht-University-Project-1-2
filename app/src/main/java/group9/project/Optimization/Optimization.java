@@ -49,7 +49,7 @@ public class Optimization implements IUpdateable, IResetable
     // Genetic Algorithm Initial Velocity :
     // 43.055263066324734, -41.35587532316244, -3.3992847916377094
 
-    private Solution optimalSolution = new Solution(new Vector3(51.74240829193239, -37.09190775058586, -2.2511111076116253), 0);
+    private Solution optimalSolution = new Solution(new Vector3(51.74233817375136, -37.091917801809416, -2.251099531661485), 0);
 
     private Solution currentSolution = optimalSolution;
 
@@ -65,7 +65,7 @@ public class Optimization implements IUpdateable, IResetable
             return optimalSolution;
         }
 
-        if (optimalSolution.getScore() < 2000)
+        if (optimalSolution.getScore() <= 0)
         {
             System.out.println("Optimal Solution : " + optimalSolution.toString());
 
