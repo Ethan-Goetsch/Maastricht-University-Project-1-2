@@ -8,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
-
 import group9.project.Events.EventManager;
 import group9.project.Optimization.Optimization;
 import group9.project.Physics.Managers.PhysicsEngine;
@@ -55,7 +53,7 @@ public class MissionControl extends Application
     }
 
     @Override
-    public void start(Stage stage) throws IOException
+    public void start(Stage stage)
     {
         createSystems();
 

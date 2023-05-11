@@ -9,7 +9,7 @@ public class SimulationSettings
 
     private static final double MIN_SIMULATION_SPEED = 0.01;
 
-    private static final double MAX_SIMULATION_SPEED = 10;
+    private static final double MAX_SIMULATION_SPEED = 100;
 
 
     private static final double MIN_SCALE_FACTOR = 0.1;

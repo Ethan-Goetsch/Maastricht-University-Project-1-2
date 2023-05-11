@@ -5,6 +5,7 @@ import java.util.List;
 
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
+import group9.project.Utility.RandomGenerator;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IUpdateable;
 import group9.project.Utility.Math.Vector3;
@@ -28,28 +29,33 @@ public class Optimization implements IUpdateable, IResetable
     private final static int AMOUNT_OF_NEIGHBOURS = 10;
 
 
-    private final static double MAX_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.5;
+    private final static double MAX_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.0001;
 
-    private final static double MIN_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.5;
+    private final static double MIN_NEIGHBOUR_VELOCITY_DIFFERENCE = -0.0001;
 
 
-    private final static double MAX_NEIGHBOUR_FORCE_DIFFERENCE = 0.25;
+    private final static double MAX_NEIGHBOUR_FORCE_DIFFERENCE = 0;
 
-    private final static double MIN_NEIGHBOUR_FORCE_DIFFERENCE = 0.25;
+    private final static double MIN_NEIGHBOUR_FORCE_DIFFERENCE = 0;
+
+    
+    private Vector3 debugTitanPosition = new Vector3();
+
+    private Vector3 debugRocketPosition = new Vector3();
 
 
     private List<Solution> currentNeighbours = new ArrayList<>();
 
-    private Solution optimalSolution = new Solution(new Vector3(53.30770478376297, -37.90506754552283, 0.754782488353855), 5.269428369727088, 1.068334069897194E7);
-
-    private Solution currentSolution;
-
     // Genetic Algorithm Initial Velocity :
     // 43.055263066324734, -41.35587532316244, -3.3992847916377094
 
+    private Solution optimalSolution = new Solution(new Vector3(51.74240829193239, -37.09190775058586, -2.2511111076116253), 0);
+
+    private Solution currentSolution = optimalSolution;
+
     private Optimization()
     {
-        currentSolution = optimalSolution; 
+
     }
 
     public Solution getOptimalSolution()
@@ -64,6 +70,10 @@ public class Optimization implements IUpdateable, IResetable
             System.out.println("Optimal Solution : " + optimalSolution.toString());
 
             System.exit(0);
+        }
+        else if (optimalSolution.getScore() == Integer.MAX_VALUE)
+        {
+            return optimalSolution;
         }
         else if (currentNeighbours.isEmpty())
         {
@@ -95,16 +105,16 @@ public class Optimization implements IUpdateable, IResetable
 
     private Vector3 generateNeighbourVelocity(Vector3 initialVelocity)
     {
-        Vector3 neighbourVelocity = new Vector3(initialVelocity.getX() + (Math.random() * MAX_NEIGHBOUR_VELOCITY_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE, initialVelocity.getY() + (Math.random() * MAX_NEIGHBOUR_FORCE_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE, initialVelocity.getZ() + (Math.random() * MAX_NEIGHBOUR_VELOCITY_DIFFERENCE) - MIN_NEIGHBOUR_VELOCITY_DIFFERENCE);
+        Vector3 neighbourVelocity = new Vector3(initialVelocity.getX() + RandomGenerator.generateRandom(MAX_NEIGHBOUR_VELOCITY_DIFFERENCE, MIN_NEIGHBOUR_VELOCITY_DIFFERENCE), initialVelocity.getY() + RandomGenerator.generateRandom(MAX_NEIGHBOUR_VELOCITY_DIFFERENCE, MIN_NEIGHBOUR_VELOCITY_DIFFERENCE), initialVelocity.getZ() + RandomGenerator.generateRandom(MAX_NEIGHBOUR_VELOCITY_DIFFERENCE, MIN_NEIGHBOUR_VELOCITY_DIFFERENCE));
 
         return neighbourVelocity;
     }
 
     private double generateNeighbourForce(double initialForce)
     {
-        double neighbourForce = initialForce + (Math.random() * MAX_NEIGHBOUR_FORCE_DIFFERENCE) - MIN_NEIGHBOUR_FORCE_DIFFERENCE;
+        double neighbourForce = initialForce + RandomGenerator.generateRandom(MAX_NEIGHBOUR_FORCE_DIFFERENCE, MIN_NEIGHBOUR_FORCE_DIFFERENCE);
 
-        return neighbourForce;
+        return Math.abs(neighbourForce);
     }
 
     @Override
@@ -115,6 +125,10 @@ public class Optimization implements IUpdateable, IResetable
         if (newScore < currentSolution.getScore())
         {
             currentSolution.setScore(newScore);
+
+            debugTitanPosition = PhysicsObjectData.getInstance().getTitanObject().getPosition();
+
+            debugRocketPosition = PhysicsObjectData.getInstance().getRocketShipObject().getPosition();
         }
     }
 
@@ -130,11 +144,19 @@ public class Optimization implements IUpdateable, IResetable
 
             System.out.println("Optimal Solution : " + optimalSolution.toString());
 
+            System.out.println("---------------");
+
+            System.out.println("Titan's Position : " + debugTitanPosition.toString() + "\n" + "Rocket's Position : " + debugRocketPosition.toString());
+
             System.out.println("-----------------------------------------------------------");
         }
         else
         {
-            System.out.println("Optimal Solution : " + optimalSolution.toString() + "\n" + "Current Solution : " + currentSolution.toString() +"\n");
+            System.out.println("\n" + "Optimal Solution : " + optimalSolution.toString() + "\n" + "Current Solution : " + currentSolution.toString());
+
+            System.out.println("---------------");
+
+            System.out.println("Titan's Position : " + debugTitanPosition.toString() + "\n" + "Rocket's Position : " + debugRocketPosition.toString());
         }
-    }
+    } 
 }

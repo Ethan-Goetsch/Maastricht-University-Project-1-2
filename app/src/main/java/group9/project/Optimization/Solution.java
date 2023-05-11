@@ -19,15 +19,6 @@ public class Solution
         score = Integer.MAX_VALUE;
     }
 
-    public Solution(Vector3 newVelocity, double newThrusterForce, double newScore)
-    {
-        velocity = newVelocity;
-
-        thrusterForce = newThrusterForce;
-
-        score = newScore;
-    }
-
     public Vector3 getVelocity()
     {
         return velocity;
