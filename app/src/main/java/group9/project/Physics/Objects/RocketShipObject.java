@@ -49,7 +49,7 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
         thrusterForce = newThrusterForce;
     }
 
-    public void updateFuel(double value)
+    public void consumeFuel(double value)
     {
         fuelConsumed += value;
     }
@@ -70,9 +70,16 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
     @Override
     public void update()
     {
+        updateAcceleration();
+
         updateState();
 
         updateDrawable();
+    }
+
+    private void updateAcceleration()
+    {
+        setAcceleration(getForce().divideBy(getMass()));
     }
 
     private void updateState()

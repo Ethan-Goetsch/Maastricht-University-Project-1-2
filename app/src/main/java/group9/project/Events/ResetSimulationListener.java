@@ -1,6 +1,7 @@
 package group9.project.Events;
 
 import group9.project.MissionControl;
+import group9.project.Optimization.Optimization;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.Drawable.DrawableManager;
@@ -20,6 +21,8 @@ public class ResetSimulationListener implements IEventListener
 
     private void restartSimulation()
     {
+        Optimization.getInstance().reset();
+
         DrawableManager.getInstance().reset();
 
         PhysicsEngine.getInstance().reset();

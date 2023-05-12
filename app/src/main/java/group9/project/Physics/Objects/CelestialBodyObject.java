@@ -27,14 +27,21 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void update()
     {
+        updateAcceleration();
+
         updateMovement();
 
         updateDrawable();
     }
 
+    private void updateAcceleration()
+    {
+        setAcceleration(getForce().divideBy(getMass()));
+    }
+
     private void updateMovement()
     {
-        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getStepTime(), physicsObjectType);
+        Vector3[] state = differentialSolver.solvePhysicsEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getStepTime(), physicsObjectType);
 
         setPosition(state[0]);
 

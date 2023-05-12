@@ -29,7 +29,7 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     }
     //#endregion  
 
-    private PhysicsObject[] physicsObjectsToUpdate;
+    private PhysicsObject[] physicsObjects;
 
     private PhysicsStateData[] physicsStateData;
 
@@ -37,22 +37,27 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     {
         instance = this;
 
-        physicsObjectsToUpdate = new PhysicsObject[12];
+        physicsObjects = new PhysicsObject[12];
 
         physicsStateData = new PhysicsStateData[0];
     }
 
     public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
     {
-        physicsObjectsToUpdate[physicsObject.getPhysicsObjectType().getValue()] = physicsObject; 
+        physicsObjects[physicsObject.getPhysicsObjectType().getValue()] = physicsObject; 
     }
 
     @Override
     public void start()
     {
-        physicsStateData = new PhysicsStateData[physicsObjectsToUpdate.length];
+        physicsStateData = new PhysicsStateData[physicsObjects.length];
 
-        for (PhysicsObject physicsObject : physicsObjectsToUpdate)
+        for (int i = 0; i < physicsObjects.length; i++)
+        {
+            physicsStateData[i] = new PhysicsStateData(physicsObjects[i]);
+        }
+
+        for (PhysicsObject physicsObject : physicsObjects)
         {
             physicsObject.start();    
         }
@@ -76,65 +81,68 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     @Override
     public void reset()
     {
-        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
+        for (int i = 0; i < physicsObjects.length; i++)
         {
-            physicsObjectsToUpdate[i] = null;
+            physicsObjects[i] = null;
         }
     }
 
     private void updateForces()
     {
-        for (PhysicsObject physicsBodyOne : physicsObjectsToUpdate)
+        for (PhysicsObject physicsObject : physicsObjects)
         {
-            Vector3 physicsBodyOneForce = new Vector3();
+            physicsObject.setForce(calculateForce(physicsObject));
+        }
+    }
 
-            for (PhysicsObject physicsBodyTwo : physicsObjectsToUpdate) 
+    private Vector3 calculateForce(PhysicsObject physicsObject)
+    {
+        Vector3 physicsObjectForce = new Vector3();
+
+        for (PhysicsObject physicsObjectTwo : physicsObjects) 
+        {
+            if (physicsObject.equals(physicsObjectTwo))
             {
-                if (physicsBodyOne.equals(physicsBodyTwo))
-                {
-                    continue;
-                }
-                else if (physicsBodyTwo.getPhysicsObjectType() == PhysicsObjectType.Rocket)
-                {
-                    continue;
-                }
-
-                double productOfMassAndGravity = PhysicsSettings.getGravity() * physicsBodyOne.getMass() * physicsBodyTwo.getMass();
-
-
-                Vector3 positionDifference = physicsBodyOne.getPosition().subtract(physicsBodyTwo.getPosition());
-
-                double distance = Mathematics.calculateDistance(physicsBodyOne.getPosition(), physicsBodyTwo.getPosition());
-
-                distance = Math.pow(distance, 3);
-
-
-                Vector3 force = positionDifference.multiplyBy(productOfMassAndGravity);
-
-                force = force.divideBy(distance);
-
-
-                force = force.multiplyBy(-1);
-
-                physicsBodyOneForce = physicsBodyOneForce.add(force);
+                continue;
+            }
+            else if (physicsObjectTwo.getPhysicsObjectType() == PhysicsObjectType.Rocket)
+            {
+                continue;
             }
 
-            physicsBodyOne.setForce(physicsBodyOneForce);
+            double productOfMassAndGravity = PhysicsSettings.getGravity() * physicsObject.getMass() * physicsObjectTwo.getMass();
 
-            physicsBodyOne.setAcceleration(physicsBodyOne.getForce().divideBy(physicsBodyOne.getMass()));
+
+            Vector3 positionDifference = physicsObject.getPosition().subtract(physicsObjectTwo.getPosition());
+
+            double distance = Mathematics.calculateDistance(physicsObject.getPosition(), physicsObjectTwo.getPosition());
+
+            distance = Math.pow(distance, 3);
+
+
+            Vector3 force = positionDifference.multiplyBy(productOfMassAndGravity);
+
+            force = force.divideBy(distance);
+
+
+            force = force.multiplyBy(-1);
+
+            physicsObjectForce = physicsObjectForce.add(force);
         }
+
+        return physicsObjectForce;
     }
 
     private void updateObjects()
     {
-        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
+        for (int i = 0; i < physicsObjects.length; i++)
         {
-            physicsStateData[i] = new PhysicsStateData(physicsObjectsToUpdate[i]);
+            physicsStateData[i].update();
         }
 
-        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
+        for (int i = 0; i < physicsObjects.length; i++)
         {
-            physicsObjectsToUpdate[i].update();
+            physicsObjects[i].update();
         }
     }
 
@@ -143,24 +151,27 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         SimulationSettings.updateSimulationTime(PhysicsSettings.getStepTime());
     }
 
-    public Vector3 calculateAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
+    public Vector3 calculateAcceleration(double h, PhysicsObjectType physicsObjectType)
     {
+        if (h == 0)
+        {
+            return physicsObjects[physicsObjectType.getValue()].getAcceleration();
+        }
+
         DifferentialSolver differentialSolver = new EulerSolver();
 
-        movePhysicsObjectsInTime(differentialSolver, h);
+        movePhysicsObjectsInTime(h, differentialSolver);
 
-        updateForces();
-
-        return physicsObjectsToUpdate[(physicsObjectType.getValue())].getAcceleration();
+        return calculateForce(physicsObjects[physicsObjectType.getValue()]).divideBy(physicsObjects[physicsObjectType.getValue()].getMass());
     }
 
-    private void movePhysicsObjectsInTime(DifferentialSolver differentialSolver, double h)
+    private void movePhysicsObjectsInTime(double h, DifferentialSolver differentialSolver)
     {
-        for (int i = 0; i < physicsObjectsToUpdate.length; i++)
+        for (int i = 0; i < physicsObjects.length; i++)
         {
-            PhysicsObject physicsObject = physicsObjectsToUpdate[i];
+            Vector3[] newState = differentialSolver.solvePhysicsEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsStateData[i].getPhysicsObjectType());
 
-            physicsObject.setPosition(differentialSolver.solveEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsObject.getPhysicsObjectType())[0]);
+            physicsObjects[i].setPosition(newState[0]);
         }
     }
 }

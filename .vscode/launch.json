@@ -3,6 +3,20 @@
     [
         {
             "type": "java",
+            "name": "testxeonge",
+            "request": "launch",
+            "mainClass": "group9.project/group9.project.testxeonge",
+            "projectName": "app"
+        },
+        {
+            "type": "java",
+            "name": "Experiments",
+            "request": "launch",
+            "mainClass": "group9.project/group9.project.Experiments",
+            "projectName": "app"
+        },
+        {
+            "type": "java",
             "name": "MissionControl",
             "request": "launch",
             "mainClass": "group9.project/group9.project.MissionControl",

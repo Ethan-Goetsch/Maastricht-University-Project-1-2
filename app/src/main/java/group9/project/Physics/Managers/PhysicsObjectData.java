@@ -25,14 +25,7 @@ public class PhysicsObjectData implements IStartable
     }
     //#endregion
 
-    // The Good Initial Conditions ;(
-    // private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
-    // private static Vector3 rocketShipStartingVelocity = new Vector3(43.07164438203265, -41.31788889917668, -3.8464189997186904);
-
     private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
-
-    private Vector3 rocketShipStartingVelocity = new Vector3(43.055263066324734, -41.35587532316244, -3.3992847916377094);
-
 
     private CelestialBodyObject titanObject;
 
@@ -89,7 +82,7 @@ public class PhysicsObjectData implements IStartable
 
     private void createRocket()
     {
-        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, rocketShipStartingVelocity, 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
+        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, new Vector3(), 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
     }
 
     /**

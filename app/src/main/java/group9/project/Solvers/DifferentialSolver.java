@@ -2,10 +2,39 @@ package group9.project.Solvers;
 
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.PhysicsObjectType;
+import group9.project.Utility.Interfaces.INumericalFunction;
 import group9.project.Utility.Math.Vector3;
 
 public abstract class DifferentialSolver
 {
+    public Vector3[] solvePhysicsEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType)
+    {
+        Vector3[] state = new Vector3[2];
+
+
+        INumericalFunction<Double, Vector3> velocityAtPoint = (t, w) -> getVelocityAtPoint(velocity, acceleration, t);
+
+        INumericalFunction<Double, Vector3> accelerationAtPoint = (t, w) -> getAccelerationAtPoint(t, physicsObjectType);
+
+
+        state[0] = solveNumericalEquation(position, velocityAtPoint, h, 0);
+
+        state[1] = solveNumericalEquation(velocity, accelerationAtPoint, h, 0);
+
+        
+        return state;
+    }
+
+    protected Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
+    {
+        return initialValue.add(derivative.multiplyBy(h));
+    }
+
+    protected Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
+    {
+        return PhysicsEngine.getInstance().calculateAcceleration(h, physicsObjectType);
+    }
+
     /**
     * Solves and returns the answer to a differential equation
     *   
@@ -16,15 +45,5 @@ public abstract class DifferentialSolver
     * 
     * @return the next position and velocity values
     */
-    public abstract Vector3[] solveEquation(Vector3 position, Vector3 velocity, Vector3 acceleration, double h, PhysicsObjectType physicsObjectType);
-
-    protected Vector3 getVelocityAtPoint(Vector3 initialValue, Vector3 derivative, double h)
-    {
-        return initialValue.add(derivative.multiplyBy(h));
-    }
-
-    protected Vector3 getAccelerationAtPoint(double h, PhysicsObjectType physicsObjectType)
-    {
-        return PhysicsEngine.getInstance().calculateAccelerationAtPoint(h, physicsObjectType);
-    }
+    public abstract Vector3 solveNumericalEquation(Vector3 initialValue, INumericalFunction<Double, Vector3> derivativeFunction, double h, double t);
 }
