@@ -1,6 +1,8 @@
 package group9.project.UI.Drawable;
 
+import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.UI.GUI;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,10 +21,9 @@ public class DrawableRocketShipUI extends DrawableUI
 
     private Color shipColour;
 
-    public DrawableRocketShipUI(double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour, Vector3 newDrawablePosition)
+    public DrawableRocketShipUI(String name, RocketShipObject physicsObject, double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour)
     {
-        super();
-
+        super(name, physicsObject);
 
         shipWidth = newShipWidth;
 
@@ -33,7 +34,7 @@ public class DrawableRocketShipUI extends DrawableUI
         shipColour = newShipColour;
 
 
-        drawablePosition = newDrawablePosition;
+        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
 
 
         createDrawableUI();
@@ -70,7 +71,7 @@ public class DrawableRocketShipUI extends DrawableUI
 
     public void update(Vector3 newDrawablePosition)
     {
-        drawablePosition = newDrawablePosition;
+        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
 
         draw();
     }

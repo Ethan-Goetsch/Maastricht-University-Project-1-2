@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import group9.project.UI.GUI;
 import group9.project.UI.Drawable.DrawableManager;
-import group9.project.UI.Drawable.IDrawable;
+import group9.project.UI.Drawable.DrawableUI;
 
 public class SystemOrbitView extends PaneView
 {
@@ -30,11 +30,11 @@ public class SystemOrbitView extends PaneView
         getChildren().clear();
 
         // iterate through drawables
-        Iterator<IDrawable> drawableIterator = DrawableManager.getInstance().getIterator(); 
+        Iterator<DrawableUI> drawableIterator = DrawableManager.getInstance().getIterator(); 
 
         while (drawableIterator.hasNext())
         {
-            IDrawable drawable = drawableIterator.next();
+            DrawableUI drawable = drawableIterator.next();
 
             drawable.draw();
 

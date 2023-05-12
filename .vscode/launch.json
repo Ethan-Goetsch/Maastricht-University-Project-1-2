@@ -3,6 +3,13 @@
     [
         {
             "type": "java",
+            "name": "MissionControl",
+            "request": "launch",
+            "mainClass": "group9.project/group9.project.MissionControl",
+            "projectName": "TitanicSpaceOdyssey"
+        },
+        {
+            "type": "java",
             "name": "Experiments",
             "request": "launch",
             "mainClass": "group9.project/group9.project.Experiments",

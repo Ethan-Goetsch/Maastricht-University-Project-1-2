@@ -1,5 +1,6 @@
 package group9.project.UI.Drawable;
 
+import group9.project.Physics.Objects.PhysicsObject;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 import javafx.scene.Node;
@@ -14,11 +15,19 @@ public abstract class DrawableUI implements IDrawable
 
     protected Label drawableLabel;
 
-    public DrawableUI()
+    protected String name;
+
+    protected PhysicsObject physicsObject;
+
+    public DrawableUI(String name, PhysicsObject physicsObject)
     {
         DrawableManager.getInstance().add(this);
 
         drawablePane = new Pane();
+
+        this.name = name;
+
+        this.physicsObject = physicsObject;
     }
 
     @Override
@@ -27,11 +36,17 @@ public abstract class DrawableUI implements IDrawable
         return drawablePane;
     }
 
-    public void update(Vector3 newDrawablePosition)
+    public void update()
     {
-        drawablePosition = newDrawablePosition;
+        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
 
         draw();
+    }
+
+    @Override
+    public String getName()
+    {
+        return name;
     }
 
     @Override

@@ -7,4 +7,6 @@ public interface IDrawable
     public Node getDrawable();
 
     public void draw();
+
+    public String getName();
 }

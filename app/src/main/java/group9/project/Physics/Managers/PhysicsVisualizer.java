@@ -1,5 +1,6 @@
 package group9.project.Physics.Managers;
 
+import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.View.SimulationDetailView;
 import group9.project.UI.View.SystemDetailView;
 import group9.project.UI.View.SystemOrbitView;
@@ -94,6 +95,8 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     @Override
     public void update()
     {
+        DrawableManager.getInstance().update();
+
         systemView.update();
 
         systemCanvas.update();

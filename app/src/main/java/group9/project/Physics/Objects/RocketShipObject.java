@@ -14,8 +14,6 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
 {
     private RocketState currentRocketState;
 
-    private DrawableUI drawableRocketShipUI;
-
     private double thrusterForce;
 
     private double impulseForce;
@@ -37,11 +35,9 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
         return fuelConsumed;
     }
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
-
-        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
     public void setThrusterForce(double newThrusterForce)
@@ -73,8 +69,6 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
         updateAcceleration();
 
         updateState();
-
-        updateDrawable();
     }
 
     private void updateAcceleration()
@@ -85,11 +79,6 @@ public class RocketShipObject extends PhysicsObject implements IStateManager
     private void updateState()
     {
         tickState();
-    }
-
-    private void updateDrawable()
-    {
-        drawableRocketShipUI.update(getPosition());
     }
 
     @Override
