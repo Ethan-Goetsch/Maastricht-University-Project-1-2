@@ -11,6 +11,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseAxisTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -19,6 +20,7 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
+import group9.project.UI.Input.InputAction;
 
 /**
  *
@@ -34,12 +36,18 @@ public class CustomCameraControl extends AbstractControl {
     float delta = 0;
     float speed = 0;
     float rotationSpeed = 5;
-    float speedSensitivity = 2f;
+    float speedSensitivity = 4f;
     
     boolean enabled = true;
+    boolean freeRotation = false;
+    
+    // used for free camera rotation
+    private Vector3f spatialDirection;
+    private Quaternion spatialRotation;
         
-    public CustomCameraControl()
+    public CustomCameraControl(Camera cam)
     {
+        setCamera(cam);
     }
     
     public float getSpeed()
@@ -55,19 +63,13 @@ public class CustomCameraControl extends AbstractControl {
         } else 
         {
             delta -= 10f * speedSensitivity * tpf;
-            /*
-            if (delta < 0)
-            {
-                delta = 0;
-            }
-            */
         }
         
         return Math.signum(delta) * (float)Math.pow(1.1, Math.abs(delta))-1;
     
     }
     
-    public void setCamera(Camera cam)
+    private void setCamera(Camera cam)
     {
         this.cam = cam;
         initialUpVec = cam.getUp().clone();
@@ -77,6 +79,18 @@ public class CustomCameraControl extends AbstractControl {
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+    }
+    
+    public void setFreeRotation(boolean freeRotation)
+    {
+        this.freeRotation = freeRotation;
+        if (freeRotation)
+        {
+            spatialRotation = spatial.getLocalRotation().clone(); // save the current rotation of the spatial
+        } else {
+            
+            spatial.setLocalRotation(spatialRotation); // set rotation of spatial back to saved rotation
+        }
     }
     
     public void setInput(InputManager inputManager)
@@ -92,6 +106,8 @@ public class CustomCameraControl extends AbstractControl {
         inputManager.addMapping("Rotate Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
         inputManager.addMapping("Rotate Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
         inputManager.addMapping("Rotate Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+        
+        inputManager.addMapping(InputAction.DETACH_CAMERA_ROTATION, new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
         
         AnalogListener analogListener = new AnalogListener() {
             @Override
@@ -118,11 +134,33 @@ public class CustomCameraControl extends AbstractControl {
                 } else if (name.equals("Rotate Down"))
                 {
                     rotateCamera(-value, new Vector3f(1f,0f,0f));
+                } else if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
+                {
+                    
                 }
             }
         };
         
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void onAction(String name, boolean isPressed, float tpf) {
+                if (!enabled) return;
+                if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
+                {
+                    if (isPressed)
+                    {
+                        setFreeRotation(true);
+                        System.out.println("hi");
+                    } else
+                    {
+                        setFreeRotation(false);
+                    }
+                } 
+            }
+        };
+        
         inputManager.addListener(analogListener, new String[]{"Increase Move Speed","Decrease Move Speed","Toggle Move","Rotate Left","Rotate Right","Rotate Up","Rotate Down"});
+        inputManager.addListener(actionListener, new String[]{InputAction.DETACH_CAMERA_ROTATION});
     }
     
     /**
@@ -143,43 +181,20 @@ public class CustomCameraControl extends AbstractControl {
         {
             localRotation.mult(rotation.fromAngles(0,value*rotationSpeed,0));
         }
-        //System.out.println(localRotation.toString());
+        
         this.getSpatial().rotate(rotation);
         
-        //Vector3f rotationAxis = axis.mult(rotationSpeed).mult(value);
-        //System.out.println("rotation: " + rotationAxis);
-        //this.getSpatial().rotate(rotationAxis.getX(), rotationAxis.getY(), 0);
-        //System.out.println("up: " + cam.getUp());
-        //System.out.println("up: " + this.cam.getUp());
-        //this.cam.lookAt(this.getSpatial().getLocalTranslation(), initialUpVec);
-
-        /*
-        Matrix3f mat = new Matrix3f();
-        mat.fromAngleNormalAxis(rotationSpeed * value, axis);
-
-        Vector3f up = cam.getUp();
-        Vector3f left = cam.getLeft();
-        Vector3f dir = cam.getDirection();
-
-        mat.mult(up, up);
-        mat.mult(left, left);
-        mat.mult(dir, dir);
-
-        Quaternion q = new Quaternion();
-        q.fromAxes(left, up, dir);
-        q.normalizeLocal();
-
-        //cam.setAxes(q);
-        this.getSpatial().setLocalRotation(q);
-*/
-
+        if (!freeRotation)
+        {
+            spatialDirection = cam.getDirection().normalize(); // only set direction of spatial to camera direction if not in free rotation mode
+        }
+        
     }
     
     @Override
     public Control cloneForSpatial(Spatial spatial)
     {
-        final CustomCameraControl control = new CustomCameraControl();
-        control.setCamera(cam);
+        final CustomCameraControl control = new CustomCameraControl(cam);
         control.setInput(inputManager);
         control.setSpatial(spatial);
         return control;
@@ -189,9 +204,16 @@ public class CustomCameraControl extends AbstractControl {
     protected void controlUpdate(float tpf)
     {
         if (!enabled) return;
-        this.getSpatial().move(cam.getDirection().normalize().mult(speed).mult(tpf));
-        //System.out.println("speed: " + speed);
-        //inputManager.setCursorVisible(false);
+        this.getSpatial().move(spatialDirection.mult(speed).mult(tpf));
+    }
+    
+    @Override
+    public void setSpatial(Spatial spatial)
+    {
+        super.setSpatial(spatial);
+        
+        spatialDirection = cam.getDirection().normalize();
+        spatialRotation = spatial.getLocalRotation();
     }
 
     @Override
