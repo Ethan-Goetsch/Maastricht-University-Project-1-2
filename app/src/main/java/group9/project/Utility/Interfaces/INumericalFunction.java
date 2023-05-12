@@ -1,7 +1,7 @@
 package group9.project.Utility.Interfaces;
 
 @FunctionalInterface
-public interface INumericalFunction<T, W, R>
+public interface INumericalFunction<T, W>
 {
-    public R evaluate(T time, W value);
+    public W evaluate(T time, W value);
 }

@@ -29,19 +29,14 @@ public class Optimization implements IUpdateable, IResetable
     private final static int AMOUNT_OF_NEIGHBOURS = 10;
 
 
-    private final static double MAX_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.0001;
+    private final static double MAX_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.00001;
 
-    private final static double MIN_NEIGHBOUR_VELOCITY_DIFFERENCE = -0.0001;
+    private final static double MIN_NEIGHBOUR_VELOCITY_DIFFERENCE = -0.00001;
 
 
     private final static double MAX_NEIGHBOUR_FORCE_DIFFERENCE = 0;
 
     private final static double MIN_NEIGHBOUR_FORCE_DIFFERENCE = 0;
-
-    
-    private Vector3 debugTitanPosition = new Vector3();
-
-    private Vector3 debugRocketPosition = new Vector3();
 
 
     private List<Solution> currentNeighbours = new ArrayList<>();
@@ -49,7 +44,7 @@ public class Optimization implements IUpdateable, IResetable
     // Genetic Algorithm Initial Velocity :
     // 43.055263066324734, -41.35587532316244, -3.3992847916377094
 
-    private Solution optimalSolution = new Solution(new Vector3(51.74233817375136, -37.091917801809416, -2.251099531661485), 0);
+    private Solution optimalSolution = new Solution(new Vector3(51.74236069886451, -37.09192081936932, -2.251087528222886), 0);
 
     private Solution currentSolution = optimalSolution;
 
@@ -125,10 +120,6 @@ public class Optimization implements IUpdateable, IResetable
         if (newScore < currentSolution.getScore())
         {
             currentSolution.setScore(newScore);
-
-            debugTitanPosition = PhysicsObjectData.getInstance().getTitanObject().getPosition();
-
-            debugRocketPosition = PhysicsObjectData.getInstance().getRocketShipObject().getPosition();
         }
     }
 
@@ -144,19 +135,11 @@ public class Optimization implements IUpdateable, IResetable
 
             System.out.println("Optimal Solution : " + optimalSolution.toString());
 
-            System.out.println("---------------");
-
-            System.out.println("Titan's Position : " + debugTitanPosition.toString() + "\n" + "Rocket's Position : " + debugRocketPosition.toString());
-
             System.out.println("-----------------------------------------------------------");
         }
         else
         {
             System.out.println("\n" + "Optimal Solution : " + optimalSolution.toString() + "\n" + "Current Solution : " + currentSolution.toString());
-
-            System.out.println("---------------");
-
-            System.out.println("Titan's Position : " + debugTitanPosition.toString() + "\n" + "Rocket's Position : " + debugRocketPosition.toString());
         }
     } 
 }

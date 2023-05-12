@@ -12,7 +12,7 @@ public class PhysicsSettings
 
     private static final double GRAVITY = 6.6743E-20;
 
-    private static final double STEP_TIME = 1000;                                                                                                                                                                                                                                                                                                  ;
+    private static final double STEP_TIME = 100;                                                                                                                                                                                                                                                                                                  ;
 
     private static final DifferentialSolver universeDifferentialSolver = new RungeKuttaFourthSolver();
 

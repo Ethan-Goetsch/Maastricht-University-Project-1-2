@@ -7,7 +7,7 @@ public class HeunSolver extends DifferentialSolver
 {
 
     @Override
-    public Vector3 differentialAlgorithm(Vector3 initialValue, INumericalFunction<Double, Vector3, Vector3> derivativeFunction, double h, double t)
+    public Vector3 solveNumericalEquation(Vector3 initialValue, INumericalFunction<Double, Vector3> derivativeFunction, double h, double t)
     {
         Vector3 k1 = derivativeFunction.evaluate(t, initialValue).multiplyBy(h);
 

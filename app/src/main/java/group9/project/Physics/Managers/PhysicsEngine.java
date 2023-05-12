@@ -169,7 +169,7 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     {
         for (int i = 0; i < physicsObjects.length; i++)
         {
-            Vector3[] newState = differentialSolver.solveEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsStateData[i].getPhysicsObjectType());
+            Vector3[] newState = differentialSolver.solvePhysicsEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsStateData[i].getPhysicsObjectType());
 
             physicsObjects[i].setPosition(newState[0]);
         }

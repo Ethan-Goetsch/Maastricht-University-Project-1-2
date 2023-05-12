@@ -41,7 +41,7 @@ public class CelestialBodyObject extends PhysicsObject
 
     private void updateMovement()
     {
-        Vector3[] state = differentialSolver.solveEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getStepTime(), physicsObjectType);
+        Vector3[] state = differentialSolver.solvePhysicsEquation(getPosition(), getVelocity(), getAcceleration(), PhysicsSettings.getStepTime(), physicsObjectType);
 
         setPosition(state[0]);
 

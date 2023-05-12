@@ -5,7 +5,7 @@ import group9.project.Events.IEventListener;
 
 public class SimulationSettings
 {
-    private static final boolean DEVELOPMENT_MODE = true;
+    private static final boolean DEVELOPMENT_MODE = false;
 
     private static final double MIN_SIMULATION_SPEED = 0.01;
 

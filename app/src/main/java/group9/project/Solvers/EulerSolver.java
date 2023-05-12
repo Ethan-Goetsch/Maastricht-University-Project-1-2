@@ -6,7 +6,7 @@ import group9.project.Utility.Math.Vector3;
 public class EulerSolver extends DifferentialSolver
 {
     @Override
-    public Vector3 differentialAlgorithm(Vector3 initialValue, INumericalFunction<Double, Vector3, Vector3> derivativeFunction, double h, double t)
+    public Vector3 solveNumericalEquation(Vector3 initialValue, INumericalFunction<Double, Vector3> derivativeFunction, double h, double t)
     {
         return initialValue.add(derivativeFunction.evaluate(t, initialValue).multiplyBy(h));
     }
