@@ -26,4 +26,5 @@ public class InputAction {
     public static final String DECREASE_SIM_SPEED = "Decrease Simulation Speed";
     public static final String OPEN_MENU = "Open Menu";
     public static final String PAUSE_SIM = "Pause Simulation";
+    public static final String DETACH_CAMERA_ROTATION = "Detach Camera Rotation";
 }

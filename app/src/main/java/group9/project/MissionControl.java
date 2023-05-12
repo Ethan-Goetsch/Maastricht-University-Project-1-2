@@ -242,9 +242,8 @@ public class MissionControl extends SimpleApplication
         cameraNode.setLocalTranslation(0, 0, DrawableManager.getInstance().getObjectWithName("sun").getPreferredViewDistance() * -1);
 
         // add custom camera control to camera node
-        camControl = new CustomCameraControl();
+        camControl = new CustomCameraControl(cam);
         camControl.setInput(inputManager);
-        camControl.setCamera(cam);
         cameraNode.addControl(camControl);
         
         rootNode.attachChild(cameraNode);
