@@ -35,7 +35,7 @@ public class Optimization implements IUpdateable, IResetable
 
     private Optimization()
     {
-        currentSolution = new Solution(new Vector3(49.595840993199005, -36.715240499873744, -1.9967249585376932), 2.8764492527789156);
+        currentSolution = new Solution(new Vector3(51.73103664964552, -37.65773832186801, -2.2727731130412083), 0);
 
         optimalSolution = currentSolution;
     }
