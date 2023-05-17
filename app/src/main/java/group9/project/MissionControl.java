@@ -6,6 +6,7 @@ import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.ScreenshotAppState;
+import com.jme3.font.BitmapFont;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
@@ -51,7 +52,9 @@ import group9.project.UI.Drawable.DrawableRocketShipUI;
 import group9.project.UI.Drawable.DrawableUI;
 import group9.project.UI.HUD;
 import group9.project.UI.Menu;
+import group9.project.UI.hud.PlanetLabels;
 import group9.project.UI.ScaleConverter;
+import group9.project.UI.hud.SystemInformationView;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -151,8 +154,11 @@ public class MissionControl extends SimpleApplication
         viewSwitcher.registerInputs();
         
         // create HUD
-        hud = new HUD(this, assetManager.loadFont("Interface/Fonts/Monospaced.fnt"));
-        hud.setSpeedLabel(camControl);
+        hud = new HUD(guiNode, inputManager);
+        BitmapFont font = assetManager.loadFont("Interface/Fonts/Monospaced.fnt");
+        hud.addHudDrawable(new PlanetLabels(this.getCamera(), font));
+        hud.addHudDrawable(new SystemInformationView(cam, font, camControl));
+        
         
         this.getCamera().update();
         
