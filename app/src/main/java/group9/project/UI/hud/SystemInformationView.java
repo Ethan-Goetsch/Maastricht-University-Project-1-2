@@ -19,7 +19,7 @@ import group9.project.Utility.Date.DateCalculator;
  */
 public class SystemInformationView implements IHudDrawable{
     
-    private Node rootNode;
+    private Node rootNode; // this is the root node of the SystemInformationView's local scene graph instance
     
     private boolean enabled;
     
@@ -32,6 +32,13 @@ public class SystemInformationView implements IHudDrawable{
     private CustomCameraControl camControl;
 
     
+    /**
+     * Creates an instance of {@code SystemInformationView}.
+     * 
+     * @param cam the application's camera instance, used to display the camera's position
+     * @param font the font used for the labels
+     * @param camControl the camera control, used to display the speed of the camera
+     */
     public SystemInformationView(Camera cam, BitmapFont font, CustomCameraControl camControl)
     {
         rootNode = new Node();
@@ -44,6 +51,8 @@ public class SystemInformationView implements IHudDrawable{
     
     private void init()
     {
+        // instantiate and configure labels:
+
         this.dateLabel = new BitmapText(font);
         this.dateLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-50, 0);
         
@@ -59,16 +68,38 @@ public class SystemInformationView implements IHudDrawable{
         speedLabel = new BitmapText(font);
         speedLabel.setLocalTranslation(MissionControl.WIDTH/2, MissionControl.HEIGHT-100, 0);
         
+        attachChildren();
+    }
+
+    /**
+     * Attaches the labels to the local scene graph
+     */
+    private void attachChildren()
+    {
         rootNode.attachChild(dateLabel);
         rootNode.attachChild(distanceLabel);
         rootNode.attachChild(dateLabel);
         rootNode.attachChild(rocketSpeedLabel);
         rootNode.attachChild(speedLabel);
     }
+
+    /**
+     * Removes the labels from the local scene graph
+     */
+    private void detachChildren()
+    {
+        rootNode.detachChild(dateLabel);
+        rootNode.detachChild(distanceLabel);
+        rootNode.detachChild(dateLabel);
+        rootNode.detachChild(rocketSpeedLabel);
+        rootNode.detachChild(speedLabel);
+    }
     
     @Override
     public void update()
     {
+        if (!enabled) return;
+
         speedLabel.setText(camControl.getSpeed() + "");
         dateLabel.setText("Date: " + DateCalculator.getInstance().getCurrentDate() + "");
         rocketSpeedLabel.setText("Rocket speed: " + PhysicsObjectData.getInstance().getRocketShipSpeed() + " km/s");
@@ -84,6 +115,12 @@ public class SystemInformationView implements IHudDrawable{
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        if (enabled)
+        {
+           attachChildren(); 
+        } else  {
+            detachChildren();
+        }
     }
     
     

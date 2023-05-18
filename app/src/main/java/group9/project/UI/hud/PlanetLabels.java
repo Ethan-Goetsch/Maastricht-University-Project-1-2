@@ -23,7 +23,7 @@ import group9.project.UI.Input.InputAction;
  */
 public class PlanetLabels implements IHudDrawable, IInputable{
     
-    Node rootNode;
+    Node rootNode; // this is the root node of the local scene graph of a PlanetLabels instance.
     
     BitmapFont font;
     
@@ -32,27 +32,28 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     boolean enabled;
     
     private BitmapText sunLabel,mercuryLabel,venusLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel;
-
     
-    public PlanetLabels(Camera cam)
-    {
-        rootNode = new Node();
-        this.cam = cam;
-        init();
-    }
-    
+    /**
+     * Creates an instance of {@code PlanetLabels}.
+     * @param cam the application's camera instance, used to display planet labels at the correct position on the screen.
+     * @param font the font for the planet labels.
+     */
     public PlanetLabels(Camera cam, BitmapFont font)
     {
         this.font = font;
-        rootNode = new Node();
-        this.cam = cam;
-        init();
+        init(cam);
     }
     
-    private void init()
+    private void init(Camera cam)
     {
-        this.enabled = true;
+        this.cam = cam;
         
+        rootNode = new Node();
+
+        this.enabled = true; // by default the labels should be visible
+        
+        // instantiate and configure the labels:
+
         earthLabel = new BitmapText(font);
         earthLabel.setSize(font.getCharSet().getRenderedSize());
         earthLabel.setColor(ColorRGBA.Blue);
@@ -153,6 +154,11 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         }
     }
     
+    /**
+     * Sets the positions of the labels to match the position of their respective planets.
+     * The screen coordinates for each label are found using the {@code getScreenCoordinates} instance method belonging to the {@code com.jme3.renderer.Camera} class, which returns the screen coordinates
+     *      of a spatial in the scene graph given the spatial's 3D position.
+     */
     private void updateLabelPositions()
     {
         sunLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("sun").getDrawable().getLocalTranslation()));
@@ -169,6 +175,9 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         rocketLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("rocket").getDrawable().getLocalTranslation()));
     }
     
+    /**
+     * Attaches the labels to local scene graph
+     */
     private void attachChildren()
     {
         rootNode.attachChild(sunLabel);
@@ -185,6 +194,9 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         rootNode.attachChild(titanLabel);
     }
     
+    /**
+     * Removes the labels from the local scene graph
+     */
     private void detachChildren()
     {
         rootNode.detachChild(sunLabel);
