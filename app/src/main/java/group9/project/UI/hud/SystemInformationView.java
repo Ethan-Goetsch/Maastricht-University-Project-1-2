@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI.hud;
 
 import com.jme3.font.BitmapFont;
@@ -13,10 +9,6 @@ import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.UI.Camera.CustomCameraControl;
 import group9.project.Utility.Date.DateCalculator;
 
-/**
- *
- * @author natem
- */
 public class SystemInformationView implements IHudDrawable{
     
     private Node rootNode; // this is the root node of the SystemInformationView's local scene graph instance
@@ -54,19 +46,19 @@ public class SystemInformationView implements IHudDrawable{
         // instantiate and configure labels:
 
         this.dateLabel = new BitmapText(font);
-        this.dateLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-50, 0);
+        this.dateLabel.setLocalTranslation(MissionControl.getWidth()-500, MissionControl.getHeight()-50, 0);
         
         this.distanceLabel = new BitmapText(font);
-        this.distanceLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-100, 0);
+        this.distanceLabel.setLocalTranslation(MissionControl.getWidth()-500, MissionControl.getHeight()-100, 0);
         
         this.rocketSpeedLabel = new BitmapText(font);
-        this.rocketSpeedLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-150, 0);
+        this.rocketSpeedLabel.setLocalTranslation(MissionControl.getWidth()-500, MissionControl.getHeight()-150, 0);
         
         this.positionLabel = new BitmapText(font);
-        this.positionLabel.setLocalTranslation(MissionControl.WIDTH-500, MissionControl.HEIGHT-200, 0);
+        this.positionLabel.setLocalTranslation(MissionControl.getWidth()-500, MissionControl.getHeight()-200, 0);
         
         speedLabel = new BitmapText(font);
-        speedLabel.setLocalTranslation(MissionControl.WIDTH/2, MissionControl.HEIGHT-100, 0);
+        speedLabel.setLocalTranslation(MissionControl.getWidth()/2, MissionControl.getHeight()-100, 0);
         
         attachChildren();
     }
@@ -122,8 +114,5 @@ public class SystemInformationView implements IHudDrawable{
             detachChildren();
         }
     }
-    
-    
-    
     
 }

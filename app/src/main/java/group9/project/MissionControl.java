@@ -18,18 +18,11 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Spatial;
 import com.jme3.system.AppSettings;
 import com.jme3.util.SkyFactory;
-import java.io.IOException;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
-import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.simsilica.lemur.Button;
-import com.simsilica.lemur.Command;
-import com.simsilica.lemur.Container;
 import com.simsilica.lemur.GuiGlobals;
-import com.simsilica.lemur.Label;
 import com.simsilica.lemur.style.BaseStyles;
 
 import group9.project.Events.EventManager;
@@ -40,11 +33,8 @@ import group9.project.Physics.Objects.CelestialBodyObject;
 import group9.project.Physics.Objects.PhysicsObject;
 import group9.project.Physics.Objects.PhysicsObjectType;
 import group9.project.Physics.Objects.RocketShipObject;
-import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.Camera.CustomCameraControl;
-import group9.project.UI.Camera.PictureInPicture;
-import group9.project.UI.Camera.TopDownView;
 import group9.project.UI.Camera.ViewSwitcher;
 import group9.project.UI.Drawable.DrawableCelestialBodyUI;
 import group9.project.UI.Drawable.DrawableManager;
@@ -59,26 +49,20 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- * JavaFX App
- */
 public class MissionControl extends SimpleApplication
 {
-    public static int WIDTH = (int) (2560/1.2);
-    public static int HEIGHT = (int) (1440/1.2);
+    private static int WIDTH;
+    private static int HEIGHT;
+
     private HUD hud;
+
     Node newNode;
-    
-    private TopDownView topDownView;
-    
+        
     public CustomCameraControl camControl;
     public CameraNode cameraNode;
     
     private boolean enableCursor;
-    
     
     //#region Singleton
     private static MissionControl instance;
@@ -106,27 +90,29 @@ public class MissionControl extends SimpleApplication
     public static void main(String[] args)
     {
         
-        // display fullscreen
+        // display in fullscreen by getting width and height of display:
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         DisplayMode mode = gd.getDisplayMode();
         MissionControl.WIDTH = mode.getWidth();
         MissionControl.HEIGHT = mode.getHeight();
         
-        MissionControl app = new MissionControl();
-        instance = app;
+        instance  = new MissionControl();
+
+        // settings for the application:
         AppSettings settings = new AppSettings(true);
         settings.setResolution(WIDTH, HEIGHT);
         settings.setVSync(true);
         
         
-        app.setSettings(settings);
-        app.start();
+        instance.setSettings(settings);
+        instance.start(); 
     }
 
     @Override
     public void simpleInitApp()
     {
         
+        // initialise GUI style:
         GuiGlobals.initialize(this);
         BaseStyles.loadGlassStyle();
         GuiGlobals.getInstance().getStyles().setDefaultStyle("glass");
@@ -138,22 +124,20 @@ public class MissionControl extends SimpleApplication
         initDrawables();
         
         initCamera();
-        System.out.println("camera node: " + cameraNode);
         
         initEffectsAndFilters();
    
-        getRootNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/8k_stars_milky_way.jpg", SkyFactory.EnvMapType.SphereMap)); // set background/hdri
-        
         initLights();
         
         initKeys();
 
+        getRootNode().attachChild(SkyFactory.createSky(getAssetManager(), "Textures/8k_stars_milky_way.jpg", SkyFactory.EnvMapType.SphereMap)); // set background/hdri
+
         
-        // create view switcher
-        ViewSwitcher viewSwitcher = new ViewSwitcher(this, inputManager, camControl);
-        viewSwitcher.registerInputs();
+        // create view switcher to switch camera views between planets/rocket:
+        ViewSwitcher viewSwitcher = new ViewSwitcher(this, inputManager, camControl, cameraNode);
         
-        // create HUD
+        // create HUD:
         hud = new HUD(guiNode, inputManager);
         BitmapFont font = assetManager.loadFont("Interface/Fonts/Monospaced.fnt");
         hud.addHudDrawable(new PlanetLabels(this.getCamera(), font));
@@ -162,31 +146,28 @@ public class MissionControl extends SimpleApplication
         
         this.getCamera().update();
         
-        // Initialize the globals access so that the defualt
-        // components can find what they need.
-        GuiGlobals.initialize(this);
-            
-        // Load the 'glass' style
-        BaseStyles.loadGlassStyle();
-            
-        // Set 'glass' as the default style when not specified
-        GuiGlobals.getInstance().getStyles().setDefaultStyle("glass");
-        
-        System.out.println("camera node: " + cameraNode);
+        // create menu (to exit program and whatever other features get added to the menu):
         Menu menu = new Menu(guiNode, guiFont);
-        menu.registerKeys(inputManager);
+        menu.registerKeys(inputManager); // register inputs (button clicks and such)
         
     }
     
-    public void initEffectsAndFilters()
+    /**
+     * Adds effects and filters (such as bloom) to the viewport.
+     */
+    private void initEffectsAndFilters()
     {
+        // adds a bloom filter to the viewport:
         FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
         BloomFilter bloom = new BloomFilter(BloomFilter.GlowMode.Objects);
         fpp.addFilter(bloom);
         viewPort.addProcessor(fpp);
     }
     
-    public void initSpatials()
+    /**
+     * Instantiates the spatials for the planets and the rockets by loading the .j3o model files into memory.
+     */
+    private void initSpatials()
     {
         sunSpatial = assetManager.loadModel("Models/Sun/sun.j3o");
         mercurySpatial = assetManager.loadModel("Models/Mercury/mercury.j3o");
@@ -200,41 +181,36 @@ public class MissionControl extends SimpleApplication
         neptuneSpatial = assetManager.loadModel("Models/Neptune/neptune.j3o");
         uranusSpatial = assetManager.loadModel("Models/Uranus/uranus.j3o");
         rocketSpatial = assetManager.loadModel("Models/Rocket/rocket.j3o");
-
-        sunSpatial2 = assetManager.loadModel("Models/Sun/sun.j3o");
-        mercurySpatial2 = assetManager.loadModel("Models/Mercury/mercury.j3o");
-        venusSpatial2 = assetManager.loadModel("Models/Venus/venus.j3o");
-        earthSpatial2 = assetManager.loadModel("Models/Earth/earth.j3o");
-        moonSpatial2 = assetManager.loadModel("Models/Moon/moon.j3o");
-        marsSpatial2 = assetManager.loadModel("Models/Mars/mars.j3o");
-        jupiterSpatial2 = assetManager.loadModel("Models/Jupiter/jupiter.j3o");
-        saturnSpatial2 = assetManager.loadModel("Models/Saturn/saturn.j3o");
-        titanSpatial2 = assetManager.loadModel("Models/Titan/titan.j3o");
-        neptuneSpatial2 = assetManager.loadModel("Models/Neptune/neptune.j3o");
-        uranusSpatial2 = assetManager.loadModel("Models/Uranus/uranus.j3o");
-        rocketSpatial2 = assetManager.loadModel("Models/Rocket/rocket.j3o");
     }
     
-    public void initLights()
+    /**
+     * Creates the lights so that we can see the planets and rocket.
+     * The sun light is what is most important here.
+     */
+    private void initLights()
     {
+        // TODO: make the sun light follow the sun instead of being stuck in place
         PointLight sunLight = new PointLight();
         sunLight.setColor(ColorRGBA.White.mult(1f));
         sunLight.setPosition(Vector3f.ZERO);
-        sunLight.setRadius(1000000000000f);
-        Vector3f f= new Vector3f();
+        sunLight.setRadius(1000000000000f); // radius has to be big enough to light up the planets at the edge of the solar system
         
+        // the ambient light is kind of useless right now, but if we want want to brighten the shadows we can increase the scalar for the ambient light color
         AmbientLight ambientLight = new AmbientLight();
         ambientLight.setColor(ColorRGBA.White.mult(0.0001f));
         
         rootNode.addLight(ambientLight);
         rootNode.addLight(sunLight);
-        
-        System.out.println("cam node (lights): " + cameraNode);
     }
     
-    public void initCamera()
+    /**
+     * Initialises the application's camera.
+     * Camera should initially be pointing towards the sun at an appropriate distance away.
+     * The custom camera control is also created here.
+     */
+    private void initCamera()
     {
-        inputManager.setCursorVisible(false); // make cursor invisible
+        inputManager.setCursorVisible(false);
 
         // create camera node
         cameraNode = new CameraNode("Main Camera", this.getCamera());
@@ -247,7 +223,7 @@ public class MissionControl extends SimpleApplication
                 
         cameraNode.setLocalTranslation(0, 0, DrawableManager.getInstance().getObjectWithName("sun").getPreferredViewDistance() * -1);
 
-        // add custom camera control to camera node
+        // add custom camera control to camera node so that we can move the camera nicely (see the CustomCameraControl class for more details)
         camControl = new CustomCameraControl(cam);
         camControl.setInput(inputManager);
         cameraNode.addControl(camControl);
@@ -259,43 +235,16 @@ public class MissionControl extends SimpleApplication
         cam.update();
         
         inputManager.setCursorVisible(false); // make cursor invisible
-        
-        // The following code is used for creating a seperate viewport, but its buggy so ive commented it out
-        
-        //Camera cam2 = cam.clone();
-        //cam2.setViewPort(.4f, .6f, 0.8f, 1f);
-        //cam2.setLocation(new Vector3f(-0.10f, 1.57f, 4.81f));
-        //cam2.setRotation(new Quaternion(0.00f, 0.99f, -0.04f, 0.02f));
-        //ViewPort viewPort2 = renderManager.createMainView("PiP", cam2);
-        //viewPort2.setClearFlags(true, true, true);
-        
-        //newNode = new Node("PiP");
-        //sun = new DrawableCelestialBodyUI("sun", sunSpatial2, (CelestialBodyObject)PhysicsEngine.getInstance().getPhysicsObjects()[PhysicsObjectType.Sun.getValue()]);
-        //newNode.attachChild(sun.getDrawable());
-        
-        //viewPort2.attachScene(newNode);
-        
-        /*
-        Camera pipCam = cam.clone();
-        //pipCam.setLocation(new Vector3f(383,-19672,235109));
-        pipCam.setLocation(new Vector3f(0,0,135109));
-
-        pipCam.lookAt(DrawableManager.getInstance().getObjectWithName("sun").getDrawable().getLocalTranslation(), new Vector3f(0, 1, 0));
-        PictureInPicture pip = new PictureInPicture(pipCam, renderManager);
-        topDownView = new TopDownView();
-        topDownView.setLightPosition(pipCam.getLocation());
-        pip.setRootNode(topDownView.getRootNode());
-*/
-        
     }
     
-    public void initDrawables()
+    /**
+     * Creates the drawables using the appropriate physics objects and spatials, and adds them to the drawable manager.
+     */
+    private void initDrawables()
     {
         PhysicsObject[] physicsObjects = PhysicsEngine.getInstance().getPhysicsObjects();
         
         DrawableManager dmanager = DrawableManager.getInstance();
-        
-        System.out.println("sun spatial: " + sunSpatial);
         
         DrawableManager.getInstance().add(new DrawableCelestialBodyUI("sun", sunSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Sun.getValue()]));
         DrawableManager.getInstance().add(new DrawableCelestialBodyUI("mercury", mercurySpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Mercury.getValue()]));
@@ -314,10 +263,14 @@ public class MissionControl extends SimpleApplication
         Iterator<DrawableUI> dIterator = DrawableManager.getInstance().getIterator();
         while (dIterator.hasNext())
         {
-            rootNode.attachChild(dIterator.next().getDrawable());
+            rootNode.attachChild(dIterator.next().getDrawable()); // attach the drawables to the scene graph so we can see them
         }
     }
 
+    /**
+     * Restarts the physics simulation.
+     * All planets as well as the rocket will be reset back to their initial states.
+     */
     public void restart()
     {
         PhysicsObjectData.getInstance().start();
@@ -325,7 +278,10 @@ public class MissionControl extends SimpleApplication
         PhysicsEngine.getInstance().start();
     }
     
-    public void initKeys()
+    /**
+     * Adds application wide input handling.
+     */
+    private void initKeys()
     {
         inputManager.deleteMapping( SimpleApplication.INPUT_MAPPING_EXIT);
         inputManager.addMapping("Reduce Simulation Speed", new KeyTrigger(KeyInput.KEY_COMMA));
@@ -348,6 +304,9 @@ public class MissionControl extends SimpleApplication
         }
     };
 
+    /**
+     * Starts the physics simulation.
+     */
     private void createSystems()
     {
         PhysicsObjectData.getInstance().start();
@@ -357,6 +316,12 @@ public class MissionControl extends SimpleApplication
         EventManager.getInstance().start();
     }
     
+    /**
+     * Sets the paused state of the application.
+     * This enables/disables camera movement and pauses/unpauses the physics simulation.
+     * Since the spatials that can be seen on screen match the movement of the physics objects, there will be no spatial movement while the physics engine is paused.
+     * @param paused if true, the application will be set to paused, if false the application will be set to unpaused.
+     */
     public void setPaused(boolean paused)
     {
         if (paused)
@@ -371,8 +336,30 @@ public class MissionControl extends SimpleApplication
         }
     }
     
+    /**
+     * Sets cursor visibility.
+     * @param visible if true, the mouse cursor will be visible on screen, if false it will be hidden
+     */
     public void setCursorVisible(boolean visible) {
         enableCursor = visible;
+    }
+    
+    /**
+     * 
+     * @return the width of the application window in pixels
+     */
+    public static int getWidth()
+    {
+        return WIDTH;
+    }
+    
+    /**
+     * 
+     * @return the height of the application window in pixels
+     */
+    public static int getHeight()
+    {
+        return HEIGHT;
     }
 
     @Override
@@ -386,22 +373,18 @@ public class MissionControl extends SimpleApplication
                 Optimization.getInstance().update();
             }
             
-            DrawableManager.getInstance().update();
+            DrawableManager.getInstance().update(); // this updates all the drawables, so that their position matches that of their corresponding physics objects
                         
-            camControl.update(tpf);
+            camControl.update(tpf); // this lets the camera move
+
             hud.update();
             
-            inputManager.setCursorVisible(enableCursor);
-            
-            
-            //topDownView.update(tpf);
-            //newNode.updateLogicalState(tpf);
-            //newNode.updateGeometricState();
+            inputManager.setCursorVisible(enableCursor); // not ideal to call this method in the update loop, but I ran into issues where the cursor would still be visible even after setting it to be not so. So this is a work around.
 
     }
     
     
-    // spatials
+    // spatials:
     public static Spatial sunSpatial;
     public static Spatial mercurySpatial;
     public static Spatial venusSpatial;
@@ -414,19 +397,5 @@ public class MissionControl extends SimpleApplication
     public static Spatial uranusSpatial;
     public static Spatial neptuneSpatial;
     public static Spatial rocketSpatial;
-    
-    public static Spatial sunSpatial2;
-    public static Spatial mercurySpatial2;
-    public static Spatial venusSpatial2;
-    public static Spatial earthSpatial2;
-    public static Spatial moonSpatial2;
-    public static Spatial marsSpatial2;
-    public static Spatial jupiterSpatial2;
-    public static Spatial saturnSpatial2;
-    public static Spatial titanSpatial2;
-    public static Spatial uranusSpatial2;
-    public static Spatial neptuneSpatial2;
-    public static Spatial rocketSpatial2;
-
     
 }

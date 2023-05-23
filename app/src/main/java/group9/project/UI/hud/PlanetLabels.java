@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI.hud;
 
 import com.jme3.font.BitmapFont;
@@ -17,10 +13,6 @@ import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.IInputable;
 import group9.project.UI.Input.InputAction;
 
-/**
- *
- * @author natem
- */
 public class PlanetLabels implements IHudDrawable, IInputable{
     
     Node rootNode; // this is the root node of the local scene graph of a PlanetLabels instance.
@@ -44,6 +36,11 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         init(cam);
     }
     
+    /**
+     * Instantiates and configures the labels.
+     * Attaches the labels to the local root node.
+     * @param cam
+     */
     private void init(Camera cam)
     {
         this.cam = cam;

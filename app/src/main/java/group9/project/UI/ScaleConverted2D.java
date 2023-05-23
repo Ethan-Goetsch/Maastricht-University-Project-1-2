@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI;
 
 import group9.project.Utility.Math.Vector3;
 
-/**
- *
- * @author natem
- */
 public class ScaleConverted2D {
     private static final double SCALE_KM_TO_PIXELS = 3779528.0352161;
 
