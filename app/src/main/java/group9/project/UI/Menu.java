@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI;
 
 import com.jme3.font.BitmapFont;
@@ -25,10 +21,6 @@ import com.simsilica.lemur.style.BaseStyles;
 import group9.project.MissionControl;
 import group9.project.UI.Input.InputAction;
 
-/**
- *
- * @author natem
- */
 public class Menu implements ActionListener{
  
     Node guiNode;
@@ -38,9 +30,9 @@ public class Menu implements ActionListener{
     Button quitButton;
     Container myWindow;
     
-    private final float FONT_SIZE = 56;
+    private final int FONT_SIZE = 56;
     
-    Vector3f componentSize = new Vector3f(MissionControl.WIDTH/4, MissionControl.HEIGHT/16,0);
+    Vector3f componentSize = new Vector3f(MissionControl.getWidth()/4, MissionControl.getHeight()/16,0);
     
     public Menu(Node guiNode, BitmapFont font)
     {
@@ -61,7 +53,7 @@ public class Menu implements ActionListener{
         
         // Put it somewhere that we will see it
         // Note: Lemur GUI elements grow down from the upper left corner.
-        myWindow.setLocalTranslation(MissionControl.WIDTH/2 - MissionControl.WIDTH/8, MissionControl.HEIGHT/2 + MissionControl.HEIGHT/16, 0);
+        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/8, MissionControl.getHeight()/2 + MissionControl.getHeight()/16, 0);
     
         // Add some elements
         Label menuTitle = myWindow.addChild(new Label("Pause Menu"));
@@ -96,6 +88,11 @@ public class Menu implements ActionListener{
         System.out.println(MissionControl.getInstance().cameraNode);
     }
     
+    public void addComponent(Container component)
+    {
+        
+    }
+    
     public void registerKeys(InputManager inputManager)
     {
         inputManager.addMapping(InputAction.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
@@ -108,6 +105,16 @@ public class Menu implements ActionListener{
         {
             setEnabled(!enabled);
         }
+    }
+    
+    public int getFontSize()
+    {
+        return FONT_SIZE;
+    }
+    
+    public BitmapFont getFont()
+    {
+        return font;
     }
     
     public void setEnabled(boolean enabled)

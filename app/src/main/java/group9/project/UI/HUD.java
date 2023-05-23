@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI;
 
 import group9.project.UI.hud.IHudDrawable;
@@ -9,10 +5,6 @@ import com.jme3.input.InputManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
 
-/**
- *
- * @author natem
- */
 public class HUD {
     
     private final Node guiNode;

@@ -1,34 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI.Camera;
-
-import java.util.function.IntPredicate;
 
 import com.jme3.app.Application;
 import com.jme3.input.ChaseCamera;
-import com.jme3.input.FlyByCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.Vector3f;
+import com.jme3.scene.CameraNode;
 import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.Drawable.DrawableUI;
-import group9.project.UI.Drawable.IDrawable;
 
-/**
- *
- * @author natem
- */
 public class ViewSwitcher implements ActionListener{
     private Application app;
     private InputManager inputManager;
     
+    // seperate chase cameras for each celestial body (and rocket):
     private ChaseCamera sunCam;
     private ChaseCamera mercuryCam;
-    private ChaseCamera venusCam;
+    private ChaseCamera venusCam; 
     private ChaseCamera earthCam;
     private ChaseCamera marsCam;
     private ChaseCamera jupiterCam;
@@ -39,6 +28,7 @@ public class ViewSwitcher implements ActionListener{
     private ChaseCamera rocketCam;
     private ChaseCamera moonCam;
     
+    // array of chase cams for ease of looping:
     ChaseCamera[] chaseCams = new ChaseCamera[]{
             sunCam,
             mercuryCam,
@@ -57,7 +47,9 @@ public class ViewSwitcher implements ActionListener{
     
     private ChaseCamera prevCam;
     private CustomCameraControl camControl;
+    private CameraNode camNode;
     
+    // string constants for registering inputs:
     private final String sun = "Follow Sun";
     private final String mercury = "Follow Mercury";
     private final String venus = "Follow Venus";
@@ -71,22 +63,26 @@ public class ViewSwitcher implements ActionListener{
     private final String rocket = "Follow Rocket";
     private final String moon = "Follow Moon";
     
-    public ViewSwitcher(Application app, InputManager inputManager, CustomCameraControl camControl)
+    public ViewSwitcher(Application app, InputManager inputManager, CustomCameraControl camControl, CameraNode camNode)
     {
         this.app = app;
         this.inputManager = inputManager;
         this.camControl = camControl;
+        this.camNode = camNode;
         
         prevCam = null;
         
         initCams();
+        registerInputs();
         
     }
     
+    /**
+     * Instantiates and configures the chase cameras to follow their target.
+     */
     private void initCams()
     {
-        
-  
+       
         String[] camTargets = new String[]{
             "sun",
             "mercury",
@@ -104,14 +100,16 @@ public class ViewSwitcher implements ActionListener{
         
         for (int i = 0; i < chaseCams.length; i++) {
             DrawableUI target = DrawableManager.getInstance().getObjectWithName(camTargets[i]);
-            System.out.println(DrawableManager.getInstance().getDrawables().toString());
-            System.out.println(target);
-            System.out.println(target.getDrawable());
+            
             chaseCams[i] = new ChaseCamera(app.getCamera(), target.getDrawable(), inputManager);
-            chaseCams[i].setEnabled(false);
+            
+            chaseCams[i].setEnabled(false); // should initially be disabled (otherwise we have 12 enabled chase cameras)
+            
+            //viewing distance:
             chaseCams[i].setDefaultDistance(target.getPreferredViewDistance());
             chaseCams[i].setMaxDistance(target.getPreferredViewDistance()*5);
-            //chaseCams[i].setDefaultVerticalRotation(0f);
+            
+            // some other stuff which makes the camera behave better:
             chaseCams[i].setDefaultVerticalRotation((float)(-Math.PI/4));
             chaseCams[i].setZoomSensitivity(target.getPreferredViewDistance()/10);
             chaseCams[i].setMaxVerticalRotation((float)Math.PI/2);
@@ -123,7 +121,10 @@ public class ViewSwitcher implements ActionListener{
 
     }
     
-    public void registerInputs()
+    /**
+     * Maps keys (1-9,-,=) to specific chase cams.
+     */
+    private void registerInputs()
     {
         inputManager.addMapping(sun, new KeyTrigger(KeyInput.KEY_1));
         inputManager.addMapping(mercury, new KeyTrigger(KeyInput.KEY_2));
@@ -156,37 +157,40 @@ public class ViewSwitcher implements ActionListener{
         inputManager.addListener(this, inputs);
     }
     
+    /**
+     * Handles the logic responsible for switching the camera view to a different chase camera.
+     * @param chaseCam 
+     */
     public void switchView(ChaseCamera chaseCam)
     {
         inputManager.setCursorVisible(false);
         if (prevCam != null)
+        {
+            if (prevCam.equals(chaseCam)) // if the previous chase cam is the same as the one that we are trying to switch to, then exit the chase cam
             {
-                if (prevCam.equals(chaseCam))
-                {
-                    chaseCam.setEnabled(false);
-                    camControl.setEnabled(true);
-                    app.getCamera().update();
-                    //this.app.getCamera().lookAt(camControl.getSpatial().getLocalTranslation(), new Vector3f(0,1,0));
+                
+                chaseCam.setEnabled(false);
+                camControl.setEnabled(true);
+                camNode.setEnabled(true);
+                
+                app.getCamera().update();
                     
-                    //app.getCamera().setLocation(app.getCamera().getLocation());
-                    
-                    prevCam = null;
-                    return;
-                } else
-                {
-                    prevCam.setEnabled(false);
-            
-                }
+                prevCam = null;
+                return;
+            } else // is previous cam was a different chase cam, then we can just disable it.
+            {
+                prevCam.setEnabled(false); 
             }
+        }
 
+        // switch to the desired chase camera:
         prevCam = chaseCam;   
         chaseCam.setEnabled(true);
         camControl.setEnabled(false);
-        app.getCamera().update();
-        inputManager.setCursorVisible(false);
+        camNode.setEnabled(false);
         
-        System.out.println("switched view");
-            
+        app.getCamera().update();
+        inputManager.setCursorVisible(false);            
     }
     
     @Override
@@ -196,7 +200,6 @@ public class ViewSwitcher implements ActionListener{
         {
           switch (name) {
             case sun:
-                System.out.println("hello");
                 switchView(chaseCams[0]);
                 break;
             case mercury:

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI.Camera;
 
 import com.jme3.input.InputManager;
@@ -22,23 +18,19 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 import group9.project.UI.Input.InputAction;
 
-/**
- *
- * @author natem
- */
 public class CustomCameraControl extends AbstractControl {
     
     InputManager inputManager;
     Camera cam;
     
-    Vector3f initialUpVec;
+    Vector3f initialUpVec; // this is an important variable when rotating the camera horizontally
     
     float delta = 0;
     float speed = 0;
+    
     float rotationSpeed = 5;
     float speedSensitivity = 4f;
     
-    boolean enabled = true;
     boolean freeRotation = false;
     
     // used for free camera rotation
@@ -50,11 +42,21 @@ public class CustomCameraControl extends AbstractControl {
         setCamera(cam);
     }
     
+    /**
+     * 
+     * @return the speed of the camera
+     */
     public float getSpeed()
     {
         return speed;
     }
     
+    /**
+     * Changes the speed of the camera according to an exponential function.
+     * @param increase true if speed should increase, false if speed should decrease
+     * @param tpf 
+     * @return 
+     */
     private float changeSpeed(boolean increase, float tpf)
     {
         if (increase)
@@ -69,18 +71,33 @@ public class CustomCameraControl extends AbstractControl {
     
     }
     
+    /**
+     * Sets the local camera object to the argument camera, and saves the up vector of the camera.
+     * @param cam 
+     */
     private void setCamera(Camera cam)
     {
         this.cam = cam;
         initialUpVec = cam.getUp().clone();
     }
     
+    /**
+     * Enables/disables the camera control.
+     * If disabled, the camera will not be able to move or rotate.
+     * @param enabled 
+     */
     @Override
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
     }
     
+    /**
+     * Sets the camera to "free rotation" mode.
+     * In this mode, the camera can freely "look around" without affecting the motion of the camera.
+     * When free rotation mode is disabled, the camera will snap back to point in the direction of motion (i.e. the direction the camera was facing before free rotation mode was enabled).
+     * @param freeRotation true to enable free rotation mode, false to disable it
+     */
     public void setFreeRotation(boolean freeRotation)
     {
         this.freeRotation = freeRotation;
@@ -93,6 +110,11 @@ public class CustomCameraControl extends AbstractControl {
         }
     }
     
+    /**
+     * Registers keybinds (input mappings) with the input manager.
+     * 
+     * @param inputManager the applications input manager
+     */
     public void setInput(InputManager inputManager)
     {
         this.inputManager = inputManager;
@@ -174,11 +196,13 @@ public class CustomCameraControl extends AbstractControl {
   
         Quaternion localRotation = this.getSpatial().getLocalRotation();
         Quaternion rotation = new Quaternion();
-        if (axis.getX() == 1f)
+        if (axis.getX() == 1f) 
         {
+            // rotate around x axis
             localRotation.mult(rotation.fromAngles(value*rotationSpeed,0,0));
         } else if (axis.getY() == 1f)
         {
+            // rotate around y axis
             localRotation.mult(rotation.fromAngles(0,value*rotationSpeed,0));
         }
         

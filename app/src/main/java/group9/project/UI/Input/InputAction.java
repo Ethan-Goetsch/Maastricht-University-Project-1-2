@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package group9.project.UI.Input;
 
-/**
- *
- * @author natem
- */
 public class InputAction {
     public static final String QUIT = "QUIT";
     public static final String SUN = "Follow Sun";
