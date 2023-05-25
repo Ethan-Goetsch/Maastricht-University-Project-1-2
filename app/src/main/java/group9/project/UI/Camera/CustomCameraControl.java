@@ -25,6 +25,8 @@ public class CustomCameraControl extends AbstractControl {
     
     Vector3f initialUpVec; // this is an important variable when rotating the camera horizontally
     
+    private boolean enabled;
+    
     float delta = 0;
     float speed = 0;
     

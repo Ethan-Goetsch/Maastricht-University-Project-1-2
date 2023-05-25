@@ -13,11 +13,18 @@ public class DrawableRocketShipUI extends DrawableUI
    
     private float scale;
 
-    private RocketShipObject rocketShip;
+    //private RocketShipObject physicsObject;
 
-    public DrawableRocketShipUI(String name, float scale, Spatial spatial, RocketShipObject rocketShip)
+    /**
+     * Constructor.
+     * @param name the name of the drawable
+     * @param scale the scale of the drawable
+     * @param spatial the spatial to attach to the scene graph
+     * @param rocketShipObject the rocket ship object which this drawable mirrors (movement of the rocket ship will be reflected by movement of the spatial))
+     */
+    public DrawableRocketShipUI(String name, float scale, Spatial spatial, RocketShipObject rocketShipObject)
     {
-        super(name, spatial);
+        super(name, spatial, rocketShipObject);
 
         this.scale = scale;
 
@@ -25,18 +32,18 @@ public class DrawableRocketShipUI extends DrawableUI
 
         spatial.setLocalScale(scale);
 
-        this.rocketShip = rocketShip;
+        //this.physicsObject = physicsObject;
     }
 
     @Override
     public void draw()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(rocketShip.getPosition());
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
         
         spatial.setLocalTranslation((float)scaledVector.getX(), (float)scaledVector.getY(), (float)scaledVector.getZ()); 
 
         // set rotation of spatial to face in direction of motion:
-        Vector3 dir = rocketShip.getDirection();
+        Vector3 dir = physicsObject.getDirection();
         Quaternion rotation = new Quaternion();
         rotation.lookAt(new Vector3f((float)dir.getX(), (float)dir.getY(), (float)dir.getZ()), new Vector3f(0f,1f,0f));
         Quaternion rotateY = new Quaternion();
@@ -54,7 +61,7 @@ public class DrawableRocketShipUI extends DrawableUI
     @Override
     public DrawableRocketShipUI clone()
     {
-        return new DrawableRocketShipUI(name, scale, spatial.clone(), rocketShip);
+        return new DrawableRocketShipUI(name, scale, spatial.clone(), (RocketShipObject)physicsObject);
     }
 
 }
