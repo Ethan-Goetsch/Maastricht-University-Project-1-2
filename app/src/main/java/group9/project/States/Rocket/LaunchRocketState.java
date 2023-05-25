@@ -1,30 +1,33 @@
 package group9.project.States.Rocket;
 
-import group9.project.Optimization.Optimization;
+import group9.project.Optimization.LaunchOptimization;
 import group9.project.Optimization.Solution;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
-import group9.project.Utility.Interfaces.ITargetable;
+import group9.project.States.IStateManager;
 import group9.project.Utility.Math.Vector;
 import group9.project.Utility.Math.Vector3;
 
 public class LaunchRocketState extends RocketState
 {
-    private ITargetable target;
+    private LaunchOptimization launchOptimization;
 
-    public LaunchRocketState(RocketShipObject newRocketShip, ITargetable newTarget)
+    public LaunchRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LaunchOptimization newLaunchOptimization)
     {
-        super(newRocketShip);
+        super(newStateManager, newRocketShip);
 
-        target = newTarget;
+        launchOptimization = newLaunchOptimization;
     }
 
+    /**
+     * Gets the optimal launch parameters from the State's Launch Optimization
+     */
     @Override
     public void onStateEnter()
     {
-        Solution optimalInitialParameters = Optimization.getInstance().getOptimalSolution();
+        Solution optimalInitialParameters = launchOptimization.generateOptimalSolution();
 
-        setInitialParameters(optimalInitialParameters.getVelocity(), optimalInitialParameters.getThrusterForce());
+        setInitialParameters(optimalInitialParameters.getVelocity());
     }
 
     @Override
@@ -33,42 +36,58 @@ public class LaunchRocketState extends RocketState
 
     }
 
+    /**
+     * Updates the Rocket Ship's movement
+     */
     @Override
     public void update()
     {
         tickMovement();
-
-        tickThrusters();
     }
 
-    private void setInitialParameters(Vector3 initialVelocity, double initialThrusterForce)
+    /**
+     * Sets the velocity of the Rocket Ship to the initialVelocity and sets the thrusterForce of the Rocket Ship to the initialVelocity's magnitude.
+     * Calculates the impulse applied to the Rocket Ship from using the thrusters. Formula is defined in the Manual.
+     * Applies force and velocity based on the impulseForce in the direction of the initialVelocity.
+     * Consumes fuel based on the impulse force.
+     * After all calculations are complete it turns off the thrusters
+     * 
+     * @param initialVelocoity the optimal launch velocity of the Rocet Ship
+     */
+    private void setInitialParameters(Vector3 initialVelocoity)
     {
-        rocketShip.setVelocity(initialVelocity);
+        double initialThrusterForce = initialVelocoity.getMagnitude();
+        
 
         rocketShip.setThrusterForce(initialThrusterForce);
 
+        rocketShip.setVelocity(Vector.calculateDirectionMultiplied(initialVelocoity, initialThrusterForce));
 
-        double impulseForce = rocketShip.getThrusterForce() * PhysicsSettings.getStepTime() - rocketShip.getThrusterForce();
 
-        rocketShip.applyVelocity(Vector.calculateDirection(initialVelocity, impulseForce / rocketShip.getMass()));
+        double impulseForce = rocketShip.getThrusterForce() * PhysicsSettings.getStepSize() - rocketShip.getThrusterForce();
 
-        rocketShip.applyForce(Vector.calculateDirection(initialVelocity, rocketShip.getThrusterForce()));
+        rocketShip.applyVelocity(Vector.calculateDirectionMultiplied(initialVelocoity, impulseForce / rocketShip.getMass()));
+
+        rocketShip.applyForce(Vector.calculateDirectionMultiplied(initialVelocoity, rocketShip.getThrusterForce()));
 
 
         rocketShip.consumeFuel(rocketShip.getThrusterForce());
-    }
 
-    private void tickThrusters()
-    {
         rocketShip.setThrusterForce(0);
     }
 
     private void tickMovement()
     {
-        Vector3[] state = rocketShip.getDifferentialSolver().solvePhysicsEquation(rocketShip.getPosition(), rocketShip.getVelocity(), rocketShip.getAcceleration(), PhysicsSettings.getStepTime(), rocketShip.getPhysicsObjectType());
+        Vector3[] state = rocketShip.getDifferentialSolver().solvePhysicsEquation(rocketShip.getPosition(), rocketShip.getVelocity(), rocketShip.getAcceleration(), PhysicsSettings.getStepSize(), rocketShip.getPhysicsObjectType());
 
         rocketShip.setPosition(state[0]);
 
         rocketShip.setVelocity(state[1]);
+    }
+
+    @Override
+    public String getDescription()
+    {
+        return "Launch State";
     }
 }

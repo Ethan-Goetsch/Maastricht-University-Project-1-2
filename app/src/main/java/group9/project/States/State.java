@@ -19,14 +19,24 @@ public abstract class State implements IState, IUpdateable, IStateTransitionable
         stateTransitions = new ArrayList<>();
     }
 
-    public void addStateTransition(StateTransition rocketState)
+    /**
+     * Adds a State Transition to the State
+     * 
+     * @param newStateTransitions the state transition to add to the State's State Transition
+     */
+    public void addStateTransition(StateTransition newStateTransitions)
     {
-        stateTransitions.add(rocketState);
+        stateTransitions.add(newStateTransitions);
     }
 
-    public void addStateTransition(List<StateTransition> rocketStates)
+    /**
+     * Adds a list of State Transition to the State
+     * 
+     * @param newStateTransitions the state transitions to add
+     */
+    public void addStateTransition(List<StateTransition> newStateTransition)
     {
-        stateTransitions.addAll(rocketStates);
+        stateTransitions.addAll(newStateTransition);
     }
     
     @Override
@@ -38,6 +48,9 @@ public abstract class State implements IState, IUpdateable, IStateTransitionable
     @Override
     public abstract void update();
 
+    /**
+     * Iterates over each State Transition and checks if it can transition. If it can transition it will tell the State's Manager to transition to that state
+     */
     @Override
     public void checkStateTransitions()
     {
@@ -45,10 +58,13 @@ public abstract class State implements IState, IUpdateable, IStateTransitionable
         {
             if (stateTransition.canTransition())
             {
-                stateManager.transitionToState(stateTransition.getState());
+                stateManager.transitionToState(stateTransition.getStateToTransitionTo());
 
                 return;
             }    
         }
     }
+
+    @Override
+    public abstract String getDescription();
 }

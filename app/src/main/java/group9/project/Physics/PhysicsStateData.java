@@ -19,6 +19,54 @@ public class PhysicsStateData implements IUpdateable
 
     private Vector3 currentAcceleration;
 
+    /**
+     * @return the {Physics Object
+     */
+    public PhysicsObject getPhysicsObject()
+    {
+        return physicsObject;
+    }
+    
+    /**
+     * @return the physics object type of the Physics Object
+     */
+    public PhysicsObjectType getPhysicsObjectType()
+    {
+        return physicsObjectType;
+    }
+
+    /**
+     * @return the current position of the Physics Object
+     */
+    public Vector3 getCurrentPosition()
+    {
+        return currentPosition;
+    }
+
+    /**
+     * @return the current velocity of the Physics Object
+     */
+    public Vector3 getCurrentVelocity()
+    {
+        return currentVelocity;
+    }
+
+    /**
+     * @return the current force of the Physics Object
+     */
+    public Vector3 getCurrentForce()
+    {
+        return currentForce;
+    }
+
+    /**
+     * @return the current acceleration of the Physics Object
+     */
+    public Vector3 getCurrentAcceleration()
+    {
+        return currentAcceleration;
+    }
+
     public PhysicsStateData(PhysicsObject newPhysicsObject)
     {
         physicsObject = newPhysicsObject;
@@ -28,6 +76,9 @@ public class PhysicsStateData implements IUpdateable
         update();
     }
 
+    /**
+     * Sets the current position, velocity, force and acceleration based on the Physics Object's respective values
+     */
     @Override
     public void update()
     {
@@ -38,35 +89,5 @@ public class PhysicsStateData implements IUpdateable
         currentForce = physicsObject.getForce();
         
         currentAcceleration = physicsObject.getAcceleration();
-    }
-
-    public PhysicsObject getPhysicsObject()
-    {
-        return physicsObject;
-    }
-
-    public PhysicsObjectType getPhysicsObjectType()
-    {
-        return physicsObjectType;
-    }
-
-    public Vector3 getCurrentPosition()
-    {
-        return currentPosition;
-    }
-
-    public Vector3 getCurrentVelocity()
-    {
-        return currentVelocity;
-    }
-
-    public Vector3 getCurrentForce()
-    {
-        return currentForce;
-    }
-
-    public Vector3 getCurrentAcceleration()
-    {
-        return currentAcceleration;
     }
 }
