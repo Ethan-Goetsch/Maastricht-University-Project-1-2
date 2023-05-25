@@ -1,68 +1,50 @@
 package group9.project.UI.Drawable;
 
+import com.jme3.scene.Spatial;
 import group9.project.Physics.Objects.CelestialBodyObject;
-import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class DrawableCelestialBodyUI extends DrawableUI
 {
-    private Circle drawableShape;
+    private float planetRadius;
 
-    private double planetRadius;
+    //private CelestialBodyObject physicsObject;
 
-    private double labelOffset;
-
-    private String labelText;
-
-    private Color planetColour;
-
-    public DrawableCelestialBodyUI(String name, CelestialBodyObject physicsObject, double newPlanetRadius, double newLabelOffset, String newLabelText, Color newPlanetColour)
+    /**
+     * Constructor.
+     * @param name the name of the drawable, used for lookup purposes
+     * @param spatial the spatial to attach to the scene graph
+     * @param celestialBody the celestial body which this drawable mirrors (movement of the celestial body will be reflected by movement of the spatial)
+     */
+    public DrawableCelestialBodyUI(String name, Spatial spatial, CelestialBodyObject celestialBody)
     {
-        super(name, physicsObject);
+        super(name, spatial, celestialBody);
+        
+        planetRadius = (float) ScaleConverter.worldToScreenLength(celestialBody.getRadius()); // have to convert the real world size of the celestial body to screen size
 
+        spatial.setLocalScale(planetRadius, planetRadius, planetRadius); // scaling the spatial like this might result in a planet size which isn't exactly of real-world scale, but its good enough (for now)
 
-        planetRadius = newPlanetRadius;
-
-        labelOffset = newLabelOffset;
-
-        labelText = newLabelText;
-
-        planetColour = newPlanetColour;
-
-
-        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
-
-        createDrawableUI();
     }
 
     @Override
-    public void createDrawableUI()
+    public void draw()
     {
-        drawablePane = new Pane();
-
-
-        drawableLabel = GUI.createLabel(labelText);
-
-        drawableLabel.setTextFill(Color.WHITE);
-
-        drawableLabel.setTranslateX(-12.5);
-
-        drawableLabel.setTranslateY(-labelOffset);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
         
-
-        drawableShape = new Circle();
-
-        drawableShape.setFill(planetColour);
-
-        drawableShape.setRadius(planetRadius);
-
-
-        drawablePane.getChildren().add(drawableLabel);
-
-        drawablePane.getChildren().add(drawableShape);
+        spatial.setLocalTranslation((float)scaledVector.getX(), (float)scaledVector.getY(), (float)scaledVector.getZ());
     }
+
+    @Override
+    public float getPreferredViewDistance()
+    {
+        return (float)(4*planetRadius);
+    }
+    
+    @Override
+    public DrawableCelestialBodyUI clone()
+    {
+        return new DrawableCelestialBodyUI(name, spatial.scale(planetRadius), (CelestialBodyObject)physicsObject);
+    }
+
 }

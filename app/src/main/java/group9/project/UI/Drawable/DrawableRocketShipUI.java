@@ -1,78 +1,65 @@
 package group9.project.UI.Drawable;
 
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Spatial;
 import group9.project.Physics.Objects.RocketShipObject;
-import group9.project.UI.GUI;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class DrawableRocketShipUI extends DrawableUI
 {
    
-    private Rectangle drawableShape;
+    private float scale;
 
-    private double shipWidth;
+    //private RocketShipObject physicsObject;
 
-    private double shipHeight;
-
-    private String labelText;
-
-    private Color shipColour;
-
-    public DrawableRocketShipUI(String name, RocketShipObject physicsObject, double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour)
+    /**
+     * Constructor.
+     * @param name the name of the drawable
+     * @param scale the scale of the drawable
+     * @param spatial the spatial to attach to the scene graph
+     * @param rocketShipObject the rocket ship object which this drawable mirrors (movement of the rocket ship will be reflected by movement of the spatial))
+     */
+    public DrawableRocketShipUI(String name, float scale, Spatial spatial, RocketShipObject rocketShipObject)
     {
-        super(name, physicsObject);
+        super(name, spatial, rocketShipObject);
 
-        shipWidth = newShipWidth;
+        this.scale = scale;
 
-        shipHeight = newShipHeight;
+        this.name = name;
 
-        labelText = newLabelText;
-
-        shipColour = newShipColour;
-
-
-        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
-
-
-        createDrawableUI();
+        //this.physicsObject = physicsObject;
     }
 
     @Override
-    public void createDrawableUI()
+    public void draw()
     {
-        drawablePane = new Pane();
-
-
-        drawableLabel = GUI.createLabel(labelText);
-
-        drawableLabel.setTextFill(Color.WHITE);
-
-        drawableLabel.setTranslateX(-12.5);
-
-        drawableLabel.setTranslateY(-20);
-
-
-        drawableShape = new Rectangle();
-
-        drawableShape.setFill(shipColour);
-
-        drawableShape.setWidth(shipWidth);
+        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
         
-        drawableShape.setHeight(shipHeight);
+        spatial.setLocalTranslation((float)scaledVector.getX(), (float)scaledVector.getY(), (float)scaledVector.getZ()); 
 
-
-        drawablePane.getChildren().add(drawableLabel);
-
-        drawablePane.getChildren().add(drawableShape);
+        // set rotation of spatial to face in direction of motion:
+        Vector3 dir = physicsObject.getDirection();
+        Quaternion rotation = new Quaternion();
+        rotation.lookAt(new Vector3f((float)dir.getX(), (float)dir.getY(), (float)dir.getZ()), new Vector3f(0f,1f,0f));
+        Quaternion rotateY = new Quaternion();
+        rotateY.fromAngleAxis(FastMath.PI/2, new Vector3f(0,1,0));
+        rotation.mult(rotateY);
+        spatial.setLocalRotation(rotation);
     }
 
-    public void update(Vector3 newDrawablePosition)
+    @Override
+    public float getPreferredViewDistance()
     {
-        drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
-
-        draw();
+        return 8*scale;
     }
+    
+    @Override
+    public DrawableRocketShipUI clone()
+    {
+        return new DrawableRocketShipUI(name, scale, spatial.clone(), (RocketShipObject)physicsObject);
+    }
+
 }

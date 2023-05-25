@@ -1,20 +1,25 @@
 package group9.project.UI.Drawable;
 
+<<<<<<< HEAD
 import group9.project.Physics.Objects.PhysicsObject;
 import group9.project.UI.ScaleConverter;
+=======
+import com.jme3.scene.Spatial;
+import group9.project.Physics.Objects.PhysicsObject;
+>>>>>>> jmonkeyengine
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 
 public abstract class DrawableUI implements IDrawable
 {
     protected Vector3 drawablePosition;
 
-    protected Pane drawablePane;
+    protected Spatial spatial;
 
-    protected Label drawableLabel;
+    protected String name;
+    
+    protected PhysicsObject physicsObject;
 
+<<<<<<< HEAD
     protected String name;
 
     protected PhysicsObject physicsObject;
@@ -27,12 +32,24 @@ public abstract class DrawableUI implements IDrawable
 
         this.name = name;
 
+=======
+    /**
+     * Constructor.
+     * @param name the name of the drawable
+     * @param spatial the spatial to add to the scene graph
+     */ 
+    public DrawableUI(String name, Spatial spatial, PhysicsObject physicsObject)
+    {
+        this.name = name;
+        this.spatial = spatial;
+>>>>>>> jmonkeyengine
         this.physicsObject = physicsObject;
     }
 
     @Override
-    public Node getDrawable()
+    public Spatial getDrawable()
     {
+<<<<<<< HEAD
         return drawablePane;
     }
 
@@ -41,23 +58,32 @@ public abstract class DrawableUI implements IDrawable
         drawablePosition = ScaleConverter.worldToScreenPosition(physicsObject.getPosition());
 
         draw();
+=======
+        return spatial;
+>>>>>>> jmonkeyengine
     }
 
     @Override
     public String getName()
+<<<<<<< HEAD
     {
         return name;
     }
 
     @Override
     public void draw()
+=======
+>>>>>>> jmonkeyengine
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(drawablePosition);
-
-        drawablePane.setTranslateX(scaledVector.getX());
-
-        drawablePane.setTranslateY(scaledVector.getY());
+        return name;
     }
 
-    public abstract void createDrawableUI();
+    @Override
+    public abstract float getPreferredViewDistance();
+
+    @Override
+    public abstract void draw();
+    
+    @Override
+    public abstract DrawableUI clone();
 }
