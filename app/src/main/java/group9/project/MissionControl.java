@@ -22,6 +22,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.CameraControl;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.style.BaseStyles;
 
@@ -59,10 +60,14 @@ public class MissionControl extends SimpleApplication
 
     Node newNode;
         
-    public CustomCameraControl camControl;
-    public CameraNode cameraNode;
+    private CustomCameraControl camControl;
+    private CameraNode cameraNode;
+    private ViewSwitcher viewSwitcher;
     
     private boolean enableCursor;
+    
+    private boolean isPaused;
+    private boolean isSimulationPaused;
     
     //#region Singleton
     private static MissionControl instance;
@@ -135,7 +140,7 @@ public class MissionControl extends SimpleApplication
 
         
         // create view switcher to switch camera views between planets/rocket:
-        ViewSwitcher viewSwitcher = new ViewSwitcher(this, inputManager, camControl, cameraNode);
+        viewSwitcher = new ViewSwitcher(cam, inputManager, camControl, cameraNode);
         
         // create HUD:
         hud = new HUD(guiNode, inputManager);
@@ -318,12 +323,15 @@ public class MissionControl extends SimpleApplication
     
     /**
      * Sets the paused state of the application.
-     * This enables/disables camera movement and pauses/unpauses the physics simulation.
+     * This pauses/unpauses the physics simulation, and disables/enabled camera movement.
+     * The simulation will only be unpaused if the simulation has not been paused using the method setSimulationPaused() (that is, if getIsSimulationPaused does not return true).
      * Since the spatials that can be seen on screen match the movement of the physics objects, there will be no spatial movement while the physics engine is paused.
      * @param paused if true, the application will be set to paused, if false the application will be set to unpaused.
      */
     public void setPaused(boolean paused)
     {
+        isPaused = paused;
+        
         if (paused)
         {
             SimulationSettings.pauseSimulation();
@@ -331,8 +339,27 @@ public class MissionControl extends SimpleApplication
         }
         else
         {
-            SimulationSettings.unpauseSimulation();
+            if (!isSimulationPaused)
+            {
+                SimulationSettings.unpauseSimulation();
+            }
             camControl.setEnabled(true);
+        }
+        
+        camControl.setEnabled(!paused);
+        viewSwitcher.setEnabled(!paused);
+        
+    }
+    
+    public void setSimulationPaused(boolean paused)
+    {
+        isSimulationPaused = paused;
+        if (paused)
+        {
+            SimulationSettings.pauseSimulation();
+        } else
+        {
+            SimulationSettings.unpauseSimulation();
         }
     }
     
@@ -360,6 +387,24 @@ public class MissionControl extends SimpleApplication
     public static int getHeight()
     {
         return HEIGHT;
+    }
+    
+    /**
+     * 
+     * @return true if the application is paused, false otherwise.
+     */
+    public boolean getIsPaused()
+    {
+        return isPaused;
+    }
+    
+    /**
+     * 
+     * @return true if the physics simulation is paused, false otherwise
+     */
+    public boolean getIsSimulationPaused()
+    {
+        return isSimulationPaused;
     }
 
     @Override

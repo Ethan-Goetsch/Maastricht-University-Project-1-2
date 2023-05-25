@@ -25,6 +25,7 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     
     private BitmapText sunLabel,mercuryLabel,venusLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel;
     
+    
     /**
      * Creates an instance of {@code PlanetLabels}.
      * @param cam the application's camera instance, used to display planet labels at the correct position on the screen.
@@ -170,6 +171,17 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         moonLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("moon").getDrawable().getLocalTranslation()));
         titanLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("titan").getDrawable().getLocalTranslation()));
         rocketLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("rocket").getDrawable().getLocalTranslation()));
+        
+        BitmapText[] labels = new BitmapText[]{sunLabel,mercuryLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel}; // i dont like how i've done this but the array is useful
+        // TODO: fix bug where labels are showing for planets which are behind the camera
+        
+        /*
+        for (BitmapText label : labels) {
+            System.out.println(label);
+            System.out.println(label.getText() + ": " + label.getLocalTranslation());
+        }
+        */
+        
     }
     
     /**

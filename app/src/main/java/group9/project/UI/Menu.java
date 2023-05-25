@@ -34,6 +34,11 @@ public class Menu implements ActionListener{
     
     Vector3f componentSize = new Vector3f(MissionControl.getWidth()/4, MissionControl.getHeight()/16,0);
     
+    /**
+     * Constructor.
+     * @param guiNode the application's gui node to which the menu should attach
+     * @param font the font for all text in the menu
+     */
     public Menu(Node guiNode, BitmapFont font)
     {
         this.guiNode = guiNode;
@@ -42,24 +47,24 @@ public class Menu implements ActionListener{
         init();
     }
     
+    /**
+     * Initialises the state of the menu and creates and configures all menu's components.
+     */
     public void init()
     {
-        enabled = false;
-        
-        
+        enabled = false; // hidden by default
     
-        // Create a simple container for our elements
+        // create a simple container for our elements
         myWindow = new Container();
         
-        // Put it somewhere that we will see it
-        // Note: Lemur GUI elements grow down from the upper left corner.
+        // position the menu
         myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/8, MissionControl.getHeight()/2 + MissionControl.getHeight()/16, 0);
     
-        // Add some elements
+        // add the components
         Label menuTitle = myWindow.addChild(new Label("Pause Menu"));
         menuTitle.setFontSize(FONT_SIZE);
         menuTitle.setPreferredSize(componentSize);
-        
+
         /*
         Container sliderContainer = new Container(new BorderLayout());
         DefaultRangedValueModel sliderModel = new DefaultRangedValueModel(0, 10, 5);
@@ -72,6 +77,23 @@ public class Menu implements ActionListener{
         myWindow.addChild(sliderContainer);
 */
         
+        Button pauseButton = myWindow.addChild(new Button("Pause Simulation"));
+        pauseButton.setFontSize(FONT_SIZE);
+        pauseButton.setPreferredSize(componentSize);
+        pauseButton.addClickCommands(new Command<Button>() {
+            @Override
+            public void execute(Button source)
+            {
+                MissionControl.getInstance().setSimulationPaused(! MissionControl.getInstance().getIsSimulationPaused());
+                if (MissionControl.getInstance().getIsSimulationPaused())
+                {
+                    source.setText("Resume Simulation");
+                } else
+                {
+                    source.setText("Pause Simulation");
+                }
+            }
+        });
         
         Button quitButton = myWindow.addChild(new Button("Quit To Desktop"));
         quitButton.setFontSize(FONT_SIZE);
@@ -82,10 +104,7 @@ public class Menu implements ActionListener{
                     System.exit(0);
                 }
             });          
-        
-        // create buttons
-        quitButton = new Button("Quit");
-        System.out.println(MissionControl.getInstance().cameraNode);
+
     }
     
     public void addComponent(Container component)
@@ -93,12 +112,17 @@ public class Menu implements ActionListener{
         
     }
     
+    /**
+     * Registers the inputs for the menu, such as keybinds for opening the menu.
+     * @param inputManager
+     */
     public void registerKeys(InputManager inputManager)
     {
         inputManager.addMapping(InputAction.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
         inputManager.addListener(this, new String[]{InputAction.OPEN_MENU});
     }
     
+    @Override
     public void onAction(String name, boolean keyPressed, float tpf)
     {
         if (name.equals(InputAction.OPEN_MENU) && keyPressed)
@@ -107,16 +131,30 @@ public class Menu implements ActionListener{
         }
     }
     
+    /**
+     * Returns the font size of the menu's text.
+     * @return the menu's font size
+     */
     public int getFontSize()
     {
         return FONT_SIZE;
     }
     
+    /**
+     * Returns the font of the menu's text.
+     * @return the menu's font
+     */
     public BitmapFont getFont()
     {
         return font;
     }
     
+    /**
+     * Enables/disables the menu.
+     * When the menu is disabled, is is hidden.
+     * When the menu is enabled, the menu is shown and the application is paused.
+     * @param enabled true to enable the menu, false to disable it
+     */
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;

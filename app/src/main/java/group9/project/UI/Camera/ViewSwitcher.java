@@ -1,18 +1,20 @@
 package group9.project.UI.Camera;
 
-import com.jme3.app.Application;
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.Drawable.DrawableUI;
 
 public class ViewSwitcher implements ActionListener{
-    private Application app;
+    private Camera cam;
     private InputManager inputManager;
+    
+    private boolean enabled = true;
     
     // seperate chase cameras for each celestial body (and rocket):
     private ChaseCamera sunCam;
@@ -63,9 +65,16 @@ public class ViewSwitcher implements ActionListener{
     private final String rocket = "Follow Rocket";
     private final String moon = "Follow Moon";
     
-    public ViewSwitcher(Application app, InputManager inputManager, CustomCameraControl camControl, CameraNode camNode)
+    /**
+     * Constructor.
+     * @param cam The application's camera
+     * @param inputManager the application's input manager
+     * @param camControl the control for the camera node
+     * @param camNode the camera node
+     */
+    public ViewSwitcher(Camera cam, InputManager inputManager, CustomCameraControl camControl, CameraNode camNode)
     {
-        this.app = app;
+        this.cam = cam;
         this.inputManager = inputManager;
         this.camControl = camControl;
         this.camNode = camNode;
@@ -101,7 +110,7 @@ public class ViewSwitcher implements ActionListener{
         for (int i = 0; i < chaseCams.length; i++) {
             DrawableUI target = DrawableManager.getInstance().getObjectWithName(camTargets[i]);
             
-            chaseCams[i] = new ChaseCamera(app.getCamera(), target.getDrawable(), inputManager);
+            chaseCams[i] = new ChaseCamera(cam, target.getDrawable(), inputManager);
             
             chaseCams[i].setEnabled(false); // should initially be disabled (otherwise we have 12 enabled chase cameras)
             
@@ -119,6 +128,15 @@ public class ViewSwitcher implements ActionListener{
             chaseCams[i].setDragToRotate(false);
         }
 
+    }
+    
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+        if (prevCam != null)
+        {
+            prevCam.setEnabled(enabled);
+        }
     }
     
     /**
@@ -159,10 +177,12 @@ public class ViewSwitcher implements ActionListener{
     
     /**
      * Handles the logic responsible for switching the camera view to a different chase camera.
-     * @param chaseCam 
+     * @param chaseCam the view will be switched to this chase camera
      */
     public void switchView(ChaseCamera chaseCam)
     {
+        if (!enabled) return;
+        
         inputManager.setCursorVisible(false);
         if (prevCam != null)
         {
@@ -173,7 +193,7 @@ public class ViewSwitcher implements ActionListener{
                 camControl.setEnabled(true);
                 camNode.setEnabled(true);
                 
-                app.getCamera().update();
+                cam.update();
                     
                 prevCam = null;
                 return;
@@ -189,10 +209,11 @@ public class ViewSwitcher implements ActionListener{
         camControl.setEnabled(false);
         camNode.setEnabled(false);
         
-        app.getCamera().update();
+        cam.update();
         inputManager.setCursorVisible(false);            
     }
     
+
     @Override
     public void onAction(String name, boolean isPressed, float tpf)
     {

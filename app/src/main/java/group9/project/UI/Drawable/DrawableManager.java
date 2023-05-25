@@ -23,13 +23,18 @@ public class DrawableManager implements IResetable
   }
   //#endregion
 
-  // private constructor
+  /**
+   * Constructor.
+   */
   private DrawableManager()
   {
     drawablesMap = new HashMap<>();
   }
 
-  // adds a drawable to the drawables list
+  /**
+   * Stores a drawable in the drawable manager.
+   * @param drawable the drawable to be stored
+   */
   public void add(DrawableUI drawable)
   {
       if (!drawablesMap.containsKey(drawable.getName()))
@@ -38,35 +43,59 @@ public class DrawableManager implements IResetable
       }
   }
 
-  // returns true if the drawables list containt the argument drawable
+   /**
+   * Checks if the drawable manager contains a given drawable.
+   * @param drawable the drawable to check for existance 
+   * @return true if the drawable exists in the drawable manager, false otherwise
+   */
   public boolean contains(DrawableUI drawable)
   {
       return drawablesMap.containsValue(drawable);
   }
   
+  /**
+   * Returns the drawables stored in the drawable manager.
+   * @return a hashmap of the drawables, where the key is the name of the drawable and the value is the drawable object
+   */
   public HashMap<String, DrawableUI> getDrawables()
   {
       return drawablesMap;
   }
 
-  // removes a drawable from the list
+  /**
+   * Removes a drawable from the drawable manager.
+   * @param drawable the drawable to be removed
+   */
   public void remove(IDrawable drawable)
   {
       drawablesMap.remove(drawable.getName());
   }
 
 
-  // returns an iterator for the drawables list
+  /**
+   * Returns an iterator, which iterators over the drawables stored in the drawable manager.
+   * @return the iterator for the drawables
+   */
   public Iterator<DrawableUI> getIterator()
   {
       return drawablesMap.values().iterator();
   }
   
-  public DrawableUI getObjectWithName(String name) 
+  /**
+   * Returns the drawable, if it exists, the has the given name.
+   * If the drawable does not exist in the drawable manager, returns null.
+   * @param name the name of the drawable
+   * @return the drawable object if it exists in the drawable manager, otherwise null
+   */
+  public DrawableUI getObjectWithName(String name)
   {
       return drawablesMap.get(name);
   }
   
+  /**
+   * Updates all the drawables stored in the drawable manager.
+   * Equivalent to calling {@code DrawableUI.draw()} on each drawable in the drawable manager.
+   */
   public void update()
   {
       Iterator<DrawableUI> iterator = getIterator();
@@ -76,6 +105,9 @@ public class DrawableManager implements IResetable
       }
   }
   
+  /**
+   * Removes all drawables from the drawable manager.
+   */
   @Override
   public void reset()
   {

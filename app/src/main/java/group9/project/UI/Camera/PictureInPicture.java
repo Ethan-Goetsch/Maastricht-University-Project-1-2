@@ -12,6 +12,11 @@ public class PictureInPicture {
     RenderManager renderManager;
     ViewPort viewport;
     
+    /**
+     * Constructor.
+     * @param cam the application's camera instance 
+     * @param renderManager the application's render manager`
+     */
     public PictureInPicture(Camera cam, RenderManager renderManager)
     {
         this.renderManager = renderManager;
@@ -22,6 +27,10 @@ public class PictureInPicture {
         viewport.setClearFlags(false, false, false);
     }
     
+    /**
+     * Attaches a node to the viewport, so that all contents of the nodes subtree are displayed.
+     * @param rootNode the root node of the scene graph to be displayed in the viewport
+     */
     public void setRootNode(Node rootNode)
     {
         viewport.attachScene(rootNode);
