@@ -77,6 +77,7 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     @Override
     public void update()
     {       
+        if (SimulationSettings.getIsSimulationPaused()) return;
         updateForces();
 
         updateObjects();

@@ -2,6 +2,7 @@ package group9.project.Physics.Objects;
 
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.States.IStateManager;
+import group9.project.States.Rocket.RocketState;
 import group9.project.States.Rocket.RocketStateManager;
 import group9.project.UI.Drawable.DrawableRocketShipUI;
 import group9.project.UI.Drawable.DrawableUI;
@@ -9,7 +10,7 @@ import group9.project.Utility.Math.Vector3;
 
 public class RocketShipObject extends PhysicsObject
 {
-    private RocketState currentRocketState;
+    private IStateManager rocketStateManager;
 
     private double thrusterForce;
 

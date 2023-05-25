@@ -26,8 +26,6 @@ import com.jme3.scene.control.CameraControl;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.style.BaseStyles;
 
-import group9.project.Events.EventManager;
-import group9.project.Optimization.Optimization;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Objects.CelestialBodyObject;
@@ -50,6 +48,9 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.Iterator;
+import group9.project.Managers.SystemsManager;
+import group9.project.Optimization.LaunchToEarthOptimization;
+import group9.project.Optimization.LaunchToTitanOptimization;
 
 public class MissionControl extends SimpleApplication
 {
@@ -314,11 +315,9 @@ public class MissionControl extends SimpleApplication
      */
     private void createSystems()
     {
-        PhysicsObjectData.getInstance().start();
+        SystemsManager.getInstance().start();
+        SimulationSettings.playSimulation();
 
-        PhysicsEngine.getInstance().start();
-
-        EventManager.getInstance().start();
     }
     
     /**
@@ -341,7 +340,7 @@ public class MissionControl extends SimpleApplication
         {
             if (!isSimulationPaused)
             {
-                SimulationSettings.unpauseSimulation();
+                SimulationSettings.playSimulation();
             }
             camControl.setEnabled(true);
         }
@@ -359,7 +358,7 @@ public class MissionControl extends SimpleApplication
             SimulationSettings.pauseSimulation();
         } else
         {
-            SimulationSettings.unpauseSimulation();
+            SimulationSettings.playSimulation();
         }
     }
     
@@ -410,22 +409,26 @@ public class MissionControl extends SimpleApplication
     @Override
     public void simpleUpdate(float tpf)
     {
-   
-            PhysicsEngine.getInstance().update();
+        PhysicsEngine.getInstance().update();
+
+        if (LaunchToTitanOptimization.getInstance().getIsOptimizationDevelopmentMode())
+        {
+            LaunchToTitanOptimization.getInstance().update();
+        }
+
+        if (LaunchToEarthOptimization.getInstance().getIsOptimizationDevelopmentMode())
+        {
+            LaunchToEarthOptimization.getInstance().update();
+        }
             
-            if (SimulationSettings.getDEVELOPMENT_MODE())
-            {
-                Optimization.getInstance().update();
-            }
-            
-            DrawableManager.getInstance().update(); // this updates all the drawables, so that their position matches that of their corresponding physics objects
+        DrawableManager.getInstance().update(); // this updates all the drawables, so that their position matches that of their corresponding physics objects
                         
-            camControl.update(tpf); // this lets the camera move
+        camControl.update(tpf); // this lets the camera move
 
-            hud.update();
+        hud.update();
             
-            inputManager.setCursorVisible(enableCursor); // not ideal to call this method in the update loop, but I ran into issues where the cursor would still be visible even after setting it to be not so. So this is a work around.
-
+        inputManager.setCursorVisible(enableCursor); // not ideal to call this method in the update loop, but I ran into issues where the cursor would still be visible even after setting it to be not so. So this is a work around.
+            
     }
     
     

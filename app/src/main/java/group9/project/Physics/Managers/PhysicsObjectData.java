@@ -67,7 +67,7 @@ public class PhysicsObjectData implements IStartable
 
         CelestialBodyObject venusObject = new CelestialBodyObject(new Vector3(-28216773.9426889, 103994008.541512, 3012326.64296788), new Vector3(-34.0236737066136, -8.96521274688838, 1.84061735279188), 4.87E+24, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Venus, 6052);
 
-        CelestialBodyObject earthObject = new CelestialBodyObject(new Vector3(-148186906.893642, -27823158.5715694, 33746.8987977113), new Vector3(5.05251577575409, -29.3926687625899, 0.00170974277401292), 5.97E+24, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Earth, 6378);
+        earthObject = new CelestialBodyObject(new Vector3(-148186906.893642, -27823158.5715694, 33746.8987977113), new Vector3(5.05251577575409, -29.3926687625899, 0.00170974277401292), 5.97E+24, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Earth, 6378);
 
         CelestialBodyObject moonObject = new CelestialBodyObject(new Vector3(-148458048.395164, -27524868.1841142, 70233.6499287411), new Vector3(4.34032634654904, -30.0480834180741, -0.0116103535014229), 7.35E+22, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Moon, 1737);
 
