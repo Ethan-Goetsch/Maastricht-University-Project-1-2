@@ -27,7 +27,7 @@ public class LaunchToEarthOptimization extends LaunchOptimization
     {
         super();
 
-        optimalSolution = new Solution(new Vector3(-97.23251344057303, 60.70885561328722, 0.8184370120541349));
+        optimalSolution = new Solution(new Vector3(-97.23384748107566, 60.707250287798644, 0.818119717650289));
 
         currentSolution = optimalSolution;
     }
