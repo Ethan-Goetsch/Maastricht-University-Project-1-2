@@ -17,36 +17,57 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
 
     protected PhysicsObjectType physicsObjectType;
 
+    /**
+     * @return the current position of the Physisc Object
+     */
     public Vector3 getPosition()
     {
         return position;
     }
 
+    /**
+     * @return the current velocity of the Physisc Object
+     */
     public Vector3 getVelocity()
     {
         return velocity;
     }
 
+    /**
+     * @return the current force of the Physisc Object
+     */
     public Vector3 getForce()
     {
         return force;
     }
 
+    /**
+     * @return the current acceleration of the Physisc Object
+     */
     public Vector3 getAcceleration()
     {
         return acceleration;
     }
 
+    /**
+     * @return the mass of the Physisc Object
+     */
     public double getMass()
     {
         return mass;
     }
 
+    /**
+     * @return the object's Physics Object Type
+     */
     public PhysicsObjectType getPhysicsObjectType()
     {
         return physicsObjectType;
     }
 
+    /**
+     * @return the object's Differential Solver
+     */
     public DifferentialSolver getDifferentialSolver()
     {
         return differentialSolver;
@@ -74,31 +95,61 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
         PhysicsEngine.getInstance().addPhysicsObjectToUpdate(this);
     }
 
+    /**
+     * Sets the Physics Objects position
+     * 
+     * @param newPosition the new position of the Physics Object
+     */
     public void setPosition(Vector3 newPosition)
     {
         position = newPosition;
     }
 
+    /**
+     * Sets the Physics Objects velocity
+     * 
+     * @param newVelocity the new velocty of the Physics Object
+     */
     public void setVelocity(Vector3 newVelocity)
     {
         velocity = newVelocity;
     }
 
+    /**
+     * Adds velocity to the Physics Object
+     * 
+     * @param newVelocity the velocity to add to the Physics Object
+     */
     public void applyVelocity(Vector3 newVelocity)
     {
         velocity = velocity.add(newVelocity);
     }
 
+    /**
+     * Sets the Physics Objects force
+     * 
+     * @param newForce the new force of the Physics Object
+     */
     public void setForce(Vector3 newForce)
     {
         force = newForce;
     }
 
+    /**
+     * Adds force to the Physics Object
+     * 
+     * @param newForce the force to add to the Physics Object
+     */
     public void applyForce(Vector3 newForce)
     {
         force = force.add(newForce);
     }
 
+    /**
+     * Sets the Physics Objects position
+     * 
+     * @param newPosition the new position of the Physics Object
+     */
     public void setAcceleration(Vector3 newAcceleration)
     {
         acceleration = newAcceleration;
@@ -112,5 +163,11 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
     */
     @Override
     public abstract void update();
+
+    @Override
+    public String getDescription()
+    {
+        return physicsObjectType.toString();
+    }
 
 }

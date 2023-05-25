@@ -2,10 +2,12 @@ package group9.project.Settings;
 
 import group9.project.Events.Event;
 import group9.project.Events.IEventListener;
+import group9.project.Optimization.OptimizationDevelopmentMode;
 
 public class SimulationSettings
 {
-    private static final boolean DEVELOPMENT_MODE = false;
+    private static final OptimizationDevelopmentMode OPTIMIZATION_DEVELOPMENT_MODE = OptimizationDevelopmentMode.Earth;
+
 
     private static final double MIN_SIMULATION_SPEED = 0.01;
 
@@ -22,74 +24,112 @@ public class SimulationSettings
     private static double simulationTime = 0;
 
 
-    private static boolean isSimulationPaused;
+    private static boolean isSimulationPaused = true;
+
+
+    private static Event simulationPlayedEvent = new Event();
 
     private static Event simulationPausedEvent = new Event();
 
     private static Event simulationCompletedEvent = new Event();
 
-    public static boolean getDEVELOPMENT_MODE()
+    /**
+     * @return the development mode of the Optimization Algorithm
+     */
+    public static OptimizationDevelopmentMode getOptimizationDevelopmentMode()
     {
-        return DEVELOPMENT_MODE;
+        return OPTIMIZATION_DEVELOPMENT_MODE;
     }
 
+    /**
+     * @return the minimum simulation speed
+     */
     public static double getMinSimulationSpeed()
     {
         return MIN_SIMULATION_SPEED;
     }
 
+    /**
+     * @return the maximum simulation speed
+     */
     public static double getMaxSimulationSpeed()
     {
         return MAX_SIMULATION_SPEED;
     }
 
+    /**
+     * @return the minimum scale factor
+     */
     public static double getMinScaleFactor()
     {
         return MIN_SCALE_FACTOR;
     }
 
+    /**
+     * @return the maximum scale factor
+     */
     public static double getMaxScaleFactor()
     {
         return MAX_SCALE_FACTOR;
     }
 
+    /**
+     * @return the current simulation speed
+     */
     public static double getSimulationSpeed()
     {
         return simulationSpeed;
     }
 
+    /**
+     * @return the current simulation time
+     */
     public static double getSimulationTime()
     {
         return simulationTime;
     }
 
+    /**
+     * @return true if the similation is paused
+     */
     public static boolean getIsSimulationPaused()
     {
         return isSimulationPaused;
     }
 
-    public static void setSimulationSpeed(double value)
+    /**
+     * Sets the simulation's speed
+     * 
+     * @param newSpeed the value to set the simulation's speed to
+     */
+    public static void setSimulationSpeed(double newSpeed)
     {
-        simulationSpeed = value;
+        simulationSpeed = newSpeed;
     }
 
+    /**
+     * Adds the value to the simulation time
+     * 
+     * @param value amount to add to the simulation time
+     */
     public static void updateSimulationTime(double value)
     {
         simulationTime += value;
 
         if (PhysicsSettings.getMaxUniverseTime() > 0 && simulationTime >= PhysicsSettings.getMaxUniverseTime())
         {
-            pauseSimulation();
-
             completeSimulation();
         }
     }
 
+    /**
+     * Plays the simulaiton if it is currently paused else pauses the simulation
+     */
     public static void playOrPauseSimulation()
     {
         if (SimulationSettings.getIsSimulationPaused())
         {
-            unpauseSimulation();
+            playSimulation();
         }
         else
         {
@@ -97,11 +137,19 @@ public class SimulationSettings
         }
     }
 
-    public static void unpauseSimulation()
+    /**
+     * Plays the simulation and raises the simulation played event
+     */
+    public static void playSimulation()
     {
         isSimulationPaused = false;
+
+        simulationPlayedEvent.raiseEvent();
     }
 
+    /**
+     * Pauses the simulation and raises the simulation paused event
+     */
     public static void pauseSimulation()
     {
         isSimulationPaused = true;
@@ -114,23 +162,33 @@ public class SimulationSettings
         simulationCompletedEvent.raiseEvent();
     }
 
+    /**
+     * Subscribes a listener to the Simulation Played Event
+     * 
+     * @param listener to subscribe to the played event
+     */
+    public static void subscribeListenerToPlayedEvent(IEventListener listener)
+    {
+        simulationPlayedEvent.subscribeListener(listener);
+    }
+
+    /**
+     * Subscribes a listener to the Simulation Paused Event
+     * 
+     * @param listener to subsctive to the paused event
+     */
     public static void subscribeListenerToPausedEvent(IEventListener listener)
     {
         simulationPausedEvent.subscribeListener(listener);
     }
 
-    public static void unsubscribeListenerFromPausedEvent(IEventListener listener)
-    {
-        simulationPausedEvent.unsubscribeListener(listener);
-    }
-
+    /**
+     * Subscribes a listener to the Simulation Completed Event
+     * 
+     * @param listener to subscrive to the completed event
+     */
     public static void subscribeListenerToCompletedEvent(IEventListener listener)
     {
         simulationCompletedEvent.subscribeListener(listener);
-    }
-
-    public static void unsubscribeListenerFromCompletedEvent(IEventListener listener)
-    {
-        simulationCompletedEvent.unsubscribeListener(listener);
     }
 }

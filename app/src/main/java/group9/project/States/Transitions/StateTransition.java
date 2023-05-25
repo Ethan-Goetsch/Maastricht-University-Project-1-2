@@ -1,27 +1,66 @@
 package group9.project.States.Transitions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import group9.project.States.IState;
 
 public class StateTransition
 {
-    private IState state;
+    private IState stateToTransitionTo;
 
-    private ITransitionProperty transitionProperty;
+    private List<ITransitionProperty> transitionProperties;
 
-    public StateTransition(IState newState, ITransitionProperty newTransitionProperty)
+    public IState getStateToTransitionTo()
     {
-        state = newState;
-
-        transitionProperty = newTransitionProperty;
+        return stateToTransitionTo;
     }
 
-    public IState getState()
+    public StateTransition(IState newStateToTransitionTo)
     {
-        return state;
+        stateToTransitionTo = newStateToTransitionTo;
+
+        transitionProperties = new ArrayList<>();
     }
 
+    public StateTransition(IState newStateToTransitionTo, ITransitionProperty newTransitionProperty)
+    {
+        stateToTransitionTo = newStateToTransitionTo;
+
+        transitionProperties = Arrays.asList(newTransitionProperty);
+    }
+
+    public StateTransition(IState newStateToTransitionTo, List<ITransitionProperty> newTransitionProperties)
+    {
+        stateToTransitionTo = newStateToTransitionTo;
+
+        transitionProperties = newTransitionProperties;
+    }
+
+    /**
+     * Adds a transition property to the State Transition
+     * 
+     * @param newTransitionProperty the transition property to add
+     */
+    public void addTransitionProperty(ITransitionProperty newTransitionProperty)
+    {
+        transitionProperties.add(newTransitionProperty);
+    }
+
+    /**
+     * @return true if all of its transition properties can transition
+     */
     public boolean canTransition()
     {
-        return transitionProperty.canTransition();
+        for (ITransitionProperty transitionProperty : transitionProperties)
+        {
+            if (!transitionProperty.canTransition())
+            {
+                return false;
+            }    
+        }
+
+        return true;
     }
 }

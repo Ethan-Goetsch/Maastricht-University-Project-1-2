@@ -7,6 +7,10 @@ public class Event implements ISubscribable, IUnsubscribable
 {
     private List<IEventListener> listeners = new ArrayList<>();
 
+    /**
+     * Raises the On Event method on each of the Event's listeners.
+     * Raises them in descending order to prevent an Exception when a listeners On Event unsubscribes it from the Event
+     */
     public void raiseEvent()
     {
         for (int i = listeners.size() - 1; i >= 0; i--)
@@ -14,13 +18,25 @@ public class Event implements ISubscribable, IUnsubscribable
             listeners.get(i).onEvent();
         }
     }
-
-    @Override public void subscribeListener(IEventListener listener)
+    
+    /**
+     * Subscribes a listener to the Event
+     * 
+     * @param listener the listener to subscribe
+     */
+    @Override
+    public void subscribeListener(IEventListener listener)
     {
         listeners.add(listener);
     }
 
-    @Override public void unsubscribeListener(IEventListener listener)
+    /**
+     * Unsubcribes a listener to the Event
+     * 
+     * @param listener the listener to unsubscribe
+     */
+    @Override
+    public void unsubscribeListener(IEventListener listener)
     {
         listeners.remove(listener);
     }

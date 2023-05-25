@@ -6,7 +6,7 @@ public class RandomGenerator
 {
     private static Random random = new Random();
 
-    public static double generateRandom(double max, double min)
+    public static double generateRandom(double min, double max)
     {
         return random.nextDouble() * (max - min) + min;
     }
