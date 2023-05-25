@@ -42,11 +42,19 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         physicsStateData = new PhysicsStateData[0];
     }
 
+    /**
+     * Adds a Physics Object to the Array of Physics Objects to be updated in the Physics Engine. Adds the object to the index at the Physics Object's Type Value
+     * 
+     * @param physicsObject the Physics Object to add to the Physics Engine's list of Physics Objects
+     */
     public void addPhysicsObjectToUpdate(PhysicsObject physicsObject)
     {
         physicsObjects[physicsObject.getPhysicsObjectType().getValue()] = physicsObject; 
     }
 
+    /**
+     * Initializes the Physics State Data with the Physics Object's Initial Values and Starts each Physics Object
+     */
     @Override
     public void start()
     {
@@ -63,14 +71,12 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         }
     }
 
+    /**
+     * Updates the Physics Engine
+     */
     @Override
     public void update()
-    {
-        if (SimulationSettings.getIsSimulationPaused())
-        {
-            return;
-        }
-        
+    {       
         updateForces();
 
         updateObjects();
@@ -78,6 +84,9 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         updateTimer();
     }
 
+    /**
+     * Resets the Physics Engine
+     */
     @Override
     public void reset()
     {
@@ -87,11 +96,9 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         }
     }
 
-    public PhysicsObject[] getPhysicsObjects()
-    {
-        return physicsObjects;
-    }
-
+    /**
+     * Updates the forces on each Physics Object
+     */
     private void updateForces()
     {
         for (PhysicsObject physicsObject : physicsObjects)
@@ -100,6 +107,13 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         }
     }
 
+    /**
+     * Calculates the force on a Physics Object
+     * 
+     * @param physicsObject the Physics Object to calculate the force on
+     * 
+     * @returns the sum of the forces on a Physics Object based on the Force Equation given in the Manual.
+     */
     private Vector3 calculateForce(PhysicsObject physicsObject)
     {
         Vector3 physicsObjectForce = new Vector3();
@@ -137,7 +151,10 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
 
         return physicsObjectForce;
     }
-
+  
+    /**
+     * Records each Physics Objects Data and stores their current values in their Physics State Data and then updates each Physics Object
+     */
     private void updateObjects()
     {
         for (int i = 0; i < physicsObjects.length; i++)
@@ -151,13 +168,29 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         }
     }
 
+    /**
+     * Updates the Simulation Timer by the Step Size of the Physics Settings
+     */
     private void updateTimer()
     {
-        SimulationSettings.updateSimulationTime(PhysicsSettings.getStepTime());
+        SimulationSettings.updateSimulationTime(PhysicsSettings.getStepSize());
     }
 
+    /**
+     * Calculates the acceleration of a Physics Object by moving all the objects forward in time and recalculating their forces and acceleration based on their new position
+     * 
+     * @param h the Step Size used in the Diffferential Solver to move each object in time
+     * @param physicsObjectType the Physics Object to calculate the acceleration for
+     * 
+     * @return the acceleration of the Physics Object at a point in time
+     */
     public Vector3 calculateAcceleration(double h, PhysicsObjectType physicsObjectType)
     {
+        if (h == 0)
+        {
+            return physicsObjects[physicsObjectType.getValue()].getAcceleration();
+        }
+
         DifferentialSolver differentialSolver = new EulerSolver();
 
         movePhysicsObjectsInTime(h, differentialSolver);
@@ -165,11 +198,17 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         return calculateForce(physicsObjects[physicsObjectType.getValue()]).divideBy(physicsObjects[physicsObjectType.getValue()].getMass());
     }
 
+    /**
+     * Moves each Physics Object forward in time. Uses the Physics State Data in the Differential Solver's calculations
+     * 
+     * @param h the Step Size used in the Euler Solver to move each object in time
+     * @param differentialSolver the Differential Solver used to approximate each Physics Objects new position
+     */
     private void movePhysicsObjectsInTime(double h, DifferentialSolver differentialSolver)
     {
         for (int i = 0; i < physicsObjects.length; i++)
         {
-            Vector3[] newState = differentialSolver.solveEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsStateData[i].getPhysicsObjectType());
+            Vector3[] newState = differentialSolver.solvePhysicsEquation(physicsStateData[i].getCurrentPosition(), physicsStateData[i].getCurrentVelocity(), physicsStateData[i].getCurrentAcceleration(), h, physicsStateData[i].getPhysicsObjectType());
 
             physicsObjects[i].setPosition(newState[0]);
         }

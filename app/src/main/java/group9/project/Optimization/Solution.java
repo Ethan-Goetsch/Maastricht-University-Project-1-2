@@ -6,15 +6,11 @@ public class Solution
 {
     private Vector3 velocity;
 
-    private double thrusterForce;
-
     private double score;
 
-    public Solution(Vector3 newVelocity, double newThrusterForce)
+    public Solution(Vector3 newVelocity)
     {
         velocity = newVelocity;
-
-        thrusterForce = newThrusterForce;
 
         score = Integer.MAX_VALUE;
     }
@@ -22,11 +18,6 @@ public class Solution
     public Vector3 getVelocity()
     {
         return velocity;
-    }
-
-    public double getThrusterForce()
-    {
-        return thrusterForce;
     }
 
     public double getScore()
@@ -42,6 +33,6 @@ public class Solution
     @Override
     public String toString()
     {
-        return "Score : " + getScore() + " | " + "Velocity : " + getVelocity() + " | " + "Force : " + getThrusterForce();
+        return "Velocity : " + getVelocity() + " | " + "Score : " + getScore();
     }
 }

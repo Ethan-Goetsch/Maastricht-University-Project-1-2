@@ -1,104 +1,120 @@
 package group9.project.Physics.Objects;
 
-import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Solvers.DifferentialSolver;
-import group9.project.States.IState;
 import group9.project.States.IStateManager;
-import group9.project.States.Rocket.*;
+import group9.project.States.Rocket.RocketStateManager;
 import group9.project.UI.Drawable.DrawableRocketShipUI;
 import group9.project.UI.Drawable.DrawableUI;
 import group9.project.Utility.Math.Vector3;
 import javafx.scene.paint.Color;
 
-public class RocketShipObject extends PhysicsObject implements IStateManager
+public class RocketShipObject extends PhysicsObject
 {
-    private RocketState currentRocketState;
+    private IStateManager rocketStateManager;
+
+    private DrawableUI drawableRocketShipUI;
 
     private double thrusterForce;
 
     private double impulseForce;
 
     private double fuelConsumed;
+    
 
+    /**
+     * @return the current thruster force of the Physics Object
+     */
     public double getThrusterForce()
     {
         return thrusterForce;
     }
 
+    /**
+     * @return the current impulse force of the Physics Object
+     */
     public double getImpulseForce()
     {
         return impulseForce;
     }
 
+    /**
+     * @return the current fuel consumed of the Physics Object
+     */
     public double getFuelConsumed()
     {
         return fuelConsumed;
     }
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
+
+        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
+    /**
+     * Sets the Rocket Ships thruster force
+     * 
+     * @param newThrusterForce the new thruster force of the Rocket Ship
+     */
     public void setThrusterForce(double newThrusterForce)
     {
         thrusterForce = newThrusterForce;
     }
 
+    /**
+     * Adds fuel to the Rocket Ship's fuel consumed
+     * 
+     * @param value the value to add to the Rocket Ship's fuel consumed
+     */
     public void consumeFuel(double value)
     {
         fuelConsumed += value;
     }
 
+    /**
+     * Starts the Rocket Ship. Creates and sets the Rocket Ship's State Manager
+     */
     @Override
     public void start()
     {
-        createRocketStates();
+        rocketStateManager = new RocketStateManager(this);
     }
 
-    private void createRocketStates()
-    {
-        RocketState launchState = new LaunchRocketState(this, PhysicsObjectData.getInstance().getTitanObject());
-
-        transitionToState(launchState);
-    }
-
+    /**
+     * Updats the Celestial Body
+     */
     @Override
     public void update()
     {
         updateAcceleration();
 
         updateState();
+
+        updateDrawable();
     }
 
+    /**
+     * Updats the acceleration of the Rocket Ship using the acceleration equation given in the manual
+     */
     private void updateAcceleration()
     {
         setAcceleration(getForce().divideBy(getMass()));
     }
 
+    /**
+     * Updats the State Manager of the Rocket Ship
+     */
     private void updateState()
     {
-        tickState();
+        rocketStateManager.tickState();
     }
 
-    @Override
-    public void tickState()
+    /**
+     * Updats the Drawable component of the Rocket Ship
+     */
+    private void updateDrawable()
     {
-        currentRocketState.update();
-
-        currentRocketState.checkStateTransitions();
-    }
-
-    @Override
-    public void transitionToState(IState state)
-    {
-        if (currentRocketState != null)
-        {
-            currentRocketState.onStateExit();
-        }
-
-        currentRocketState = (RocketState) state;
-
-        currentRocketState.onStateEnter();
+        drawableRocketShipUI.update(getPosition());
     }
 }
