@@ -1,6 +1,5 @@
 package group9.project.Optimization;
 
-import group9.project.Data.Data;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
 import group9.project.Utility.Math.Vector3;
@@ -27,7 +26,7 @@ public class LaunchToEarthOptimization extends LaunchOptimization
     {
         super();
 
-        optimalSolution = new Solution(new Vector3(-97.23384748107566, 60.707250287798644, 0.818119717650289));
+        optimalSolution = new Solution(new Vector3(-97.79701684304996, 59.335035090461716, 3.23738089765268));
 
         currentSolution = optimalSolution;
     }
@@ -65,6 +64,6 @@ public class LaunchToEarthOptimization extends LaunchOptimization
     @Override
     protected boolean getIsOptimalCondition()
     {
-        return Data.inOrbit(getOptimalSolution().getScore());
+        return PhysicsObjectData.getInstance().isRocketShipInEarthOrbit();
     }
 }

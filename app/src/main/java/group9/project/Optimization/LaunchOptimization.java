@@ -13,7 +13,7 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
     protected final static int AMOUNT_OF_NEIGHBOURS = 10;
 
 
-    protected final static double BASE_NEIGHBOUR_VELOCITY_DIFFERENCE = 0.0001;
+    protected final static double BASE_NEIGHBOUR_VELOCITY_DIFFERENCE = 1;
 
     
     protected boolean canStartOptimizing;
@@ -172,6 +172,11 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
     @Override
     public void update()
     {
+        if (!getIsOptimizationDevelopmentMode())
+        {
+            return;
+        }
+
         double newScore = getScoreCondition();
 
         if (newScore < currentSolution.getScore())

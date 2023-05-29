@@ -50,18 +50,11 @@ public class TimelineManager implements IStartable, IResetable
 
         EventManager.getInstance().update();
 
+        LaunchToTitanOptimization.getInstance().update();
+
+        LaunchToEarthOptimization.getInstance().update();
+
         PhysicsVisualizer.getInstance().update();
-
-
-        if (LaunchToTitanOptimization.getInstance().getIsOptimizationDevelopmentMode())
-        {
-            LaunchToTitanOptimization.getInstance().update();
-        }
-
-        if (LaunchToEarthOptimization.getInstance().getIsOptimizationDevelopmentMode())
-        {
-            LaunchToEarthOptimization.getInstance().update();
-        }
     }
 
     /**

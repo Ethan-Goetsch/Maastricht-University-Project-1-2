@@ -111,9 +111,7 @@ public class PhysicsObjectData implements IStartable
     */
     public boolean isRocketShipInTitanOrbit()
     {
-        double distanceToTitan = getRocketShipDistanceToTitan();
-
-        return Data.inOrbit(distanceToTitan);
+        return Data.inTitanOrbit(getRocketShipDistanceToTitan());
     }
     
     /**
@@ -121,9 +119,7 @@ public class PhysicsObjectData implements IStartable
     */
     public boolean isRocketShipInEarthOrbit()
     {
-        double distanceToEarth = getRocketShipDistanceToEarth();
-
-        return Data.inOrbit(distanceToEarth);
+        return Data.inEarthOrbit(getRocketShipDistanceToEarth());
     }
 
     /**

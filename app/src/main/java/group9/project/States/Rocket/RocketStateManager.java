@@ -11,28 +11,28 @@ import group9.project.States.Transitions.StateTransition;
 
 public class RocketStateManager implements IStateManager
 {
-    private RocketShipObject rocketShipObject;
+    private RocketShipObject rocketShip;
 
     private RocketState currentRocketState;
 
-    public RocketStateManager(RocketShipObject newRocketShipObject)
+    public RocketStateManager(RocketShipObject newRocketShip)
     {
-        rocketShipObject = newRocketShipObject;
+        rocketShip = newRocketShip;
 
         createRocketStates();
     }
 
     private void createRocketStates()
     {
-        RocketState launchFromEarthState = new LaunchRocketState(this, rocketShipObject, LaunchToTitanOptimization.getInstance());
+        RocketState launchFromEarthState = new LaunchRocketState(this, rocketShip, LaunchToTitanOptimization.getInstance());
 
-        RocketState directToTitanState = new DirectRocketState(this, rocketShipObject, PhysicsObjectData.getInstance().getTitanObject());
+        RocketState directToTitanState = new DirectRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject());
 
-        RocketState orbitTitanState = new OrbitRocketState(this, rocketShipObject, PhysicsObjectData.getInstance().getTitanObject(), Data.getMonthsAsSeconds(1));
+        RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(1));
 
-        RocketState launchFromTitanState = new LaunchRocketState(this, rocketShipObject, LaunchToEarthOptimization.getInstance());
+        RocketState launchFromTitanState = new LaunchRocketState(this, rocketShip, LaunchToEarthOptimization.getInstance());
 
-        RocketState directoToEarthState = new DirectRocketState(this, rocketShipObject, PhysicsObjectData.getInstance().getEarthObject());
+        RocketState directoToEarthState = new DirectRocketState(this, rocketShip, PhysicsObjectData.getInstance().getEarthObject());
 
 
         launchFromEarthState.addStateTransition(new StateTransition(directToTitanState, () -> !PhysicsObjectData.getInstance().isRocketShipInEarthOrbit()));

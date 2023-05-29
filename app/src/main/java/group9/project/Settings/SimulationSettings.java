@@ -6,7 +6,7 @@ import group9.project.Optimization.OptimizationDevelopmentMode;
 
 public class SimulationSettings
 {
-    private static final OptimizationDevelopmentMode OPTIMIZATION_DEVELOPMENT_MODE = OptimizationDevelopmentMode.None;
+    private static final OptimizationDevelopmentMode OPTIMIZATION_DEVELOPMENT_MODE = OptimizationDevelopmentMode.Earth;
 
 
     private static final double MIN_SIMULATION_SPEED = 0.01;

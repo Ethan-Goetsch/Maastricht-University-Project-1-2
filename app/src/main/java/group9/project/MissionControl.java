@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import group9.project.Managers.SystemsManager;
 import group9.project.Managers.TimelineManager;
+import group9.project.Optimization.OptimizationDevelopmentMode;
 import group9.project.Physics.Managers.PhysicsVisualizer;
 import group9.project.Settings.SimulationSettings;
 
@@ -13,42 +14,29 @@ import group9.project.Settings.SimulationSettings;
  */
 public class MissionControl extends Application
 {
-    //#region Singleton
-    private static MissionControl instance;
-
-    public static MissionControl getInstance()
-    {
-        if (instance == null)
-        {
-            instance = new MissionControl();
-        }
-
-        return instance;
-    }
-    //#endregion
-
     private static Stage mainStage;
 
     private static Scene mainScene;
 
-    public MissionControl()
-    {
-        
-    }
-
     public static void main(String[] args)
     {
+        SystemsManager.getInstance().start();
+
+        TimelineManager.getInstance().start();
+
+        SimulationSettings.playSimulation();
+
         launch();
     }
 
     @Override
     public void start(Stage stage)
     {
-        SystemsManager.getInstance().start();
+        if (SimulationSettings.getOptimizationDevelopmentMode() != OptimizationDevelopmentMode.None)
+        {
+            return;
+        }
 
-        TimelineManager.getInstance().start();
-
-        
         mainStage = stage;
 
         mainScene = new Scene(PhysicsVisualizer.getInstance().getView());
@@ -60,9 +48,7 @@ public class MissionControl extends Application
 
         mainStage.setMaximized(true);
         
-        mainStage.show();
         
-
-        SimulationSettings.playSimulation();
+        mainStage.show();
     }
 }

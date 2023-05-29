@@ -2,6 +2,11 @@ package group9.project.Data;
 
 public class Data
 {
+    private final static double EARTH_RADIUS = 6371;
+
+    private final static double TITAN_RADIUS = 2574.7;
+
+
     private final static double MIN_ORBIT_DISTANCE = 100;
 
     private final static double MAX_ORBIT_DISTANCE = 300;
@@ -24,16 +29,25 @@ public class Data
     {
         return MAX_ORBIT_DISTANCE;
     }
-
-
+    
     /**
-     * @param distance the distance between the object and a planet
+     * @param distance the distance between the object and Titan
      * 
      * @return true if the distance is less than or equal to the maximum orbit distance and greater than or equal to the minimum orbit distance
      */
-    public static boolean inOrbit(double distance)
+    public static boolean inTitanOrbit(double distance)
     {
-        return distance <= getMaxOrbitDistance() && distance >= getMinOrbitDistance();
+        return distance <= TITAN_RADIUS + getMaxOrbitDistance() && distance >= TITAN_RADIUS + getMinOrbitDistance();
+    }
+
+    /**
+     * @param distance the distance between the object and Earth
+     * 
+     * @return true if the distance is less than or equal to the maximum orbit distance and greater than or equal to the minimum orbit distance
+     */
+    public static boolean inEarthOrbit(double distance)
+    {
+        return distance <= EARTH_RADIUS + getMaxOrbitDistance() && distance >= EARTH_RADIUS + getMinOrbitDistance();
     }
 
     /**
@@ -44,7 +58,6 @@ public class Data
         return SECONDS_IN_MONTH;
     }
 
-    
     /**
      * @param months the amount of months to calculate the seconds for
      * 

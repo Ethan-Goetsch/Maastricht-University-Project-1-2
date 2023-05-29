@@ -1,12 +1,11 @@
 package group9.project.States.Rocket;
 
-import group9.project.Data.Data;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.States.IStateManager;
+import group9.project.Utility.Interfaces.IBooleanFunction;
 import group9.project.Utility.Interfaces.ITargetable;
-import group9.project.Utility.Math.Mathematics;
 import group9.project.Utility.Math.Vector;
 import group9.project.Utility.Math.Vector3;
 
@@ -14,15 +13,19 @@ public class OrbitRocketState extends RocketState
 {
     private ITargetable target;
 
+    private IBooleanFunction canEnterOrbitFunction;
+
     private double orbitDuration;
 
     private double orbitStartTime;
 
-    public OrbitRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, double newOrbitDuration)
+    public OrbitRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, IBooleanFunction newCanEnterOrbitFunction, double newOrbitDuration)
     {
         super(newStateManager, newRocketShip);
 
         target = newTarget;
+
+        canEnterOrbitFunction = newCanEnterOrbitFunction;
 
         orbitDuration = newOrbitDuration;
     }
@@ -32,7 +35,7 @@ public class OrbitRocketState extends RocketState
      */
     public boolean canEnterOrbit()
     {
-        return Data.inOrbit(Mathematics.calculateDistance(rocketShip.getPosition(), target.getPosition()));
+        return canEnterOrbitFunction.evaluate();
     }
 
     /**

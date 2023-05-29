@@ -1,5 +1,7 @@
 package group9.project.Physics.Managers;
 
+import group9.project.Optimization.OptimizationDevelopmentMode;
+import group9.project.Settings.SimulationSettings;
 import group9.project.UI.View.SimulationDetailView;
 import group9.project.UI.View.SystemDetailView;
 import group9.project.UI.View.SystemOrbitView;
@@ -72,6 +74,11 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     @Override
     public void start()
     {
+        if (SimulationSettings.getOptimizationDevelopmentMode() != OptimizationDevelopmentMode.None)
+        {
+            return;
+        }
+
         view = new BorderPane();
 
         view.setPrefSize(WIDTH, HEIGHT);
@@ -94,6 +101,11 @@ public class PhysicsVisualizer implements IStartable, IUpdateable
     @Override
     public void update()
     {
+        if (SimulationSettings.getOptimizationDevelopmentMode() != OptimizationDevelopmentMode.None)
+        {
+            return;
+        }
+
         systemView.update();
 
         systemCanvas.update();
