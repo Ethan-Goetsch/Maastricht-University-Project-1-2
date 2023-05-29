@@ -88,6 +88,15 @@ public class SimulationSettings
     {
         return simulationTime;
     }
+    
+    /**
+     * Sets the simulation time.
+     * @param simulationTime the value to set as the current simulation time
+     */
+    public static void setSimulationTime(double simulationTime)
+    {
+        SimulationSettings.simulationTime = simulationTime;
+    }
 
     /**
      * @return true if the similation is paused

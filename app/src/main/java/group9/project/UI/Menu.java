@@ -19,7 +19,12 @@ import com.simsilica.lemur.component.BorderLayout;
 import com.simsilica.lemur.core.GuiLayout;
 import com.simsilica.lemur.style.BaseStyles;
 import group9.project.MissionControl;
+import group9.project.Physics.Managers.SaveState;
 import group9.project.UI.Input.InputAction;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Menu implements ActionListener{
  
@@ -65,9 +70,9 @@ public class Menu implements ActionListener{
         menuTitle.setFontSize(FONT_SIZE);
         menuTitle.setPreferredSize(componentSize);
 
-        /*
+        
         Container sliderContainer = new Container(new BorderLayout());
-        DefaultRangedValueModel sliderModel = new DefaultRangedValueModel(0, 10, 5);
+        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 100, 5);
         Slider simSpeedSlider = new Slider(sliderModel, Axis.X);
         simSpeedSlider.setPreferredSize(componentSize);
         sliderContainer.addChild(simSpeedSlider, BorderLayout.Position.East);
@@ -75,7 +80,7 @@ public class Menu implements ActionListener{
         Label sliderLabel = sliderContainer.addChild(new Label("Simulation Speed"), BorderLayout.Position.West);
         sliderLabel.setFontSize(FONT_SIZE);
         myWindow.addChild(sliderContainer);
-*/
+
         
         Button pauseButton = myWindow.addChild(new Button("Pause Simulation"));
         pauseButton.setFontSize(FONT_SIZE);
@@ -91,6 +96,36 @@ public class Menu implements ActionListener{
                 } else
                 {
                     source.setText("Pause Simulation");
+                }
+            }
+        });
+        
+        Button saveButton = myWindow.addChild(new Button("Save Simulation State"));
+        saveButton.setFontSize(FONT_SIZE);
+        saveButton.setPreferredSize(componentSize);
+        saveButton.addClickCommands(new Command<Button>() {
+            @Override
+            public void execute(Button source)
+            {
+                try {
+                    SaveState.save("save.txt");
+                } catch (IOException ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        Button loadButton = myWindow.addChild(new Button("Load Previous State"));
+        loadButton.setFontSize(FONT_SIZE);
+        loadButton.setPreferredSize(componentSize);
+        loadButton.addClickCommands(new Command<Button>() {
+            @Override
+            public void execute(Button source)
+            {
+                try {
+                    SaveState.load("save.txt");
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

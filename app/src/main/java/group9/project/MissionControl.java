@@ -51,6 +51,8 @@ import java.util.Iterator;
 import group9.project.Managers.SystemsManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MissionControl extends SimpleApplication
 {
@@ -69,6 +71,8 @@ public class MissionControl extends SimpleApplication
     
     private boolean isPaused;
     private boolean isSimulationPaused;
+    
+    private long frameWaitTime = 0;
     
     //#region Singleton
     private static MissionControl instance;
@@ -107,7 +111,8 @@ public class MissionControl extends SimpleApplication
         // settings for the application:
         AppSettings settings = new AppSettings(true);
         settings.setResolution(WIDTH, HEIGHT);
-        settings.setVSync(true);
+        settings.setVSync(false);
+        settings.setFrameRate(800);
         
         
         instance.setSettings(settings);
@@ -362,6 +367,12 @@ public class MissionControl extends SimpleApplication
         }
     }
     
+    public void setFrameWaitTime(long time)
+    {
+        if (time < 0) time = 0;
+        frameWaitTime = time;
+    }
+    
     /**
      * Sets cursor visibility.
      * @param visible if true, the mouse cursor will be visible on screen, if false it will be hidden
@@ -428,6 +439,11 @@ public class MissionControl extends SimpleApplication
         hud.update();
             
         inputManager.setCursorVisible(enableCursor); // not ideal to call this method in the update loop, but I ran into issues where the cursor would still be visible even after setting it to be not so. So this is a work around.
+        try {
+            Thread.sleep(frameWaitTime);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MissionControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
             
     }
     
