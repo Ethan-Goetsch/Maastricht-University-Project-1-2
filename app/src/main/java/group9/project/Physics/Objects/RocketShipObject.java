@@ -82,7 +82,7 @@ public class RocketShipObject extends PhysicsObject
     }
 
     /**
-     * Updats the Celestial Body
+     * Updats the Rocket
      */
     @Override
     public void update()
