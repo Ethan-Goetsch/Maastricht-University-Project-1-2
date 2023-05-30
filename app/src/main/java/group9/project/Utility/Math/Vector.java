@@ -2,6 +2,12 @@ package group9.project.Utility.Math;
 
 public class Vector
 {
+    /**
+     * 
+     * @param vector 
+     * @param otherVector
+     * @return a new vector pointing from vector to otherVector
+     */
     public static Vector3 calculateDirection(Vector3 vector, Vector3 otherVector)
     {
         return otherVector.subtract(vector);

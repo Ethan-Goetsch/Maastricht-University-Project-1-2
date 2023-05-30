@@ -78,6 +78,11 @@ public class Vector3
         return newVector.divideBy(this.getMagnitude());
     }
 
+    /**
+     * Returns the string representation of the vector.
+     * The string contains the x, y and z values (in that order) seperated by commas and surrounded together by paranthesis.
+     * @return 
+     */
     @Override
     public String toString()
     {

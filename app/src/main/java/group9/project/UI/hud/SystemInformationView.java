@@ -8,6 +8,7 @@ import group9.project.MissionControl;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.UI.Camera.CustomCameraControl;
 import group9.project.Utility.Date.DateCalculator;
+import java.math.BigDecimal;
 
 public class SystemInformationView implements IHudDrawable{
     
@@ -58,7 +59,7 @@ public class SystemInformationView implements IHudDrawable{
         this.positionLabel.setLocalTranslation(MissionControl.getWidth()-500, MissionControl.getHeight()-200, 0);
         
         speedLabel = new BitmapText(font);
-        speedLabel.setLocalTranslation(MissionControl.getWidth()/2, MissionControl.getHeight()-100, 0);
+        speedLabel.setLocalTranslation(MissionControl.getWidth()/2-100, MissionControl.getHeight()-100, 0);
         
         attachChildren();
     }
@@ -92,10 +93,10 @@ public class SystemInformationView implements IHudDrawable{
     {
         if (!enabled) return;
 
-        speedLabel.setText(camControl.getSpeed() + "");
+        speedLabel.setText("Speed: " + camControl.getSpeed() + "");
         dateLabel.setText("Date: " + DateCalculator.getInstance().getCurrentDate() + "");
         rocketSpeedLabel.setText("Rocket speed: " + PhysicsObjectData.getInstance().getRocketShipSpeed() + " km/s");
-        distanceLabel.setText("Distance to titan: " + (float)((int)(PhysicsObjectData.getInstance().getRocketShipDistanceToTitan()*100000))/100000.0 + " km");
+        distanceLabel.setText("Distance to titan: " + (int)(PhysicsObjectData.getInstance().getRocketShipDistanceToTitan()) + " km");
         positionLabel.setText(cam.getLocation().toString());
     }
 

@@ -153,6 +153,17 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
             force = force.multiplyBy(-1);
 
             physicsObjectForce = physicsObjectForce.add(force);
+            
+            if (physicsObject.getPhysicsObjectType() == PhysicsObjectType.Rocket)
+            {
+                if (physicsObjectTwo.getPhysicsObjectType() == PhysicsObjectType.Saturn)
+                {
+                    System.out.println("Force on Rocket by Saturn: " + physicsObjectForce.getMagnitude());
+                } else if (physicsObjectTwo.getPhysicsObjectType() == PhysicsObjectType.Titan)
+                {
+                    System.out.println("Force on Rocket by Titan: " + physicsObjectForce.getMagnitude());
+                }
+            }
         }
 
         return physicsObjectForce;

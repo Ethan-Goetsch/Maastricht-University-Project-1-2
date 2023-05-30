@@ -5,6 +5,7 @@ import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Objects.RocketShipObject;
+import group9.project.Settings.SimulationSettings;
 import group9.project.States.IState;
 import group9.project.States.IStateManager;
 import group9.project.States.Transitions.StateTransition;
@@ -71,7 +72,7 @@ public class RocketStateManager implements IStateManager
             currentRocketState.onStateExit();
         }
 
-        //System.out.println("Transitioned From" + " | " + (currentRocketState == null ? "Root State" : currentRocketState.getDescription()) + " | -> | " + state.getDescription() + " |");
+        System.out.println("Transitioned From" + " | " + (currentRocketState == null ? "Root State" : currentRocketState.getDescription()) + " | -> | " + state.getDescription() + " | @ " + SimulationSettings.getSimulationTime());
 
         currentRocketState = (RocketState) state;
 

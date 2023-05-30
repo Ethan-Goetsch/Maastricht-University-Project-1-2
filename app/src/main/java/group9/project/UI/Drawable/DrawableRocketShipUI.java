@@ -29,6 +29,8 @@ public class DrawableRocketShipUI extends DrawableUI
         this.scale = scale;
 
         this.name = name;
+        
+        this.spatial.setLocalScale(scale);
 
         //this.physicsObject = physicsObject;
     }
@@ -53,7 +55,7 @@ public class DrawableRocketShipUI extends DrawableUI
     @Override
     public float getPreferredViewDistance()
     {
-        return 8*scale;
+        return 24*scale;
     }
     
     @Override

@@ -70,9 +70,9 @@ public class Menu implements ActionListener{
         menuTitle.setFontSize(FONT_SIZE);
         menuTitle.setPreferredSize(componentSize);
 
-        
+        // simulation speed slider
         Container sliderContainer = new Container(new BorderLayout());
-        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 100, 5);
+        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 1000, 0);
         Slider simSpeedSlider = new Slider(sliderModel, Axis.X);
         simSpeedSlider.setPreferredSize(componentSize);
         sliderContainer.addChild(simSpeedSlider, BorderLayout.Position.East);
@@ -81,7 +81,7 @@ public class Menu implements ActionListener{
         sliderLabel.setFontSize(FONT_SIZE);
         myWindow.addChild(sliderContainer);
 
-        
+        // pause simulation button
         Button pauseButton = myWindow.addChild(new Button("Pause Simulation"));
         pauseButton.setFontSize(FONT_SIZE);
         pauseButton.setPreferredSize(componentSize);
@@ -100,6 +100,7 @@ public class Menu implements ActionListener{
             }
         });
         
+        // save simulation button
         Button saveButton = myWindow.addChild(new Button("Save Simulation State"));
         saveButton.setFontSize(FONT_SIZE);
         saveButton.setPreferredSize(componentSize);
@@ -115,6 +116,7 @@ public class Menu implements ActionListener{
             }
         });
         
+        // load simulation button
         Button loadButton = myWindow.addChild(new Button("Load Previous State"));
         loadButton.setFontSize(FONT_SIZE);
         loadButton.setPreferredSize(componentSize);
@@ -130,6 +132,19 @@ public class Menu implements ActionListener{
             }
         });
         
+        // exit menu button
+        Button exitButton = myWindow.addChild(new Button("Close Menu"));
+        exitButton.setFontSize(FONT_SIZE);
+        exitButton.setPreferredSize(componentSize);
+        exitButton.addClickCommands(new Command<Button>() {
+            @Override
+            public void execute(Button source)
+            {
+                setEnabled(false);
+            }
+        });
+        
+        // quit button
         Button quitButton = myWindow.addChild(new Button("Quit To Desktop"));
         quitButton.setFontSize(FONT_SIZE);
         quitButton.setPreferredSize(componentSize);

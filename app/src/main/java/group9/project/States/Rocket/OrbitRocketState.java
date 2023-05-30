@@ -1,6 +1,7 @@
 package group9.project.States.Rocket;
 
 import group9.project.Data.Data;
+import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
@@ -52,7 +53,9 @@ public class OrbitRocketState extends RocketState
     {
         orbitStartTime = SimulationSettings.getSimulationTime();
 
-        setThrusters(new Vector3(0.5, 0, 0.5));
+        //setThrusters(new Vector3(0, 0, 0));
+        //setThrusters(PhysicsObjectData.getInstance().getTitanObject().getPosition().subtract(rocketShip.getPosition()).normalize().multiplyBy(rocketShip.getVelocity().getMagnitude()).add(new Vector3(0,200,0)).multiplyBy(0.001));
+        setThrusters(PhysicsObjectData.getInstance().getTitanObject().getVelocity().normalize().add(new Vector3(0,0.65,0).normalize().multiplyBy(PhysicsObjectData.getInstance().getTitanObject().getVelocity().getMagnitude()*0.45)));
     }
 
     @Override
@@ -82,6 +85,7 @@ public class OrbitRocketState extends RocketState
      */
     private void setThrusters(Vector3 velocityNeededToOrbit)
     {
+        System.out.println("applying thrusters");
         Vector3 slowDownVelocity = rocketShip.getVelocity().subtract(velocityNeededToOrbit).multiplyBy(-1);
 
         double slowDownThrusterForce = slowDownVelocity.getMagnitude();

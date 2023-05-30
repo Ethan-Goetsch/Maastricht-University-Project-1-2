@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package group9.project.Physics.Managers;
 
 import group9.project.Physics.Objects.PhysicsObject;
@@ -15,11 +12,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-/**
- *
- * @author natem
- */
+
 public class SaveState {
+    
+    /**
+     * Saves the position and velocity vectors of all the objects stored in {@code group9.project.Physics.Managers.PhysicsObjectData} to a file.
+     * @param filename the name for the text file (including file extension) to which the physics objects' positions and velocities should be written.
+     * @throws IOException 
+     */
     public static void save(String filename) throws IOException
     {
         PhysicsObject[] physicsObjects = PhysicsEngine.getInstance().getPhysicsObjects();
@@ -44,11 +44,22 @@ public class SaveState {
         fileWriter.close();
     }
     
+    /**
+     * Reads in velocity and position data for objects in the physics simulation from a text file.
+     * The first line in the file should contain the simulation time.
+     * Each consecutive line should should be in the following format: physicsObjectType#position#velocity,
+     *      where physicsObjectType is a number, and position and velocity are vectors in the format defined in {@code group9.project.Utility.Math.Vector3.toString()}.
+     * @param filename the path of the file to read
+     * @throws FileNotFoundException
+     */
     public static void load(String filename) throws FileNotFoundException
     {
         File readFile = new File(filename);
         Scanner scanner = new Scanner(readFile);
-        SimulationSettings.setSimulationTime(Double.parseDouble(scanner.nextLine()));
+        
+        SimulationSettings.setSimulationTime(Double.parseDouble(scanner.nextLine())); // read simulation time
+        
+        // read position and velocity data:
         while (scanner.hasNextLine())
         {
             String line = scanner.nextLine();

@@ -123,6 +123,8 @@ public class MissionControl extends SimpleApplication
     public void simpleInitApp()
     {
         
+        setDisplayStatView(false);
+        
         // initialise GUI style:
         GuiGlobals.initialize(this);
         BaseStyles.loadGlassStyle();
@@ -192,6 +194,8 @@ public class MissionControl extends SimpleApplication
         neptuneSpatial = assetManager.loadModel("Models/Neptune/neptune.j3o");
         uranusSpatial = assetManager.loadModel("Models/Uranus/uranus.j3o");
         rocketSpatial = assetManager.loadModel("Models/Rocket/rocket.j3o");
+        
+        
     }
     
     /**
@@ -269,7 +273,7 @@ public class MissionControl extends SimpleApplication
         DrawableManager.getInstance().add(new DrawableCelestialBodyUI("uranus", uranusSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Uranus.getValue()]));
         DrawableManager.getInstance().add(new DrawableCelestialBodyUI("neptune", neptuneSpatial, (CelestialBodyObject)physicsObjects[PhysicsObjectType.Neptune.getValue()]));
         
-        DrawableManager.getInstance().add(new DrawableRocketShipUI("rocket", (float)ScaleConverter.worldToScreenLength(50000), rocketSpatial, (RocketShipObject)physicsObjects[PhysicsObjectType.Rocket.getValue()]));
+        DrawableManager.getInstance().add(new DrawableRocketShipUI("rocket", (float)ScaleConverter.worldToScreenLength(50), rocketSpatial, (RocketShipObject)physicsObjects[PhysicsObjectType.Rocket.getValue()]));
         
         Iterator<DrawableUI> dIterator = DrawableManager.getInstance().getIterator();
         while (dIterator.hasNext())

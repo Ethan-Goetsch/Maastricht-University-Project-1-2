@@ -155,7 +155,7 @@ public abstract class PhysicsObject implements IStartable, IUpdateable, ITargeta
     /**
      * Sets the Physics Objects position
      * 
-     * @param newPosition the new position of the Physics Object
+     * @param newAcceleration the new position of the Physics Object
      */
     public void setAcceleration(Vector3 newAcceleration)
     {
