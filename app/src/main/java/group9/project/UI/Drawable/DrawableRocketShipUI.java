@@ -44,11 +44,17 @@ public class DrawableRocketShipUI extends DrawableUI
 
         // set rotation of spatial to face in direction of motion:
         Vector3 dir = physicsObject.getDirection();
+
         Quaternion rotation = new Quaternion();
+
         rotation.lookAt(new Vector3f((float)dir.getX(), (float)dir.getY(), (float)dir.getZ()), new Vector3f(0f,1f,0f));
+
         Quaternion rotateY = new Quaternion();
+
         rotateY.fromAngleAxis(FastMath.PI/2, new Vector3f(0,1,0));
+
         rotation.mult(rotateY);
+
         spatial.setLocalRotation(rotation);
     }
 
@@ -63,5 +69,4 @@ public class DrawableRocketShipUI extends DrawableUI
     {
         return new DrawableRocketShipUI(name, scale, spatial.clone(), (RocketShipObject)physicsObject);
     }
-
 }

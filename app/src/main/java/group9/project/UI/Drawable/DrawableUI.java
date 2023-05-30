@@ -19,7 +19,9 @@ public abstract class DrawableUI implements IDrawable
     public DrawableUI(String name, Spatial spatial, PhysicsObject physicsObject)
     {
         this.name = name;
+
         this.spatial = spatial;
+        
         this.physicsObject = physicsObject;
     }
 

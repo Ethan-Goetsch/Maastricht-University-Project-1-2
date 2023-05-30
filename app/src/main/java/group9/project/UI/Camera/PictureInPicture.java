@@ -7,10 +7,10 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 
 
-public class PictureInPicture {
-    
-    RenderManager renderManager;
-    ViewPort viewport;
+public class PictureInPicture
+{
+    private RenderManager renderManager;
+    private ViewPort viewport;
     
     /**
      * Constructor.
@@ -24,6 +24,7 @@ public class PictureInPicture {
         cam.setViewPort(0f, .3f, .7f, 1f);
         
         viewport = renderManager.createPostView("PiP", cam);
+
         viewport.setClearFlags(false, false, false);
     }
     

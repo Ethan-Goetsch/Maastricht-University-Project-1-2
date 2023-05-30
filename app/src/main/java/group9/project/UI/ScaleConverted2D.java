@@ -2,7 +2,8 @@ package group9.project.UI;
 
 import group9.project.Utility.Math.Vector3;
 
-public class ScaleConverted2D {
+public class ScaleConverted2D 
+{
     private static final double SCALE_KM_TO_PIXELS = 3779528.0352161;
 
     //private static double scaleFactor = 0.5;
