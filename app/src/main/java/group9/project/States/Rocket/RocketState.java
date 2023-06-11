@@ -15,6 +15,16 @@ public abstract class RocketState extends State
         rocketShip = newRocketShip;
     }
 
+    public boolean canEnterState()
+    {
+        return true;
+    }
+
+    public boolean canExitState()
+    {
+        return true;
+    }
+
     @Override
     public abstract void onStateEnter();
 

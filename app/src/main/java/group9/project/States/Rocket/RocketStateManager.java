@@ -28,7 +28,9 @@ public class RocketStateManager implements IStateManager
 
         RocketState directToTitanState = new DirectRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject());
 
-        RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(1));
+        RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(0.1));
+
+        RocketState landTitanState = new LandRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject());
 
         RocketState launchFromTitanState = new LaunchRocketState(this, rocketShip, LaunchToEarthOptimization.getInstance());
 
@@ -37,9 +39,11 @@ public class RocketStateManager implements IStateManager
 
         launchFromEarthState.addStateTransition(new StateTransition(directToTitanState, () -> !PhysicsObjectData.getInstance().isRocketShipInEarthOrbit()));
 
-        directToTitanState.addStateTransition(new StateTransition(orbitTitanState, () -> ((OrbitRocketState) orbitTitanState).canEnterOrbit()));
+        directToTitanState.addStateTransition(new StateTransition(orbitTitanState, () -> orbitTitanState.canEnterState()));
 
-        orbitTitanState.addStateTransition(new StateTransition(launchFromTitanState, () -> ((OrbitRocketState) orbitTitanState).canExitOrbit()));
+        orbitTitanState.addStateTransition(new StateTransition(landTitanState, () -> orbitTitanState.canExitState()));
+
+        landTitanState.addStateTransition(new StateTransition(launchFromTitanState, () -> landTitanState.canExitState()));
 
         launchFromTitanState.addStateTransition(new StateTransition(directoToEarthState, () -> !PhysicsObjectData.getInstance().isRocketShipInTitanOrbit()));
 

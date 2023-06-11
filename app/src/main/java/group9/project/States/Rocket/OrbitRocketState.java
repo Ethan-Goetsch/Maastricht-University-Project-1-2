@@ -33,7 +33,8 @@ public class OrbitRocketState extends RocketState
     /**
      * @return true if the Rocket Ship is in its target planet's orbit
      */
-    public boolean canEnterOrbit()
+    @Override
+    public boolean canEnterState()
     {
         return canEnterOrbitFunction.evaluate();
     }
@@ -41,7 +42,8 @@ public class OrbitRocketState extends RocketState
     /**
      * @return true if the Rocket Ship has orbited for the specified duration. If the time elapsed since the Rocket Started orbiting is greater than or equal to the orbitDuration
      */
-    public boolean canExitOrbit()
+    @Override
+    public boolean canExitState()
     {
         return orbitDuration <= SimulationSettings.getSimulationTime() - orbitStartTime;
     }

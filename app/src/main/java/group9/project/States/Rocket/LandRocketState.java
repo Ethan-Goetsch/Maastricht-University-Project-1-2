@@ -5,15 +5,27 @@ import group9.project.States.IStateManager;
 import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
 
-public class LandingRocketState extends RocketState
+public class LandRocketState extends RocketState
 {
     private ITargetable target;
 
-    public LandingRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget)
+    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget)
     {
         super(newStateManager, newRocketShip);
         
         target = newTarget;
+    }
+
+    @Override
+    public boolean canEnterState()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean canExitState()
+    {
+        return true;
     }
 
     @Override
