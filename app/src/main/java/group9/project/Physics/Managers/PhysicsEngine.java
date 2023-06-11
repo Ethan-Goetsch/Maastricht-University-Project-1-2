@@ -213,4 +213,13 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
             physicsObjects[i].setPosition(newState[0]);
         }
     }
+
+    public Vector3 calculateMotion(double u, double theta)
+    {
+        double xAcceleration = u * Math.sin(theta);
+
+        double yAcceleration = u * Math.cos(theta) - PhysicsSettings.getTitansGravity();
+
+        return new Vector3(xAcceleration, yAcceleration, 0);
+    }
 }

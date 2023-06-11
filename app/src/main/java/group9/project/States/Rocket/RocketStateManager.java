@@ -1,5 +1,6 @@
 package group9.project.States.Rocket;
 
+import group9.project.Controllers.FeedbackController;
 import group9.project.Data.Data;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
@@ -30,7 +31,7 @@ public class RocketStateManager implements IStateManager
 
         RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(0.1));
 
-        RocketState landTitanState = new LandRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject());
+        RocketState landTitanState = new LandRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), new FeedbackController());
 
         RocketState launchFromTitanState = new LaunchRocketState(this, rocketShip, LaunchToEarthOptimization.getInstance());
 

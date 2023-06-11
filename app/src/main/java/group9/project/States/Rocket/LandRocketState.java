@@ -1,5 +1,7 @@
 package group9.project.States.Rocket;
 
+import group9.project.Controllers.LandingController;
+import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.States.IStateManager;
 import group9.project.Utility.Interfaces.ITargetable;
@@ -9,11 +11,15 @@ public class LandRocketState extends RocketState
 {
     private ITargetable target;
 
-    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget)
+    private LandingController landingController;
+
+    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, LandingController newLandingController)
     {
         super(newStateManager, newRocketShip);
         
         target = newTarget;
+
+        landingController = newLandingController;
     }
 
     @Override
@@ -25,7 +31,7 @@ public class LandRocketState extends RocketState
     @Override
     public boolean canExitState()
     {
-        return true;
+        return false;
     }
 
     @Override
@@ -45,17 +51,11 @@ public class LandRocketState extends RocketState
     @Override
     public void update()
     {
-        double u = 0;
+        double mainThrusterAcceleration = landingController.getMainThrusterAcceleration();
 
-        double theta = 0;
+        double sideThrusterTorque = landingController.getSideThrusterTorque();
 
-        double g = 0;
-
-        double xAcceleration = u * Math.sin(theta);
-
-        double yAcceleration = u * Math.cos(theta) - g;
-
-        Vector3 newVelocity = new Vector3(xAcceleration, yAcceleration, rocketShip.getVelocity().getZ());
+        Vector3 newVelocity = PhysicsEngine.getInstance().calculateMotion(mainThrusterAcceleration, sideThrusterTorque);
 
         rocketShip.setVelocity(newVelocity);
     }

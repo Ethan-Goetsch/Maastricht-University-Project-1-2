@@ -52,7 +52,7 @@ public class LaunchRocketState extends RocketState
      * Consumes fuel based on the impulse force.
      * After all calculations are complete it turns off the thrusters
      * 
-     * @param initialVelocoity the optimal launch velocity of the Rocet Ship
+     * @param initialVelocoity the optimal launch velocity of the Rocket Ship
      */
     private void setInitialParameters(Vector3 initialVelocoity)
     {

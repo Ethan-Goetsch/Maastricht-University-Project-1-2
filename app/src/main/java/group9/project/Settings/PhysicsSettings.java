@@ -11,6 +11,8 @@ public class PhysicsSettings
 
     private static final double GRAVITY = 6.6743E-20;
 
+    private final static double TITANS_GRAVITY = 1.352E-3;
+
     private static final double STEP_SIZE = 100;                                                                                                                                                                                                                                                                                                  ;
 
     private static final DifferentialSolver universeDifferentialSolver = new RungeKuttaFourthSolver();
@@ -37,6 +39,14 @@ public class PhysicsSettings
     public static double getGravity()
     {
         return GRAVITY;
+    }
+
+    /**
+     * @return Titan's Gravity. Defined in the Manual
+     */
+    public static double getTitansGravity()
+    {
+        return TITANS_GRAVITY;
     }
 
     /**
