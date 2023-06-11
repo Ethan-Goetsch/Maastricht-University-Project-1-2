@@ -3,6 +3,7 @@ package group9.project.Optimization;
 import java.util.ArrayList;
 import java.util.List;
 
+import group9.project.Solutions.FuelSolution;
 import group9.project.Utility.RandomGenerator;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IUpdateable;
@@ -19,9 +20,9 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
     protected boolean canStartOptimizing;
 
 
-    protected List<Solution> currentNeighbours; 
+    protected List<FuelSolution> currentNeighbours; 
 
-    protected Solution currentSolution;
+    protected FuelSolution currentSolution;
 
     protected boolean getCanStartOptimizing()
     {
@@ -41,14 +42,14 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
     /**
      * @return the current optimal solution
      */
-    protected abstract Solution getOptimalSolution();
+    protected abstract FuelSolution getOptimalSolution();
 
     /**
      * Sets the Optimal Solution to the inputted solution
      * 
      * @param newSolution the new optimal solution
      */
-    protected abstract void setOptimalSolution(Solution newSolution);
+    protected abstract void setOptimalSolution(FuelSolution newSolution);
 
     /**
      * @return true if the Rocket Ship has reached the optimal solution
@@ -65,7 +66,7 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
      * 
      * @return the optimal solution
      */
-    public Solution generateOptimalSolution()
+    public FuelSolution generateOptimalSolution()
     {
         setCanStartOptimzing(true);
 
@@ -107,15 +108,15 @@ public abstract class LaunchOptimization implements IUpdateable, IResetable
      * 
      * @return list of new neighbours
      */
-    private List<Solution> generateNewNeighbours()
+    private List<FuelSolution> generateNewNeighbours()
     {
-        List<Solution> newNeighbours = new ArrayList<>();
+        List<FuelSolution> newNeighbours = new ArrayList<>();
 
         for (int i = 0; i < AMOUNT_OF_NEIGHBOURS; i++)
         {
-            Vector3 neighbourVelocity = generateNeighbourVelocity(getOptimalSolution().getVelocity(), getOptimalSolution().getScore());
+            Vector3 neighbourVelocity = generateNeighbourVelocity(getOptimalSolution().getSolutionValue(), getOptimalSolution().getScore());
 
-            Solution neighbour = new Solution(neighbourVelocity);
+            FuelSolution neighbour = new FuelSolution(neighbourVelocity);
 
             newNeighbours.add(neighbour);
         }

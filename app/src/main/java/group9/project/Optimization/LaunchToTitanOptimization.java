@@ -2,6 +2,7 @@ package group9.project.Optimization;
 
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
+import group9.project.Solutions.FuelSolution;
 import group9.project.Utility.Math.Vector3;
 
 public class LaunchToTitanOptimization extends LaunchOptimization
@@ -23,13 +24,13 @@ public class LaunchToTitanOptimization extends LaunchOptimization
     // Genetic Algorithm Initial Conditions To Reach Titan:
     // new Solution(new Vector3(43.055263066324734, -41.35587532316244, -3.3992847916377094)), 59.79648182418462);
 
-    private Solution optimalSolution;
+    private FuelSolution optimalSolution;
 
     private LaunchToTitanOptimization()
     {
         super();
 
-        optimalSolution = new Solution(new Vector3(51.732619138489426, -37.57185241528165, -2.2535619861704554));
+        optimalSolution = new FuelSolution(new Vector3(51.732619138489426, -37.57185241528165, -2.2535619861704554));
 
         currentSolution = optimalSolution;
     }
@@ -44,13 +45,13 @@ public class LaunchToTitanOptimization extends LaunchOptimization
     }
 
     @Override
-    protected Solution getOptimalSolution()
+    protected FuelSolution getOptimalSolution()
     {
         return optimalSolution;
     }
 
     @Override
-    protected void setOptimalSolution(Solution newSolution)
+    protected void setOptimalSolution(FuelSolution newSolution)
     {
         optimalSolution = newSolution;
     }
