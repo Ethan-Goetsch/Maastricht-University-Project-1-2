@@ -245,15 +245,25 @@ public class PlanetLabels implements IHudDrawable, IInputable
 
         rocketLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("rocket").getDrawable().getLocalTranslation()));
         
-        BitmapText[] labels = new BitmapText[]{sunLabel,mercuryLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel}; // i dont like how i've done this but the array is useful
+        
+        
+        //System.out.println(DrawableManager.getInstance().getObjectWithName("venus").getDrawable().checkCulling(cam));
+        
+        String[] labelStrings = new String[]{"sun","mercury","venus","earth","mars","jupiter","saturn","neptune","uranus","rocket","moon","titan"};
+        BitmapText[] labels = new BitmapText[]{sunLabel,mercuryLabel,venusLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel}; // i dont like how i've done this but the array is useful
         // TODO: fix bug where labels are showing for planets which are behind the camera
         
-        /*
-        for (BitmapText label : labels) {
-            System.out.println(label);
-            System.out.println(label.getText() + ": " + label.getLocalTranslation());
+        for (int i = 0; i < labels.length; i++) {
+            BitmapText label = labels[i];
+            String text = labelStrings[i];
+            if (label.getLocalTranslation().getZ() < 1)
+            {
+                label.setText(text);
+            } else {
+                label.setText("");
+            }
+
         }
-        */
         
     }
     

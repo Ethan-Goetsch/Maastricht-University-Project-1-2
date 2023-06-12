@@ -64,7 +64,7 @@ public class Menu implements ActionListener
         myWindow = new Container();
         
         // position the menu
-        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/8, MissionControl.getHeight()/2 + MissionControl.getHeight()/16, 0);
+        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/6, MissionControl.getHeight()/2 + MissionControl.getHeight()/6, 0);
     
         // add the components
         Label menuTitle = myWindow.addChild(new Label("Pause Menu"));
@@ -76,7 +76,7 @@ public class Menu implements ActionListener
         // simulation speed slider
         Container sliderContainer = new Container(new BorderLayout());
 
-        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 1000, 0);
+        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 200, 200);
 
         Slider simSpeedSlider = new Slider(sliderModel, Axis.X);
 
