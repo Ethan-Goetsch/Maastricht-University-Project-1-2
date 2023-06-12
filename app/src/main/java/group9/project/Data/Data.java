@@ -14,6 +14,21 @@ public class Data
 
     private static final double SECONDS_IN_MONTH = 2.628E+6;
 
+
+    private static final double LANDING_TOLERANCE_X = 0.0001;
+
+    private static final double LANDING_TOLERANCE_Y = 0.0001;
+
+    private static final double LANDING_TOLERANCE_THETA = 0.01;
+
+
+    private static final double LANDING_TOLERANCE_VELOCITY_X = 0.0001;
+
+    private static final double LANDING_TOLERANCE_VELOCITY_Y = 0.0001;
+
+    private static final double LANDING_TOLERANCE_VELOCITY_THETA = 0.02;
+
+
     /**
      * @return the minimum orbit distance to be in a planet's orbit. Defined in the Manual
      */
@@ -66,5 +81,20 @@ public class Data
     public static double getMonthsAsSeconds(double months)
     {
         return months * getSecondsInMonth();
+    }
+
+    public static boolean isLanded(double x, double y, double theta, double xVelocity, double yVelocity, double thetaVelocity)
+    {
+        return isPositionAndRotationLanded(x, y, theta) && isVelocityLanded(xVelocity, yVelocity, thetaVelocity);
+    }
+
+    private static boolean isPositionAndRotationLanded(double x, double y, double theta)
+    {
+        return Math.abs(x) <= LANDING_TOLERANCE_X && Math.abs(y) <= LANDING_TOLERANCE_Y && Math.abs(theta % 2) <= LANDING_TOLERANCE_THETA;
+    }
+
+    private static boolean isVelocityLanded(double xVelocity, double yVelocity, double thetaVelocity)
+    {
+        return Math.abs(xVelocity) <= LANDING_TOLERANCE_VELOCITY_X && Math.abs(yVelocity) <= LANDING_TOLERANCE_VELOCITY_Y && Math.abs(thetaVelocity) == LANDING_TOLERANCE_VELOCITY_THETA;
     }
 }

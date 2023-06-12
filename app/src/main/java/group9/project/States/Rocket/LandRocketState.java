@@ -1,25 +1,27 @@
 package group9.project.States.Rocket;
 
 import group9.project.Controllers.LandingController;
+import group9.project.Data.Data;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.RocketShipObject;
+import group9.project.Settings.PhysicsSettings;
 import group9.project.States.IStateManager;
-import group9.project.Utility.Interfaces.ITargetable;
+import group9.project.Utility.Coordinates.Coordinates;
 import group9.project.Utility.Math.Vector3;
 
 public class LandRocketState extends RocketState
 {
-    private ITargetable target;
-
     private LandingController landingController;
 
-    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, LandingController newLandingController)
+    private Vector3 landingCoordinates;
+
+    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, Vector3 newLandingCoordinates)
     {
         super(newStateManager, newRocketShip);
-        
-        target = newTarget;
 
         landingController = newLandingController;
+
+        landingCoordinates = newLandingCoordinates;
     }
 
     @Override
@@ -31,7 +33,9 @@ public class LandRocketState extends RocketState
     @Override
     public boolean canExitState()
     {
-        return false;
+        Vector3 relativeToLandingCoordiantesPosition = Coordinates.RelativeTo(rocketShip.getPosition(), landingCoordinates);
+
+        return Data.isLanded(relativeToLandingCoordiantesPosition.getX(), relativeToLandingCoordiantesPosition.getY(), rocketShip.getTorque(), rocketShip.getVelocity().getX(), rocketShip.getVelocity().getY(), rocketShip.getTorqueVelocity());
     }
 
     @Override
@@ -51,18 +55,32 @@ public class LandRocketState extends RocketState
     @Override
     public void update()
     {
+        landingController.updateLandPath(landingCoordinates);
+
+
         double mainThrusterAcceleration = landingController.getMainThrusterAcceleration();
 
         double sideThrusterTorque = landingController.getSideThrusterTorque();
+        
 
-        Vector3 newVelocity = PhysicsEngine.getInstance().calculateMotion(mainThrusterAcceleration, sideThrusterTorque);
+        Vector3[] positionAndVelocity = PhysicsEngine.getInstance().calculateMotion(rocketShip.getPosition(), rocketShip.getVelocity(), rocketShip.getTorque(), mainThrusterAcceleration, sideThrusterTorque, PhysicsSettings.getStepSize());
 
-        rocketShip.setVelocity(newVelocity);
+        Double[] torqueAndVelocity = PhysicsEngine.getInstance().calculateRotation(rocketShip.getTorque(), rocketShip.getTorqueVelocity(), sideThrusterTorque, PhysicsSettings.getStepSize());
+        
+
+        rocketShip.setPosition(positionAndVelocity[0]);
+
+        rocketShip.setVelocity(positionAndVelocity[1]);
+
+
+        rocketShip.setTorque(torqueAndVelocity[0]);
+
+        rocketShip.setTorqueVelocity(torqueAndVelocity[1]);
     }
 
     @Override
     public String getDescription()
     {
-        return "Landing " + target.getDescription() + " State";
+        return "Landing State";
     }
 }

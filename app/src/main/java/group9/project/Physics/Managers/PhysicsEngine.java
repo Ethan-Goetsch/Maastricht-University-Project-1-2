@@ -7,6 +7,9 @@ import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.Solvers.EulerSolver;
+import group9.project.Solvers.RotationSolver;
+import group9.project.Solvers.RungeKuttaFourthSolver;
+import group9.project.Utility.Interfaces.INumericalMethod;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IStartable;
 import group9.project.Utility.Interfaces.IUpdateable;
@@ -214,12 +217,52 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         }
     }
 
-    public Vector3 calculateMotion(double u, double theta)
+    public Vector3[] calculateMotion(Vector3 position, Vector3 velocity, double theta, double u, double v, double h)
     {
+        Vector3[] states = new Vector3[2];
+
+        INumericalMethod<Vector3> positionSolver = new RungeKuttaFourthSolver();
+
+
         double xAcceleration = u * Math.sin(theta);
 
         double yAcceleration = u * Math.cos(theta) - PhysicsSettings.getTitansGravity();
 
-        return new Vector3(xAcceleration, yAcceleration, 0);
+
+        Vector3 acceleration = new Vector3(xAcceleration, yAcceleration, 0);
+
+        Vector3 newPosition = positionSolver.solveNumericalEquation(position, (t, w) -> velocity, h, 0);
+
+        Vector3 newVelocity = positionSolver.solveNumericalEquation(velocity, (t, w) -> acceleration, h, 0);
+
+
+        states[0] = newPosition;
+
+        states[1] = newVelocity;
+
+
+        return states;
+    }
+
+    public Double[] calculateRotation(double rotation, double rotationVelocity, double v, double h)
+    {
+        Double[] states = new Double[2];
+
+        INumericalMethod<Double> rotationSolver = new RotationSolver();
+
+
+        double rotationAcceleration = v;
+
+        double newRotation = rotationSolver.solveNumericalEquation(rotation, (t, w) -> rotationVelocity, h, 0);
+
+        double newRotationVelocity = rotationSolver.solveNumericalEquation(rotationVelocity, (t, w) -> rotationAcceleration, h, 0);
+
+
+        states[0] = newRotation;
+
+        states[1] = newRotationVelocity;
+
+
+        return states;
     }
 }

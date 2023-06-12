@@ -19,8 +19,11 @@ public class RocketShipObject extends PhysicsObject
     private double impulseForce;
 
     private double fuelConsumed;
-    
 
+    private double torque;
+
+    private double torqueVelocity;
+    
     /**
      * @return the current thruster force of the Physics Object
      */
@@ -43,6 +46,16 @@ public class RocketShipObject extends PhysicsObject
     public double getFuelConsumed()
     {
         return fuelConsumed;
+    }
+
+    public double getTorque()
+    {
+        return torque;
+    }
+
+    public double getTorqueVelocity()
+    {
+        return torqueVelocity;
     }
 
     public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
@@ -70,6 +83,16 @@ public class RocketShipObject extends PhysicsObject
     public void consumeFuel(double value)
     {
         fuelConsumed += value;
+    }
+
+    public void setTorque(double newTorque)
+    {
+        torque = newTorque;
+    }
+
+    public void setTorqueVelocity(double newTorqueVelocity)
+    {
+        torqueVelocity = newTorqueVelocity;
     }
 
     /**
