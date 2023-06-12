@@ -63,7 +63,7 @@ public class Menu implements ActionListener{
         myWindow = new Container();
         
         // position the menu
-        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/8, MissionControl.getHeight()/2 + MissionControl.getHeight()/16, 0);
+        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/6, MissionControl.getHeight()/2 + MissionControl.getHeight()/6, 0);
     
         // add the components
         Label menuTitle = myWindow.addChild(new Label("Pause Menu"));
