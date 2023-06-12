@@ -1,5 +1,7 @@
 package group9.project.Data;
 
+import group9.project.Settings.PhysicsSettings;
+
 public class Data
 {
     private final static double EARTH_RADIUS = 6371;
@@ -28,6 +30,10 @@ public class Data
 
     private static final double LANDING_TOLERANCE_VELOCITY_THETA = 0.02;
 
+
+    private static final double MAX_MAIN_THRUSTER_ACCELERATION = 10 * PhysicsSettings.getTitansGravity();
+
+    private static final double MAX_TORQUE = 1;
 
     /**
      * @return the minimum orbit distance to be in a planet's orbit. Defined in the Manual
@@ -96,5 +102,15 @@ public class Data
     private static boolean isVelocityLanded(double xVelocity, double yVelocity, double thetaVelocity)
     {
         return Math.abs(xVelocity) <= LANDING_TOLERANCE_VELOCITY_X && Math.abs(yVelocity) <= LANDING_TOLERANCE_VELOCITY_Y && Math.abs(thetaVelocity) == LANDING_TOLERANCE_VELOCITY_THETA;
+    }
+
+    public static double getMaxMainThrusterAcceleration()
+    {
+        return MAX_MAIN_THRUSTER_ACCELERATION;
+    }
+
+    public static double getMaxTorque()
+    {
+        return MAX_TORQUE;
     }
 }

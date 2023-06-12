@@ -17,4 +17,9 @@ public class Mathematics
 
         return Math.sqrt(x + y + z);
     }
+
+    public static double clamp(double value, double maxValue)
+    {
+        return value > maxValue ? maxValue : value;
+    }
 }
