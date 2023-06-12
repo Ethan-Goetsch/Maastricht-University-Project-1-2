@@ -4,6 +4,7 @@ import group9.project.Events.EventManager;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Managers.PhysicsVisualizer;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IStartable;
 
@@ -44,6 +45,8 @@ public class SystemsManager implements IStartable, IResetable
         PhysicsEngine.getInstance().start();
 
         PhysicsVisualizer.getInstance().start();
+
+        ScaleConverter.getInstance().start();
 
         EventManager.getInstance().start();
     }

@@ -18,7 +18,7 @@ public class RocketStateManager implements IStateManager
     private RocketState currentRocketState;
 
 
-    private final double orbitDuration = 0.1;
+    private final double orbitDuration = 0;
 
     private final Vector3 landingCoordiantes = new Vector3(); 
 

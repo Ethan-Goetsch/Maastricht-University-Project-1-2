@@ -2,6 +2,8 @@ package group9.project.States.Rocket;
 
 import group9.project.Controllers.LandingController;
 import group9.project.Data.Data;
+import group9.project.Events.Event;
+import group9.project.Events.IEventListener;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
@@ -14,6 +16,11 @@ public class LandRocketState extends RocketState
     private LandingController landingController;
 
     private Vector3 landingCoordinates;
+
+    private static Event onEnterLandStateEvent = new Event();
+
+    private static Event onExitLandStateEvent = new Event();
+
 
     public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, Vector3 newLandingCoordinates)
     {
@@ -41,6 +48,8 @@ public class LandRocketState extends RocketState
     @Override
     public void onStateEnter()
     {
+        onEnterLandStateEvent.raiseEvent();
+        
         rocketShip.setVelocity(new Vector3());
 
         rocketShip.setAcceleration(new Vector3());
@@ -49,7 +58,7 @@ public class LandRocketState extends RocketState
     @Override
     public void onStateExit()
     {
-
+        onExitLandStateEvent.raiseEvent();
     }
 
     @Override
@@ -82,5 +91,15 @@ public class LandRocketState extends RocketState
     public String getDescription()
     {
         return "Landing State";
+    }
+
+    public static void subscribeListenerToEnterEvent(IEventListener listener)
+    {
+        onEnterLandStateEvent.subscribeListener(listener);  
+    }
+
+    public static void subscribeListenerToExitEvent(IEventListener listener)
+    {
+        onExitLandStateEvent.subscribeListener(listener);
     }
 }

@@ -1,6 +1,7 @@
 package group9.project.UI.Drawable;
 
 import group9.project.UI.GUI;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -62,5 +63,19 @@ public class DrawableCelestialBodyUI extends DrawableUI
         drawablePane.getChildren().add(drawableLabel);
 
         drawablePane.getChildren().add(drawableShape);
+    }
+
+    @Override
+    public void update(Vector3 newDrawablePosition)
+    {
+        super.update(newDrawablePosition);
+
+
+        drawableShape.setScaleX(ScaleConverter.getScaleSize());
+
+        drawableShape.setScaleY(ScaleConverter.getScaleSize());
+
+
+        drawableLabel.setTranslateY(-labelOffset * ScaleConverter.getScaleSize());
     }
 }

@@ -28,13 +28,18 @@ public class PhysicsObjectData implements IStartable
 
     private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
 
-    private CelestialBodyObject earthObject, titanObject;
+    private CelestialBodyObject sunObject, earthObject, titanObject;
 
     private RocketShipObject rocketShipObject;
 
     private PhysicsObjectData()
     {
         
+    }
+
+    public CelestialBodyObject getSunObject()
+    {
+        return sunObject;
     }
 
     public CelestialBodyObject getEarthObject()
@@ -62,7 +67,7 @@ public class PhysicsObjectData implements IStartable
 
     private void createCelestialBodies()
     {
-        new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Sun, 10, 25, Color.RED);
+        sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Sun, 10, 25, Color.RED);
 
         new CelestialBodyObject(new Vector3(7833268.43923962, 44885949.3703908, 2867693.20054382), new Vector3(-57.4967480139828, 11.52095127176, 6.21695374334136), 3.30E+23, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Mercury, 6, 25, Color.YELLOW);
 
@@ -87,7 +92,7 @@ public class PhysicsObjectData implements IStartable
 
     private void createRocket()
     {
-        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, new Vector3(), 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, Color.BLUE);
+        rocketShipObject = new RocketShipObject(rocketShipStartingPosition, new Vector3(), 50000, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Rocket, 6, 6, 20, Color.BLUE);
     }
 
     /**

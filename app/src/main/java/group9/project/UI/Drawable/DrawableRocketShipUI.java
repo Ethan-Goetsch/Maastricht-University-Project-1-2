@@ -1,6 +1,7 @@
 package group9.project.UI.Drawable;
 
 import group9.project.UI.GUI;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Math.Vector3;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -11,22 +12,31 @@ public class DrawableRocketShipUI extends DrawableUI
    
     private Rectangle drawableShape;
 
+
     private double shipWidth;
 
     private double shipHeight;
+
+
+    private double labelOffset;
+
 
     private String labelText;
 
     private Color shipColour;
 
-    public DrawableRocketShipUI(double newShipWidth, double newShipHeight, String newLabelText, Color newShipColour, Vector3 newDrawablePosition)
+    public DrawableRocketShipUI(double newShipWidth, double newShipHeight, double newLabelOffset, String newLabelText, Color newShipColour, Vector3 newDrawablePosition)
     {
         super();
 
 
-        shipWidth = newShipWidth;
+        shipWidth = newShipWidth * ScaleConverter.getScaleSize();
 
-        shipHeight = newShipHeight;
+        shipHeight = newShipHeight * ScaleConverter.getScaleSize();
+
+
+        labelOffset = newLabelOffset;
+
 
         labelText = newLabelText;
 
@@ -51,7 +61,7 @@ public class DrawableRocketShipUI extends DrawableUI
 
         drawableLabel.setTranslateX(-12.5);
 
-        drawableLabel.setTranslateY(-20);
+        drawableLabel.setTranslateY(-labelOffset);
 
 
         drawableShape = new Rectangle();
@@ -68,10 +78,17 @@ public class DrawableRocketShipUI extends DrawableUI
         drawablePane.getChildren().add(drawableShape);
     }
 
+    @Override
     public void update(Vector3 newDrawablePosition)
     {
-        drawablePosition = newDrawablePosition;
+        super.update(newDrawablePosition);
 
-        draw();
+
+        drawableShape.setScaleX(ScaleConverter.getScaleSize());
+
+        drawableShape.setScaleY(ScaleConverter.getScaleSize());
+
+
+        drawableLabel.setTranslateY(-labelOffset * ScaleConverter.getScaleSize());
     }
 }

@@ -58,11 +58,11 @@ public class RocketShipObject extends PhysicsObject
         return torqueVelocity;
     }
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, double labelOffset, Color shipColour)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
 
-        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, newPhysicsObjectType.toString(), shipColour, getPosition());
+        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, labelOffset, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
     /**
