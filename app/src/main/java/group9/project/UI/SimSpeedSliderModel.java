@@ -25,7 +25,7 @@ public class SimSpeedSliderModel extends DefaultRangedValueModel
     }
     
     /**
-     * Sets the value of the slider and changes the application's wait time between each frame.
+     * Sets the value of the slider and changes the application's wait time between each frame to {@code this.getMaximum() - this.getValue()}
      * @param value the value to set the slider to
      */
     @Override
@@ -33,6 +33,6 @@ public class SimSpeedSliderModel extends DefaultRangedValueModel
     {
         super.setValue(value);
         
-        MissionControl.getInstance().setFrameWaitTime((long)value);
+        MissionControl.getInstance().setFrameWaitTime((long)(getMaximum() - getValue()));
     }
 }

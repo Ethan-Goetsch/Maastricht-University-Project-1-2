@@ -76,7 +76,7 @@ public class Menu implements ActionListener
         // simulation speed slider
         Container sliderContainer = new Container(new BorderLayout());
 
-        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 1000, 0);
+        SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 200, 200);
 
         Slider simSpeedSlider = new Slider(sliderModel, Axis.X);
 
