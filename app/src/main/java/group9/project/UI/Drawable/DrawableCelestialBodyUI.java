@@ -24,7 +24,6 @@ public class DrawableCelestialBodyUI extends DrawableUI
         planetRadius = (float) ScaleConverter.worldToScreenLength(celestialBody.getRadius()); // have to convert the real world size of the celestial body to screen size
 
         spatial.setLocalScale(planetRadius, planetRadius, planetRadius); // scaling the spatial like this might result in a planet size which isn't exactly of real-world scale, but its good enough (for now)
-
     }
 
     @Override
@@ -46,5 +45,4 @@ public class DrawableCelestialBodyUI extends DrawableUI
     {
         return new DrawableCelestialBodyUI(name, spatial.scale(planetRadius), (CelestialBodyObject)physicsObject);
     }
-
 }

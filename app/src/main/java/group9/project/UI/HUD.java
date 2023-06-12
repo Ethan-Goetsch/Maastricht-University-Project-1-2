@@ -5,15 +5,15 @@ import com.jme3.input.InputManager;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
 
-public class HUD {
-    
+public class HUD
+{
     private final Node guiNode;
     
     private boolean enabled;
         
     private final ArrayList<IHudDrawable> drawables;
     
-    InputManager inputManager;
+    private InputManager inputManager;
     
     /**
      * Creates an instance of {@code HUD}.
@@ -38,6 +38,7 @@ public class HUD {
     public void addHudDrawable(IHudDrawable drawable)
     {
         drawables.add(drawable);
+
         guiNode.attachChild(drawable.getRootNode()); // attach the drawable's local scene graph to the gui node
 
         // register inputs if drawable implements the IInputable interface:
@@ -66,7 +67,8 @@ public class HUD {
      */
     public void setHidden(boolean hidden)
     {
-        for (IHudDrawable drawable : drawables) {
+        for (IHudDrawable drawable : drawables)
+        {
             drawable.setEnabled(hidden);
         }
     }
@@ -76,12 +78,14 @@ public class HUD {
      */
     public void update()
     {
-        if (!enabled) return;
+        if (!enabled)
+        {
+            return;
+        }
         
-        for (IHudDrawable drawable : drawables) {
+        for (IHudDrawable drawable : drawables)
+        {
             drawable.update();
         }
-
     }
-  
 }

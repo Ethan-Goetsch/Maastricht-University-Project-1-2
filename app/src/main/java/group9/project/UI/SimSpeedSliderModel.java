@@ -11,8 +11,8 @@ import group9.project.MissionControl;
  *
  * @author natem
  */
-public class SimSpeedSliderModel extends DefaultRangedValueModel{
-    
+public class SimSpeedSliderModel extends DefaultRangedValueModel
+{
     /**
      * Constructor.
      * @param min the minimum slider value
@@ -32,6 +32,7 @@ public class SimSpeedSliderModel extends DefaultRangedValueModel{
     public void setValue(double value)
     {
         super.setValue(value);
+        
         MissionControl.getInstance().setFrameWaitTime((long)value);
     }
 }

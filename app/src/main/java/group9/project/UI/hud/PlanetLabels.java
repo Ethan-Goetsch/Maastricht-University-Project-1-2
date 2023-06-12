@@ -13,17 +13,17 @@ import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.IInputable;
 import group9.project.UI.Input.InputAction;
 
-public class PlanetLabels implements IHudDrawable, IInputable{
+public class PlanetLabels implements IHudDrawable, IInputable
+{
+    private Node rootNode; // this is the root node of the local scene graph of a PlanetLabels instance.
     
-    Node rootNode; // this is the root node of the local scene graph of a PlanetLabels instance.
+    private BitmapFont font;
     
-    BitmapFont font;
+    private Camera cam;
     
-    Camera cam;
+    private boolean enabled;
     
-    boolean enabled;
-    
-    private BitmapText sunLabel,mercuryLabel,venusLabel,earthLabel,marsLabel,jupiterLabel,saturnLabel,neptuneLabel,uranusLabel,rocketLabel,moonLabel,titanLabel;
+    private BitmapText sunLabel, mercuryLabel, venusLabel, earthLabel, marsLabel, jupiterLabel, saturnLabel, neptuneLabel, uranusLabel, rocketLabel, moonLabel, titanLabel;
     
     
     /**
@@ -34,6 +34,7 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     public PlanetLabels(Camera cam, BitmapFont font)
     {
         this.font = font;
+
         init(cam);
     }
     
@@ -53,77 +54,137 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         // instantiate and configure the labels:
 
         earthLabel = new BitmapText(font);
+
         earthLabel.setSize(font.getCharSet().getRenderedSize());
+
         earthLabel.setColor(ColorRGBA.Blue);
+        
         earthLabel.setText("Earth");
+
         earthLabel.setLocalTranslation(300, earthLabel.getLineHeight(), 0);
         
+
         sunLabel = new BitmapText(font);
+
         sunLabel.setSize(font.getCharSet().getRenderedSize());
+
         sunLabel.setColor(ColorRGBA.Yellow);
+
         sunLabel.setText("Sun");
+
         sunLabel.setLocalTranslation(300, sunLabel.getLineHeight(), 0);
         
+
         mercuryLabel = new BitmapText(font);
+
         mercuryLabel.setSize(font.getCharSet().getRenderedSize());
+
         mercuryLabel.setColor(ColorRGBA.Brown);
+
         mercuryLabel.setText("Mercury");
+
         mercuryLabel.setLocalTranslation(300, mercuryLabel.getLineHeight(), 0);
         
+
         venusLabel = new BitmapText(font);
+
         venusLabel.setSize(font.getCharSet().getRenderedSize());
+
         venusLabel.setColor(ColorRGBA.Orange);
+
         venusLabel.setText("Venus");
+
         venusLabel.setLocalTranslation(300, venusLabel.getLineHeight(), 0);
         
+
         marsLabel = new BitmapText(font);
+
         marsLabel.setSize(font.getCharSet().getRenderedSize());
+
         marsLabel.setColor(ColorRGBA.Orange);
+
         marsLabel.setText("Mars");
+
         marsLabel.setLocalTranslation(300, marsLabel.getLineHeight(), 0);
         
+
         jupiterLabel = new BitmapText(font);
+
         jupiterLabel.setSize(font.getCharSet().getRenderedSize());
+
         jupiterLabel.setColor(ColorRGBA.Brown);
+
         jupiterLabel.setText("Jupiter");
+
         jupiterLabel.setLocalTranslation(300, jupiterLabel.getLineHeight(), 0);
         
+
         saturnLabel = new BitmapText(font);
+
         saturnLabel.setSize(font.getCharSet().getRenderedSize());
+
         saturnLabel.setColor(ColorRGBA.Yellow);
+
         saturnLabel.setText("Saturn");
+
         saturnLabel.setLocalTranslation(300, saturnLabel.getLineHeight(), 0);
         
+
         neptuneLabel = new BitmapText(font);
+
         neptuneLabel.setSize(font.getCharSet().getRenderedSize());
+
         neptuneLabel.setColor(ColorRGBA.Blue);
+
         neptuneLabel.setText("Neptune");
+
         neptuneLabel.setLocalTranslation(300, neptuneLabel.getLineHeight(), 0);
         
+
         uranusLabel = new BitmapText(font);
+
         uranusLabel.setSize(font.getCharSet().getRenderedSize());
+
         uranusLabel.setColor(ColorRGBA.Cyan);
+
         uranusLabel.setText("Uranus");
+
         uranusLabel.setLocalTranslation(300, uranusLabel.getLineHeight(), 0);
         
+
         rocketLabel = new BitmapText(font);
+
         rocketLabel.setSize(font.getCharSet().getRenderedSize());
+
         rocketLabel.setColor(ColorRGBA.Red);
+
         rocketLabel.setText("Rocket");
+
         rocketLabel.setLocalTranslation(300, rocketLabel.getLineHeight(), 0);
         
+
         moonLabel = new BitmapText(font);
+
         moonLabel.setSize(font.getCharSet().getRenderedSize());
+
         moonLabel.setColor(ColorRGBA.Gray);
+
         moonLabel.setText("Moon");
+
         moonLabel.setLocalTranslation(300, moonLabel.getLineHeight(), 0);
 
+
         titanLabel = new BitmapText(font);
+
         titanLabel.setSize(font.getCharSet().getRenderedSize());
+
         titanLabel.setColor(ColorRGBA.Gray);
+
         titanLabel.setText("Titan");
+
         titanLabel.setLocalTranslation(300, titanLabel.getLineHeight(), 0);
         
+
         attachChildren();
     }
     
@@ -143,6 +204,7 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+
         if (enabled)
         {
             attachChildren();
@@ -160,16 +222,27 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     private void updateLabelPositions()
     {
         sunLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("sun").getDrawable().getLocalTranslation()));
+
         mercuryLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("mercury").getDrawable().getLocalTranslation()));
+
         venusLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("venus").getDrawable().getLocalTranslation()));
+
         earthLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("earth").getDrawable().getLocalTranslation()));
+
         marsLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("mars").getDrawable().getLocalTranslation()));
+
         jupiterLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("jupiter").getDrawable().getLocalTranslation()));
+
         saturnLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("saturn").getDrawable().getLocalTranslation()));
+
         neptuneLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("neptune").getDrawable().getLocalTranslation()));
+
         uranusLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("uranus").getDrawable().getLocalTranslation()));
+
         moonLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("moon").getDrawable().getLocalTranslation()));
+
         titanLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("titan").getDrawable().getLocalTranslation()));
+
         rocketLabel.setLocalTranslation(cam.getScreenCoordinates(DrawableManager.getInstance().getObjectWithName("rocket").getDrawable().getLocalTranslation()));
         
         
@@ -200,16 +273,27 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     private void attachChildren()
     {
         rootNode.attachChild(sunLabel);
+
         rootNode.attachChild(mercuryLabel);
+
         rootNode.attachChild(venusLabel);
+
         rootNode.attachChild(earthLabel);
+
         rootNode.attachChild(marsLabel);
+
         rootNode.attachChild(jupiterLabel);
+
         rootNode.attachChild(saturnLabel);
+
         rootNode.attachChild(neptuneLabel);
+
         rootNode.attachChild(uranusLabel);
+
         rootNode.attachChild(rocketLabel);
+
         rootNode.attachChild(moonLabel);
+
         rootNode.attachChild(titanLabel);
     }
     
@@ -219,16 +303,27 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     private void detachChildren()
     {
         rootNode.detachChild(sunLabel);
+
         rootNode.detachChild(mercuryLabel);
+
         rootNode.detachChild(venusLabel);
+
         rootNode.detachChild(earthLabel);
+
         rootNode.detachChild(marsLabel);
+
         rootNode.detachChild(jupiterLabel);
+
         rootNode.detachChild(saturnLabel);
+
         rootNode.detachChild(neptuneLabel);
+
         rootNode.detachChild(uranusLabel);
+
         rootNode.detachChild(moonLabel);
+
         rootNode.detachChild(rocketLabel);
+
         rootNode.detachChild(titanLabel);
     }
     
@@ -237,9 +332,11 @@ public class PlanetLabels implements IHudDrawable, IInputable{
     {        
         inputManager.addMapping("Toggle HUD", new KeyTrigger(KeyInput.KEY_H));
         
-        ActionListener actionListener = new ActionListener() {
+        ActionListener actionListener = new ActionListener()
+        {
             @Override
-            public void onAction(String name, boolean isPressed, float tpf) {
+            public void onAction(String name, boolean isPressed, float tpf)
+            {
                 if (name.equals("Toggle HUD") && isPressed)
                 {
                     setEnabled(!enabled);
@@ -250,4 +347,3 @@ public class PlanetLabels implements IHudDrawable, IInputable{
         inputManager.addListener(actionListener, new String[]{"Toggle HUD"});
     }
 }
-

@@ -26,18 +26,18 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Menu implements ActionListener{
- 
-    Node guiNode;
-    BitmapFont font;
-    boolean enabled;
+public class Menu implements ActionListener
+{
+    private Node guiNode;
+    private BitmapFont font;
+    private boolean enabled;
     
-    Button quitButton;
-    Container myWindow;
+    private Button quitButton;
+    private Container myWindow;
     
     private final int FONT_SIZE = 56;
     
-    Vector3f componentSize = new Vector3f(MissionControl.getWidth()/4, MissionControl.getHeight()/16,0);
+    private Vector3f componentSize = new Vector3f(MissionControl.getWidth()/4, MissionControl.getHeight()/16,0);
     
     /**
      * Constructor.
@@ -47,6 +47,7 @@ public class Menu implements ActionListener{
     public Menu(Node guiNode, BitmapFont font)
     {
         this.guiNode = guiNode;
+
         this.font = font;
         
         init();
@@ -67,29 +68,44 @@ public class Menu implements ActionListener{
     
         // add the components
         Label menuTitle = myWindow.addChild(new Label("Pause Menu"));
+
         menuTitle.setFontSize(FONT_SIZE);
+
         menuTitle.setPreferredSize(componentSize);
 
         // simulation speed slider
         Container sliderContainer = new Container(new BorderLayout());
+
         SimSpeedSliderModel sliderModel = new SimSpeedSliderModel(0, 1000, 0);
+
         Slider simSpeedSlider = new Slider(sliderModel, Axis.X);
+
         simSpeedSlider.setPreferredSize(componentSize);
+
         sliderContainer.addChild(simSpeedSlider, BorderLayout.Position.East);
+
         //simSpeedSlider.setSize(componentSize);
+
         Label sliderLabel = sliderContainer.addChild(new Label("Simulation Speed"), BorderLayout.Position.West);
+
         sliderLabel.setFontSize(FONT_SIZE);
+
         myWindow.addChild(sliderContainer);
 
         // pause simulation button
         Button pauseButton = myWindow.addChild(new Button("Pause Simulation"));
+
         pauseButton.setFontSize(FONT_SIZE);
+
         pauseButton.setPreferredSize(componentSize);
-        pauseButton.addClickCommands(new Command<Button>() {
+
+        pauseButton.addClickCommands(new Command<Button>()
+        {
             @Override
             public void execute(Button source)
             {
                 MissionControl.getInstance().setSimulationPaused(! MissionControl.getInstance().getIsSimulationPaused());
+
                 if (MissionControl.getInstance().getIsSimulationPaused())
                 {
                     source.setText("Resume Simulation");
@@ -102,15 +118,21 @@ public class Menu implements ActionListener{
         
         // save simulation button
         Button saveButton = myWindow.addChild(new Button("Save Simulation State"));
+
         saveButton.setFontSize(FONT_SIZE);
+
         saveButton.setPreferredSize(componentSize);
-        saveButton.addClickCommands(new Command<Button>() {
+
+        saveButton.addClickCommands(new Command<Button>()
+        {
             @Override
             public void execute(Button source)
             {
-                try {
+                try
+                {
                     SaveState.save("save.txt");
-                } catch (IOException ex) {
+                } catch (IOException ex)
+                {
                     Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -118,9 +140,13 @@ public class Menu implements ActionListener{
         
         // load simulation button
         Button loadButton = myWindow.addChild(new Button("Load Previous State"));
+
         loadButton.setFontSize(FONT_SIZE);
+
         loadButton.setPreferredSize(componentSize);
-        loadButton.addClickCommands(new Command<Button>() {
+
+        loadButton.addClickCommands(new Command<Button>()
+        {
             @Override
             public void execute(Button source)
             {
@@ -134,9 +160,13 @@ public class Menu implements ActionListener{
         
         // exit menu button
         Button exitButton = myWindow.addChild(new Button("Close Menu"));
+
         exitButton.setFontSize(FONT_SIZE);
+
         exitButton.setPreferredSize(componentSize);
-        exitButton.addClickCommands(new Command<Button>() {
+
+        exitButton.addClickCommands(new Command<Button>()
+        {
             @Override
             public void execute(Button source)
             {
@@ -146,11 +176,16 @@ public class Menu implements ActionListener{
         
         // quit button
         Button quitButton = myWindow.addChild(new Button("Quit To Desktop"));
+
         quitButton.setFontSize(FONT_SIZE);
+
         quitButton.setPreferredSize(componentSize);
-        quitButton.addClickCommands(new Command<Button>() {
+
+        quitButton.addClickCommands(new Command<Button>()
+        {
                 @Override
-                public void execute( Button source ) {
+                public void execute( Button source )
+                {
                     System.exit(0);
                 }
             });          
@@ -169,6 +204,7 @@ public class Menu implements ActionListener{
     public void registerKeys(InputManager inputManager)
     {
         inputManager.addMapping(InputAction.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
+
         inputManager.addListener(this, new String[]{InputAction.OPEN_MENU});
     }
     
@@ -208,17 +244,20 @@ public class Menu implements ActionListener{
     public void setEnabled(boolean enabled)
     {
         this.enabled = enabled;
+
         MissionControl.getInstance().setPaused(enabled); // pause the game
+
         if (enabled)
         {
             MissionControl.getInstance().setCursorVisible(true);
+
             guiNode.attachChild(myWindow);
-        } else {
+        } 
+        else
+        {
             MissionControl.getInstance().setCursorVisible(false);
+            
             guiNode.detachChild(myWindow);
         }
-        
     }
-    
-    
 }

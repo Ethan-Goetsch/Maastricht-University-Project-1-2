@@ -2,8 +2,8 @@ package group9.project.UI.hud;
 
 import com.jme3.scene.Node;
 
-public interface IHudDrawable {
-    
+public interface IHudDrawable
+{
     /**
      * Retrieves the root node of the drawable's internal scene graph.
      * By attaching the returned node as a child of the application's gui node, the drawable can be made visible on the HUD.
