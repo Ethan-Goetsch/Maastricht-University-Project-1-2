@@ -24,11 +24,11 @@ public class SaveState
      */
     public static void save(String filename) throws IOException
     {
-        private PhysicsObject[] physicsObjects = PhysicsEngine.getInstance().getPhysicsObjects();
+        PhysicsObject[] physicsObjects = PhysicsEngine.getInstance().getPhysicsObjects();
 
-        private PhysicsObjectType[] physicsObjectTypes = PhysicsObjectType.values();
+        PhysicsObjectType[] physicsObjectTypes = PhysicsObjectType.values();
         
-        private String data = "";
+        String data = "";
         
         data += SimulationSettings.getSimulationTime() + "\n";
                 
