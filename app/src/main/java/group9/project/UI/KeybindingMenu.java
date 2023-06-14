@@ -109,10 +109,54 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
     
     private void attachPage(int pageIndex)
     {
+        myWindow.detachAllChildren();
+        
         for (Container container : pages[pageIndex].getContainers()) {
             myWindow.addChild(container);
             System.out.println("attached container");
         }
+        
+        Container pageNavigateContainer = myWindow.addChild(new Container(new BorderLayout()));
+        if (pageIndex != 0)
+        {
+            Button prevPageButton = pageNavigateContainer.addChild(new Button("Previous page"), BorderLayout.Position.West);
+            prevPageButton.setFontSize(FONT_SIZE);
+            prevPageButton.setPreferredSize(componentSize);
+            prevPageButton.addClickCommands(new Command<Button>()
+            {
+                @Override
+                public void execute(Button source)
+                {
+                    attachPage(pageIndex-1);
+                }
+            });
+        }
+        if (pageIndex != pages.length-1)
+        {
+            Button nextPageButton = pageNavigateContainer.addChild(new Button("Next page"), BorderLayout.Position.East);
+            nextPageButton.setFontSize(FONT_SIZE);
+            nextPageButton.setPreferredSize(componentSize);
+            nextPageButton.addClickCommands(new Command<Button>()
+            {
+                @Override
+                public void execute(Button source)
+                {
+                    attachPage(pageIndex+1);
+                }
+            });
+        }
+        
+        Button exitButton = myWindow.addChild(new Button("Exit"));
+        exitButton.setFontSize(FONT_SIZE);
+        exitButton.setPreferredSize(componentSize);
+        exitButton.addClickCommands(new Command<Button>()
+            {
+                @Override
+                public void execute(Button source)
+                {
+                    setEnabled(false);
+                }
+            });
     }
     
     @Override
