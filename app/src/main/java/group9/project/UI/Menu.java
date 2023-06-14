@@ -5,19 +5,14 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Button;
 import com.simsilica.lemur.Command;
 import com.simsilica.lemur.Container;
-import com.simsilica.lemur.DefaultRangedValueModel;
-import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.Slider;
 import com.simsilica.lemur.component.BorderLayout;
-import com.simsilica.lemur.core.GuiLayout;
-import com.simsilica.lemur.style.BaseStyles;
 import group9.project.MissionControl;
 import group9.project.Physics.Managers.SaveState;
 import group9.project.UI.Input.InputAction;
@@ -26,18 +21,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Menu implements ActionListener
+public class Menu extends AbstractMenu implements ActionListener
 {
-    private Node guiNode;
-    private BitmapFont font;
-    private boolean enabled;
     
-    private Button quitButton;
-    private Container myWindow;
-    
-    private final int FONT_SIZE = 56;
-    
-    private Vector3f componentSize = new Vector3f(MissionControl.getWidth()/4, MissionControl.getHeight()/16,0);
+    KeybindingMenu keybindingMenu;
     
     /**
      * Constructor.
@@ -46,22 +33,16 @@ public class Menu implements ActionListener
      */
     public Menu(Node guiNode, BitmapFont font)
     {
-        this.guiNode = guiNode;
-
-        this.font = font;
-        
-        init();
+        super(guiNode, font);
+        keybindingMenu = new KeybindingMenu(guiNode, font);
     }
     
     /**
      * Initialises the state of the menu and creates and configures all menu's components.
      */
-    public void init()
+    @Override
+    protected void init()
     {
-        enabled = false; // hidden by default
-    
-        // create a simple container for our elements
-        myWindow = new Container();
         
         // position the menu
         myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/6, MissionControl.getHeight()/2 + MissionControl.getHeight()/6, 0);
@@ -158,6 +139,23 @@ public class Menu implements ActionListener
             }
         });
         
+        // set keybindings button
+        Button openKeybindingsButton = myWindow.addChild(new Button("Key Bindings"));
+        
+        openKeybindingsButton.setFontSize(FONT_SIZE);
+        
+        openKeybindingsButton.setPreferredSize(componentSize);
+        
+        openKeybindingsButton.addClickCommands(new Command<Button>()
+        {
+            @Override
+            public void execute(Button source)
+            {
+                setEnabled(false);
+                keybindingMenu.setEnabled(true);
+            }
+        });
+        
         // exit menu button
         Button exitButton = myWindow.addChild(new Button("Close Menu"));
 
@@ -206,6 +204,8 @@ public class Menu implements ActionListener
         inputManager.addMapping(InputAction.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
 
         inputManager.addListener(this, new String[]{InputAction.OPEN_MENU});
+        
+        inputManager.addRawInputListener(keybindingMenu);
     }
     
     @Override
@@ -213,6 +213,7 @@ public class Menu implements ActionListener
     {
         if (name.equals(InputAction.OPEN_MENU) && keyPressed)
         {
+            keybindingMenu.setEnabled(false);
             setEnabled(!enabled);
         }
     }
@@ -235,29 +236,4 @@ public class Menu implements ActionListener
         return font;
     }
     
-    /**
-     * Enables/disables the menu.
-     * When the menu is disabled, is is hidden.
-     * When the menu is enabled, the menu is shown and the application is paused.
-     * @param enabled true to enable the menu, false to disable it
-     */
-    public void setEnabled(boolean enabled)
-    {
-        this.enabled = enabled;
-
-        MissionControl.getInstance().setPaused(enabled); // pause the game
-
-        if (enabled)
-        {
-            MissionControl.getInstance().setCursorVisible(true);
-
-            guiNode.attachChild(myWindow);
-        } 
-        else
-        {
-            MissionControl.getInstance().setCursorVisible(false);
-            
-            guiNode.detachChild(myWindow);
-        }
-    }
 }

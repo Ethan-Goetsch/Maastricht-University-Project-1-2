@@ -11,6 +11,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
 import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.IInputable;
+import group9.project.UI.Input.IInputListener;
 import group9.project.UI.Input.InputAction;
 
 public class PlanetLabels implements IHudDrawable, IInputable
@@ -346,4 +347,5 @@ public class PlanetLabels implements IHudDrawable, IInputable
         
         inputManager.addListener(actionListener, new String[]{"Toggle HUD"});
     }
+    
 }

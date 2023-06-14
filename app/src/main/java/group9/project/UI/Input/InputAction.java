@@ -1,5 +1,9 @@
 package group9.project.UI.Input;
 
+import com.jme3.input.KeyInput;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class InputAction
 {
     public static final String QUIT = "QUIT";
@@ -37,4 +41,43 @@ public class InputAction
     public static final String PAUSE_SIM = "Pause Simulation";
     
     public static final String DETACH_CAMERA_ROTATION = "Detach Camera Rotation";
+    
+    private static final HashMap<String, Integer> inputMap = new HashMap<>();
+    
+    private static final ArrayList<IInputListener> listeners = new ArrayList<>();
+    
+    public static void setKeyMapping(String name, int keyInput)
+    {
+        inputMap.put(name, keyInput);
+        System.out.println("set " + name + " to " + keyInput);
+        notifyListeners();
+    }
+    
+    public static void setDefaultKeyMapping(String name, int keyInput)
+    {
+        inputMap.put(name, keyInput);
+    }
+    
+    public static int getKeyMapping(String name)
+    {
+        return inputMap.get(name);
+    }
+    
+    public static HashMap<String, Integer> getInputMap()
+    {
+        return inputMap;
+    }
+    
+    public static void registerListener(IInputListener listener)
+    {
+        listeners.add(listener);
+    }
+    
+    private static void notifyListeners()
+    {
+        for (IInputListener listener : listeners) {
+            listener.onInputChange();
+        }
+    }
+    
 }
