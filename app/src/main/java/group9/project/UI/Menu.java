@@ -15,7 +15,7 @@ import com.simsilica.lemur.Slider;
 import com.simsilica.lemur.component.BorderLayout;
 import group9.project.MissionControl;
 import group9.project.Physics.Managers.SaveState;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.KeybindingManager;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -201,9 +201,9 @@ public class Menu extends AbstractMenu implements ActionListener
      */
     public void registerKeys(InputManager inputManager)
     {
-        inputManager.addMapping(InputAction.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
+        inputManager.addMapping(KeybindingManager.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
 
-        inputManager.addListener(this, new String[]{InputAction.OPEN_MENU});
+        inputManager.addListener(this, new String[]{KeybindingManager.OPEN_MENU});
         
         inputManager.addRawInputListener(keybindingMenu);
     }
@@ -211,7 +211,7 @@ public class Menu extends AbstractMenu implements ActionListener
     @Override
     public void onAction(String name, boolean keyPressed, float tpf)
     {
-        if (name.equals(InputAction.OPEN_MENU) && keyPressed)
+        if (name.equals(KeybindingManager.OPEN_MENU) && keyPressed)
         {
             keybindingMenu.setEnabled(false);
             setEnabled(!enabled);

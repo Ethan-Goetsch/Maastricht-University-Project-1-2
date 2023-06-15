@@ -11,6 +11,7 @@ import com.jme3.input.event.KeyInputEvent;
 import com.jme3.input.event.MouseButtonEvent;
 import com.jme3.input.event.MouseMotionEvent;
 import com.jme3.input.event.TouchEvent;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Button;
 import com.simsilica.lemur.Command;
@@ -18,14 +19,16 @@ import com.simsilica.lemur.Container;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.component.BorderLayout;
 import group9.project.MissionControl;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.IInputListener;
+import group9.project.UI.Input.KeybindingManager;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 
 
-public class KeybindingMenu extends AbstractMenu implements RawInputListener {
+public class KeybindingMenu extends AbstractMenu implements RawInputListener, IInputListener {
     
     private final int NUMBER_OF_COMPONENTS_ON_PAGE = 6;
     private Page[] pages;
@@ -55,16 +58,17 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
     public KeybindingMenu(Node guiNode, BitmapFont font)
     {
         super(guiNode, font);
+        KeybindingManager.registerListener(this);
     }
     
     @Override
     protected void init()
     {
-        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/6, MissionControl.getHeight()/2 + MissionControl.getHeight()/6, 0);
+        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/4, MissionControl.getHeight()/2 + MissionControl.getHeight()/4, 0);
 
-        HashMap<String, Integer> inputMap = InputAction.getInputMap();
+        HashMap<String, Integer> inputMap = KeybindingManager.getInputMap();
         
-        pages = new Page[(int)Math.ceil((double)((double)(inputMap.keySet().size())/(double)(NUMBER_OF_COMPONENTS_ON_PAGE)))];
+        pages = new Page[(int)Math.ceil((double)((double)(inputMap.keySet().size())/(double)(NUMBER_OF_COMPONENTS_ON_PAGE)))]; // create array which stores enough pages to fit components for every key mapping
         
         for (int i = 0; i < pages.length; i++) {
             pages[i] = new Page();
@@ -73,7 +77,7 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
         int counter = 0;
         for (Map.Entry<String, Integer> entry : inputMap.entrySet())
         {
-            Page page = pages[counter/NUMBER_OF_COMPONENTS_ON_PAGE];            
+            Page page = pages[counter/NUMBER_OF_COMPONENTS_ON_PAGE]; // set current page so that we do not add more components to the page than the maximum number of components per page            
             Container container = new Container(new BorderLayout());
             
             Label keyMappingLabel = container.addChild(new Label(entry.getKey()), BorderLayout.Position.West);
@@ -88,6 +92,13 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
             
             keyMappingButton.setPreferredSize(componentSize);
             
+            // colour button red if the keybinding conflicts with another keybinding:
+            if (KeybindingManager.isConflictingKeybind(entry.getKey()))
+            {
+                keyMappingButton.setColor(ColorRGBA.Red);
+            }
+            
+            // set the active keybinding (that the user will change with the next keyboard input) when the user clicks on the button:
             keyMappingButton.addClickCommands(new Command<Button>() 
             {
                 @Override
@@ -99,23 +110,21 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
             
             page.addContainer(container);
             
-            // TODO: add buttons to navigate between pages
-            
             counter++;
         }
         
-        attachPage(0);
+        attachPage(0); // start with the current page
     }
     
     private void attachPage(int pageIndex)
     {
-        myWindow.detachAllChildren();
+        myWindow.detachAllChildren(); // make sure we remove any pages that were previously added to the window
         
         for (Container container : pages[pageIndex].getContainers()) {
             myWindow.addChild(container);
-            System.out.println("attached container");
         }
         
+        // logic for adding page navigation buttons:
         Container pageNavigateContainer = myWindow.addChild(new Container(new BorderLayout()));
         if (pageIndex != 0)
         {
@@ -146,6 +155,49 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
             });
         }
         
+        // button to save key bindings:
+        Button saveButton = myWindow.addChild(new Button("Save key bindings"));
+        saveButton.setFontSize(FONT_SIZE);
+        saveButton.setPreferredSize(componentSize);
+        saveButton.addClickCommands(new Command<Button>()
+            {
+                @Override
+                public void execute(Button source)
+                {
+                    try
+                    {
+                        KeybindingManager.saveKeybindings("keybindings.txt");
+                    }
+                    catch (IOException e)
+                    {
+                        System.out.println("Unable to save keybindings file (IOException).");
+                    }
+                }
+            
+            });
+        
+        // button to reset keybinding to default:
+        Button resetButton = myWindow.addChild(new Button("Reset to default"));
+        resetButton.setFontSize(FONT_SIZE);
+        resetButton.setPreferredSize(componentSize);
+        resetButton.addClickCommands(new Command<Button>()
+            {
+                @Override
+                public void execute(Button source)
+                {
+                    try
+                    {
+                        KeybindingManager.loadKeybindings(KeybindingManager.DEFAULT_KEYBINDINGS_FILENAME);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        System.out.println("Unable to load keybindings file (FileNotFoundException).");
+                    }
+                }
+            
+            });
+        
+        // button to exit keybinding menu:
         Button exitButton = myWindow.addChild(new Button("Exit"));
         exitButton.setFontSize(FONT_SIZE);
         exitButton.setPreferredSize(componentSize);
@@ -162,16 +214,11 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
     @Override
     public void onKeyEvent(KeyInputEvent event)
     {
+        // set the keymapping
         if (event.isPressed() && activeKeybinding != null && enabled)
         {
-            System.out.println(InputAction.getKeyMapping(activeKeybinding));
-            InputAction.setKeyMapping(activeKeybinding, event.getKeyCode());
-            System.out.println(InputAction.getKeyMapping(activeKeybinding));
+            KeybindingManager.setKeyMapping(activeKeybinding, event.getKeyCode());
             activeKeybinding = null;
-            System.out.println("set keymapping");
-            myWindow.detachAllChildren();
-            init();
-            
         }
     }
     
@@ -215,6 +262,14 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener {
     public void beginInput()
     {
         
+    }
+    
+    @Override
+    public void onInputChange()
+    {
+        // reload all components to reflect the new keybinding
+        myWindow.detachAllChildren();
+        init();
     }
     
 }

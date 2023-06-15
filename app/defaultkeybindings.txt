@@ -1,0 +1,12 @@
+Follow Jupiter#7
+Follow Titan#11
+Follow Uranus#10
+Follow Mercury#3
+Follow Sun#2
+Follow Saturn#8
+Follow Rocket#12
+Follow Moon#13
+Follow Venus#4
+Follow Neptune#9
+Follow Mars#6
+Follow Earth#5

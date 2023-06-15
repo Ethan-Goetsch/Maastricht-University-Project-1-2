@@ -36,3 +36,6 @@ app/build/
 
 # save file
 save.txt
+
+# user defined keybindings
+app/keybindings.txt

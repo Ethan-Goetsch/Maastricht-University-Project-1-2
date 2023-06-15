@@ -12,7 +12,7 @@ import com.jme3.scene.Node;
 import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.IInputable;
 import group9.project.UI.Input.IInputListener;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.KeybindingManager;
 
 public class PlanetLabels implements IHudDrawable, IInputable
 {

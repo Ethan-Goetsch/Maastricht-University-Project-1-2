@@ -10,7 +10,7 @@ import com.jme3.scene.CameraNode;
 import group9.project.UI.Drawable.DrawableManager;
 import group9.project.UI.Drawable.DrawableUI;
 import group9.project.UI.Input.IInputListener;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.KeybindingManager;
 
 public class ViewSwitcher implements ActionListener, IInputListener
 {
@@ -95,6 +95,22 @@ public class ViewSwitcher implements ActionListener, IInputListener
 
     private final String moon = "Follow Moon";
     
+    private String[] mappingNames = new String[]
+        {
+            sun,
+            mercury,
+            venus,
+            earth,
+            mars,
+            jupiter,
+            saturn,
+            titan,
+            neptune,
+            uranus,
+            rocket,
+            moon
+        };
+    
     /**
      * Constructor.
      * @param cam The application's camera
@@ -114,11 +130,11 @@ public class ViewSwitcher implements ActionListener, IInputListener
         
         prevCam = null;
         
-        InputAction.registerListener(this);
+        KeybindingManager.registerListener(this);
 
         initCams();
 
-        setDefaultInputs();
+        //setDefaultInputs();
         registerInputs();
     }
     
@@ -192,18 +208,18 @@ public class ViewSwitcher implements ActionListener, IInputListener
      */
     private void setDefaultInputs()
     {
-        InputAction.setDefaultKeyMapping(sun, KeyInput.KEY_1);
-        InputAction.setDefaultKeyMapping(mercury, KeyInput.KEY_2);
-        InputAction.setDefaultKeyMapping(venus, KeyInput.KEY_3);
-        InputAction.setDefaultKeyMapping(earth, KeyInput.KEY_4);
-        InputAction.setDefaultKeyMapping(mars, KeyInput.KEY_5);
-        InputAction.setDefaultKeyMapping(jupiter, KeyInput.KEY_6);
-        InputAction.setDefaultKeyMapping(saturn, KeyInput.KEY_7);
-        InputAction.setDefaultKeyMapping(titan, KeyInput.KEY_0);
-        InputAction.setDefaultKeyMapping(neptune, KeyInput.KEY_8);
-        InputAction.setDefaultKeyMapping(uranus, KeyInput.KEY_9);
-        InputAction.setDefaultKeyMapping(rocket, KeyInput.KEY_MINUS);
-        InputAction.setDefaultKeyMapping(moon, KeyInput.KEY_EQUALS); 
+        KeybindingManager.setDefaultKeyMapping(sun, KeyInput.KEY_1);
+        KeybindingManager.setDefaultKeyMapping(mercury, KeyInput.KEY_2);
+        KeybindingManager.setDefaultKeyMapping(venus, KeyInput.KEY_3);
+        KeybindingManager.setDefaultKeyMapping(earth, KeyInput.KEY_4);
+        KeybindingManager.setDefaultKeyMapping(mars, KeyInput.KEY_5);
+        KeybindingManager.setDefaultKeyMapping(jupiter, KeyInput.KEY_6);
+        KeybindingManager.setDefaultKeyMapping(saturn, KeyInput.KEY_7);
+        KeybindingManager.setDefaultKeyMapping(titan, KeyInput.KEY_0);
+        KeybindingManager.setDefaultKeyMapping(neptune, KeyInput.KEY_8);
+        KeybindingManager.setDefaultKeyMapping(uranus, KeyInput.KEY_9);
+        KeybindingManager.setDefaultKeyMapping(rocket, KeyInput.KEY_MINUS);
+        KeybindingManager.setDefaultKeyMapping(moon, KeyInput.KEY_EQUALS); 
     }
     
     /**
@@ -212,48 +228,34 @@ public class ViewSwitcher implements ActionListener, IInputListener
     private void registerInputs()
     {   
         System.out.println("registed inputs");
-        System.out.println(InputAction.getKeyMapping(titan));
-        inputManager.addMapping(sun, new KeyTrigger(InputAction.getKeyMapping(sun)));
+        System.out.println(KeybindingManager.getKeyMapping(titan));
+        inputManager.addMapping(sun, new KeyTrigger(KeybindingManager.getKeyMapping(sun)));
 
-        inputManager.addMapping(mercury, new KeyTrigger(InputAction.getKeyMapping(mercury)));
+        inputManager.addMapping(mercury, new KeyTrigger(KeybindingManager.getKeyMapping(mercury)));
         
-        inputManager.addMapping(venus, new KeyTrigger(InputAction.getKeyMapping(venus)));
+        inputManager.addMapping(venus, new KeyTrigger(KeybindingManager.getKeyMapping(venus)));
 
-        inputManager.addMapping(earth, new KeyTrigger(InputAction.getKeyMapping(earth)));
+        inputManager.addMapping(earth, new KeyTrigger(KeybindingManager.getKeyMapping(earth)));
 
-        inputManager.addMapping(mars, new KeyTrigger(InputAction.getKeyMapping(mars)));
+        inputManager.addMapping(mars, new KeyTrigger(KeybindingManager.getKeyMapping(mars)));
 
-        inputManager.addMapping(jupiter, new KeyTrigger(InputAction.getKeyMapping(jupiter)));
+        inputManager.addMapping(jupiter, new KeyTrigger(KeybindingManager.getKeyMapping(jupiter)));
 
-        inputManager.addMapping(saturn, new KeyTrigger(InputAction.getKeyMapping(saturn)));
+        inputManager.addMapping(saturn, new KeyTrigger(KeybindingManager.getKeyMapping(saturn)));
 
-        inputManager.addMapping(titan, new KeyTrigger(InputAction.getKeyMapping(titan)));
+        inputManager.addMapping(titan, new KeyTrigger(KeybindingManager.getKeyMapping(titan)));
 
-        inputManager.addMapping(neptune, new KeyTrigger(InputAction.getKeyMapping(neptune)));
+        inputManager.addMapping(neptune, new KeyTrigger(KeybindingManager.getKeyMapping(neptune)));
 
-        inputManager.addMapping(uranus, new KeyTrigger(InputAction.getKeyMapping(uranus)));
+        inputManager.addMapping(uranus, new KeyTrigger(KeybindingManager.getKeyMapping(uranus)));
 
-        inputManager.addMapping(rocket, new KeyTrigger(InputAction.getKeyMapping(rocket)));
+        inputManager.addMapping(rocket, new KeyTrigger(KeybindingManager.getKeyMapping(rocket)));
 
-        inputManager.addMapping(moon, new KeyTrigger(InputAction.getKeyMapping(moon)));
+        inputManager.addMapping(moon, new KeyTrigger(KeybindingManager.getKeyMapping(moon)));
         
-        String[] inputs = new String[]
-        {
-            sun,
-            mercury,
-            venus,
-            earth,
-            mars,
-            jupiter,
-            saturn,
-            titan,
-            neptune,
-            uranus,
-            rocket,
-            moon
-        };
         
-        inputManager.addListener(this, inputs);
+        
+        inputManager.addListener(this, mappingNames);
     }
     
     /**
@@ -262,8 +264,16 @@ public class ViewSwitcher implements ActionListener, IInputListener
      */
     public void registerNewInputs()
     {
+        deleteMappings();
         inputManager.removeListener(this);
         registerInputs();
+    }
+    
+    private void deleteMappings()
+    {
+        for (String mappingName : mappingNames) {
+            inputManager.deleteMapping(mappingName);
+        }
     }
     
     /**
@@ -369,6 +379,6 @@ public class ViewSwitcher implements ActionListener, IInputListener
     @Override
     public void onInputChange()
     {
-        registerInputs();
+        registerNewInputs();
     }
 }

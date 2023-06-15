@@ -16,7 +16,7 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.KeybindingManager;
 
 public class CustomCameraControl extends AbstractControl
 {
@@ -143,7 +143,7 @@ public class CustomCameraControl extends AbstractControl
         inputManager.addMapping("Rotate Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
 
         
-        inputManager.addMapping(InputAction.DETACH_CAMERA_ROTATION, new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
+        inputManager.addMapping(KeybindingManager.DETACH_CAMERA_ROTATION, new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
         
         AnalogListener analogListener = new AnalogListener()
         {
@@ -183,7 +183,7 @@ public class CustomCameraControl extends AbstractControl
                 {
                     rotateCamera(-value, new Vector3f(1f,0f,0f));
                 }
-                else if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
+                else if (name.equals(KeybindingManager.DETACH_CAMERA_ROTATION))
                 {
                     
                 }
@@ -200,7 +200,7 @@ public class CustomCameraControl extends AbstractControl
                     return;
                 }
 
-                if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
+                if (name.equals(KeybindingManager.DETACH_CAMERA_ROTATION))
                 {
                     if (isPressed)
                     {
@@ -218,7 +218,7 @@ public class CustomCameraControl extends AbstractControl
         
         inputManager.addListener(analogListener, new String[]{"Increase Move Speed","Decrease Move Speed","Toggle Move","Rotate Left","Rotate Right","Rotate Up","Rotate Down"});
 
-        inputManager.addListener(actionListener, new String[]{InputAction.DETACH_CAMERA_ROTATION});
+        inputManager.addListener(actionListener, new String[]{KeybindingManager.DETACH_CAMERA_ROTATION});
     }
     
     /**
