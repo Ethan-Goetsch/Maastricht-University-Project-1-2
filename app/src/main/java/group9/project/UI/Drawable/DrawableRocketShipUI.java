@@ -61,7 +61,7 @@ public class DrawableRocketShipUI extends DrawableUI
 
         drawableLabel.setTranslateX(-12.5);
 
-        drawableLabel.setTranslateY(-labelOffset);
+        drawableLabel.setTranslateY(-labelOffset * ScaleConverter.getScaleSize());
 
 
         drawableShape = new Rectangle();
@@ -84,10 +84,10 @@ public class DrawableRocketShipUI extends DrawableUI
         super.update(newDrawablePosition);
 
 
-        drawableShape.setScaleX(ScaleConverter.getScaleSize());
+        drawableShape.setScaleX(scale * ScaleConverter.getScaleSize());
 
-        drawableShape.setScaleY(ScaleConverter.getScaleSize());
-
+        drawableShape.setScaleY(scale * ScaleConverter.getScaleSize());
+        
 
         drawableLabel.setTranslateY(-labelOffset * ScaleConverter.getScaleSize());
     }

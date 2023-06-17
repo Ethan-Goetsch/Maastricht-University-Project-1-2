@@ -10,7 +10,7 @@ import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Settings.SimulationSettings;
 import group9.project.UI.Drawable.DrawableManager;
 
-public class ResetSimulationListener implements IEventListener
+public class ResetSimulation implements IEventListener
 {    
     /**
     * Resets the Simulation if the Simulation is in development mode

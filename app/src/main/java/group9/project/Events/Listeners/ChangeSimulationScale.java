@@ -3,11 +3,11 @@ package group9.project.Events.Listeners;
 import group9.project.Events.IEventListener;
 import group9.project.UI.ScaleConverter;
 
-public class ChangeSimulationScaleListener implements IEventListener
+public class ChangeSimulationScale implements IEventListener
 {
     private double simulationScale;
 
-    public ChangeSimulationScaleListener(double newSimulationScale)
+    public ChangeSimulationScale(double newSimulationScale)
     {
         simulationScale = newSimulationScale;
     }

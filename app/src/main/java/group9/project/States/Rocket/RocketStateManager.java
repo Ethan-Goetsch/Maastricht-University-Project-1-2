@@ -6,6 +6,7 @@ import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Objects.RocketShipObject;
+import group9.project.Settings.PhysicsSettings;
 import group9.project.States.IState;
 import group9.project.States.IStateManager;
 import group9.project.States.Transitions.StateTransition;
@@ -20,7 +21,7 @@ public class RocketStateManager implements IStateManager
 
     private final double orbitDuration = 0;
 
-    private final Vector3 landingCoordiantes = new Vector3(); 
+    private final Vector3 landingPosition = PhysicsObjectData.getInstance().getTitanObject().getPosition(); 
 
     public RocketStateManager(RocketShipObject newRocketShip)
     {
@@ -37,7 +38,7 @@ public class RocketStateManager implements IStateManager
 
         RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(orbitDuration));
 
-        RocketState landTitanState = new LandRocketState(this, rocketShip, new FeedbackController(rocketShip), landingCoordiantes);
+        RocketState landTitanState = new LandRocketState(this, rocketShip, new FeedbackController(rocketShip, PhysicsSettings.getTitansGravity()), landingPosition);
 
         RocketState launchFromTitanState = new LaunchRocketState(this, rocketShip, LaunchToEarthOptimization.getInstance());
 

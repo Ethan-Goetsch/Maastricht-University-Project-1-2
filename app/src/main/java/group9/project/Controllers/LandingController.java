@@ -9,26 +9,28 @@ public abstract class LandingController implements IController
 {
     protected RocketShipObject rocketShip;
 
-    protected Vector3 landingCoordinates;
+    protected double planetsGravity;
 
-    protected double mainThrusterAcceleration;
+    protected double thrusterAcceleration;
 
-    protected double sideThrusterTorque;
+    protected double thrusterRotation;
 
-    public double getMainThrusterAcceleration()
+    public double getThrusterAcceleration()
     {
-        return Mathematics.clamp(mainThrusterAcceleration, Data.getMaxMainThrusterAcceleration());
+        return Mathematics.clamp(thrusterAcceleration, 0, Data.getMaxMainThrusterAcceleration() * planetsGravity);
     }
 
-    public double getSideThrusterTorque()
+    public double getThrusterRotation()
     {
-        return Mathematics.clamp(sideThrusterTorque, Data.getMaxTorque());
+        return Mathematics.clamp(thrusterRotation, -Data.getMaxTorque(), Data.getMaxTorque());
     }
 
-    public LandingController(RocketShipObject newRocketShip)
+    public LandingController(RocketShipObject newRocketShip, double newPlanetsGravity)
     {
         rocketShip = newRocketShip;
+
+        planetsGravity = newPlanetsGravity;
     }
 
-    public abstract void updateLandPath(Vector3 landingCoordinates);
+    public abstract void updateLandPath(Vector3 landingCoordinates, double stepSize);
 }

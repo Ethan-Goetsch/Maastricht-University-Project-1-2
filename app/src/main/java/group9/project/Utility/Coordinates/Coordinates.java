@@ -6,6 +6,6 @@ public class Coordinates
 {
     public static Vector3 RelativeTo(Vector3 coordinates, Vector3 relativeToCoordinates)
     {
-        return coordinates.subtract(relativeToCoordinates);
+        return relativeToCoordinates.subtract(coordinates);
     }   
 }

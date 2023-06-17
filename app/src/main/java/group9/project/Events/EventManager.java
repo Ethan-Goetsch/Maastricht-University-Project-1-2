@@ -1,12 +1,14 @@
 package group9.project.Events;
 
-import group9.project.Events.Listeners.ChangeSimulationScaleListener;
+import group9.project.Events.Listeners.ChangeCelestialBodiesPaused;
+import group9.project.Events.Listeners.ChangeDrawableUIScale;
+import group9.project.Events.Listeners.ChangeSimulationScale;
 import group9.project.Events.Listeners.ChangeSimulationScaleSize;
-import group9.project.Events.Listeners.ChangeSimulationSpeedListener;
-import group9.project.Events.Listeners.ChangeSimulationWorldCentreListener;
-import group9.project.Events.Listeners.PauseSimulationListener;
-import group9.project.Events.Listeners.PlaySimulationListener;
-import group9.project.Events.Listeners.ResetSimulationListener;
+import group9.project.Events.Listeners.ChangeSimulationSpeed;
+import group9.project.Events.Listeners.ChangeSimulationWorldCentre;
+import group9.project.Events.Listeners.PauseSimulation;
+import group9.project.Events.Listeners.PlaySimulation;
+import group9.project.Events.Listeners.ResetSimulation;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Settings.SimulationSettings;
 import group9.project.States.Rocket.LandRocketState;
@@ -45,29 +47,41 @@ public class EventManager implements IStartable, IUpdateable
      */
     private void attachEvents()
     {
-        SimulationSettings.subscribeListenerToPlayedEvent(new PlaySimulationListener());
+        SimulationSettings.subscribeListenerToPlayedEvent(new PlaySimulation());
 
-        SimulationSettings.subscribeListenerToPausedEvent(new PauseSimulationListener());
+        SimulationSettings.subscribeListenerToPausedEvent(new PauseSimulation());
 
-        SimulationSettings.subscribeListenerToCompletedEvent(new ResetSimulationListener());
+        SimulationSettings.subscribeListenerToCompletedEvent(new ResetSimulation());
 
 
-        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationSpeedListener(0.01));
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationSpeed(1));
 
-        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationScaleListener(0.001));
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationScale(0.0001));
 
         LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationScaleSize(5));
 
-        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationWorldCentreListener(PhysicsObjectData.getInstance().getTitanObject()));
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeCelestialBodiesPaused(true));
+
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeDrawableUIScale(PhysicsObjectData.getInstance().getRocketShipObject().getDrawableUI(), 1));
+
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeDrawableUIScale(PhysicsObjectData.getInstance().getTitanObject().getDrawableUI(), 20));
+
+        LandRocketState.subscribeListenerToEnterEvent(new ChangeSimulationWorldCentre(PhysicsObjectData.getInstance().getTitanObject()));
 
 
-        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationSpeedListener(1));
+        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationSpeed(1));
 
-        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationScaleListener(0.5));
+        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationScale(0.5));
 
         LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationScaleSize(1));
 
-        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationWorldCentreListener(PhysicsObjectData.getInstance().getSunObject()));
+        LandRocketState.subscribeListenerToExitEvent(new ChangeCelestialBodiesPaused(false));
+
+        LandRocketState.subscribeListenerToExitEvent(new ChangeDrawableUIScale(PhysicsObjectData.getInstance().getRocketShipObject().getDrawableUI(), 1));
+
+        LandRocketState.subscribeListenerToExitEvent(new ChangeDrawableUIScale(PhysicsObjectData.getInstance().getTitanObject().getDrawableUI(), 1));
+
+        LandRocketState.subscribeListenerToExitEvent(new ChangeSimulationWorldCentre(PhysicsObjectData.getInstance().getSunObject()));
     }
 
     @Override

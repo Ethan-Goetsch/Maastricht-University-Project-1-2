@@ -3,14 +3,14 @@ package group9.project.Events.Listeners;
 import group9.project.Events.IEventListener;
 import group9.project.Managers.TimelineManager;
 
-public class PlaySimulationListener implements IEventListener
+public class PauseSimulation implements IEventListener
 {
     /**
-     * Plays the Timeline Manager's Timeline
+     * Pauses the Timeline Manager's Timeline
      */
     @Override
     public void onEvent()
     {
-        TimelineManager.getInstance().playTimeline();
+        TimelineManager.getInstance().pauseTimeline();
     }
 }

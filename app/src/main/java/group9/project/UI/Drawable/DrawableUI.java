@@ -14,11 +14,15 @@ public abstract class DrawableUI implements IDrawable
 
     protected Label drawableLabel;
 
+    protected double scale;
+
     public DrawableUI()
     {
         DrawableManager.getInstance().add(this);
 
         drawablePane = new Pane();
+
+        scale = 1;
     }
 
     @Override
@@ -42,6 +46,11 @@ public abstract class DrawableUI implements IDrawable
         drawablePane.setTranslateX(scaledVector.getX());
 
         drawablePane.setTranslateY(scaledVector.getY());
+    }
+
+    public void setScale(double newScale)
+    {
+        scale = newScale;
     }
 
     public abstract void createDrawableUI();

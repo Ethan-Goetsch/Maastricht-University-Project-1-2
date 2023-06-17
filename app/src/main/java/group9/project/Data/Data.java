@@ -1,7 +1,5 @@
 package group9.project.Data;
 
-import group9.project.Settings.PhysicsSettings;
-
 public class Data
 {
     private final static double EARTH_RADIUS = 6371;
@@ -19,7 +17,7 @@ public class Data
 
     private static final double LANDING_TOLERANCE_X = 0.0001;
 
-    private static final double LANDING_TOLERANCE_Y = 0.0001;
+    private static final double LANDING_TOLERANCE_Y = 0;
 
     private static final double LANDING_TOLERANCE_THETA = 0.01;
 
@@ -31,7 +29,7 @@ public class Data
     private static final double LANDING_TOLERANCE_VELOCITY_THETA = 0.02;
 
 
-    private static final double MAX_MAIN_THRUSTER_ACCELERATION = 10 * PhysicsSettings.getTitansGravity();
+    private static final double MAX_MAIN_THRUSTER_ACCELERATION = 10;
 
     private static final double MAX_TORQUE = 1;
 
@@ -101,7 +99,17 @@ public class Data
 
     private static boolean isVelocityLanded(double xVelocity, double yVelocity, double thetaVelocity)
     {
-        return Math.abs(xVelocity) <= LANDING_TOLERANCE_VELOCITY_X && Math.abs(yVelocity) <= LANDING_TOLERANCE_VELOCITY_Y && Math.abs(thetaVelocity) == LANDING_TOLERANCE_VELOCITY_THETA;
+        return Math.abs(xVelocity) <= LANDING_TOLERANCE_VELOCITY_X && Math.abs(yVelocity) <= LANDING_TOLERANCE_VELOCITY_Y && Math.abs(thetaVelocity) <= LANDING_TOLERANCE_VELOCITY_THETA;
+    }
+
+    public static double getLandingToleranceX()
+    {
+        return LANDING_TOLERANCE_X;
+    }
+
+    public static double getLandingToleranceY()
+    {
+        return LANDING_TOLERANCE_Y;
     }
 
     public static double getMaxMainThrusterAcceleration()

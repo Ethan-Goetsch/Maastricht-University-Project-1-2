@@ -18,8 +18,18 @@ public class Mathematics
         return Math.sqrt(x + y + z);
     }
 
-    public static double clamp(double value, double maxValue)
+    public static double clamp(double value, double minValue, double maxValue)
     {
-        return value > maxValue ? maxValue : value;
+        return Math.max(minValue, Math.min(value, maxValue));
+    }
+
+    public static double clampCircular(double value, double minValue, double maxValue)
+    {
+        return value > maxValue ? minValue : value;
+    }
+
+    public static double degreesToRadians(double degrees)
+    {
+        return degrees * Math.PI / 180;
     }
 }

@@ -4,11 +4,11 @@ import group9.project.Events.IEventListener;
 import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Interfaces.ITargetable;
 
-public class ChangeSimulationWorldCentreListener implements IEventListener
+public class ChangeSimulationWorldCentre implements IEventListener
 {
     private ITargetable worldCentreTarget;
 
-    public ChangeSimulationWorldCentreListener(ITargetable newWorldCentreTarget)
+    public ChangeSimulationWorldCentre(ITargetable newWorldCentreTarget)
     {
         worldCentreTarget = newWorldCentreTarget;
     }

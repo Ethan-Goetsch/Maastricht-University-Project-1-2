@@ -26,6 +26,8 @@ public class SimulationSettings
 
     private static boolean isSimulationPaused = true;
 
+    private static boolean isCelestialBodiesPaused = false;
+
 
     private static Event simulationPlayedEvent = new Event();
 
@@ -95,6 +97,16 @@ public class SimulationSettings
     public static boolean getIsSimulationPaused()
     {
         return isSimulationPaused;
+    }
+
+    public static boolean isCelestialBodiesPaused()
+    {
+        return isCelestialBodiesPaused;
+    }
+
+    public static void setCelestialBodiesPaused(boolean newIsCelestialBodiesPaused)
+    {
+        isCelestialBodiesPaused = newIsCelestialBodiesPaused;
     }
 
     /**

@@ -3,11 +3,11 @@ package group9.project.Events.Listeners;
 import group9.project.Events.IEventListener;
 import group9.project.Settings.SimulationSettings;
 
-public class ChangeSimulationSpeedListener implements IEventListener
+public class ChangeSimulationSpeed implements IEventListener
 {
     private double simulationSpeed;
 
-    public ChangeSimulationSpeedListener(double newSimulationSpeed)
+    public ChangeSimulationSpeed(double newSimulationSpeed)
     {
         simulationSpeed = newSimulationSpeed;
     }

@@ -1,6 +1,7 @@
 package group9.project.Physics.Objects;
 
 import group9.project.Settings.PhysicsSettings;
+import group9.project.Settings.SimulationSettings;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.UI.Drawable.DrawableCelestialBodyUI;
 import group9.project.UI.Drawable.DrawableUI;
@@ -10,6 +11,11 @@ import javafx.scene.paint.Color;
 public class CelestialBodyObject extends PhysicsObject
 {
     private DrawableUI drawableCelestialBody;
+
+    public DrawableUI getDrawableUI()
+    {
+        return drawableCelestialBody;
+    }
 
     public CelestialBodyObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass,  DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, double planetRadius, double labelOffset, Color planetColour)
     {
@@ -33,9 +39,12 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void update()
     {
-        updateAcceleration();
+        if (!SimulationSettings.isCelestialBodiesPaused())
+        {
+            updateAcceleration();
 
-        updateMovement();
+            updateMovement();
+        }
 
         updateDrawable();
     }

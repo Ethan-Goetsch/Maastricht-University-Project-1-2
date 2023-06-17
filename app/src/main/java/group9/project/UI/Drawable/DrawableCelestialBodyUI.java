@@ -11,9 +11,11 @@ public class DrawableCelestialBodyUI extends DrawableUI
 {
     private Circle drawableShape;
 
+
     private double planetRadius;
 
     private double labelOffset;
+
 
     private String labelText;
 
@@ -27,6 +29,7 @@ public class DrawableCelestialBodyUI extends DrawableUI
         planetRadius = newPlanetRadius;
 
         labelOffset = newLabelOffset;
+
 
         labelText = newLabelText;
 
@@ -71,9 +74,9 @@ public class DrawableCelestialBodyUI extends DrawableUI
         super.update(newDrawablePosition);
 
 
-        drawableShape.setScaleX(ScaleConverter.getScaleSize());
+        drawableShape.setScaleX(scale * ScaleConverter.getScaleSize());
 
-        drawableShape.setScaleY(ScaleConverter.getScaleSize());
+        drawableShape.setScaleY(scale * ScaleConverter.getScaleSize());
 
 
         drawableLabel.setTranslateY(-labelOffset * ScaleConverter.getScaleSize());
