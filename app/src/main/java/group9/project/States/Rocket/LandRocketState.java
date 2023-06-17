@@ -80,6 +80,8 @@ public class LandRocketState extends RocketState
     @Override
     public void update()
     {
+        System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
+
         landingController.updateLandPath(landingPosition, PhysicsSettings.getStepSize());
 
 

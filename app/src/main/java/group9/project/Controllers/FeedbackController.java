@@ -22,6 +22,7 @@ public class FeedbackController extends LandingController
 
         double distance = 0;
 
+
         double additionalMinimumAcceleration = 0;
 
 
