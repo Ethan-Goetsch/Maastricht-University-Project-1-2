@@ -9,6 +9,7 @@ import group9.project.Settings.PhysicsSettings;
 import group9.project.Solvers.DiscreteSolver;
 import group9.project.States.IStateManager;
 import group9.project.Utility.Coordinates.Coordinates;
+import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
 
 public class LandRocketState extends RocketState
@@ -17,14 +18,20 @@ public class LandRocketState extends RocketState
 
     private DiscreteSolver discreteSolver;
 
+
+    private ITargetable landingTarget;
+
+    private double targetRadius;
+
     private Vector3 landingPosition;
+
 
     private static Event onEnterLandStateEvent = new Event();
 
     private static Event onExitLandStateEvent = new Event();
 
 
-    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, Vector3 newLandingPosition)
+    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, ITargetable newLandingTarget, double newTargetRadius)
     {
         super(newStateManager, newRocketShip);
 
@@ -32,7 +39,10 @@ public class LandRocketState extends RocketState
 
         discreteSolver = new DiscreteSolver();
 
-        landingPosition = newLandingPosition;
+
+        landingTarget = newLandingTarget;
+
+        targetRadius = newTargetRadius;
     }
 
     @Override
@@ -52,10 +62,10 @@ public class LandRocketState extends RocketState
     @Override
     public void onStateEnter()
     {
+        landingPosition = landingTarget.getPosition().add(new Vector3(0, targetRadius, 0));
+
         onEnterLandStateEvent.raiseEvent();
 
-        rocketShip.setPosition(new Vector3(landingPosition.getX() - 500, landingPosition.getY() - 1000, 0));
-        
         rocketShip.setVelocity(new Vector3());
 
         rocketShip.setAcceleration(new Vector3());

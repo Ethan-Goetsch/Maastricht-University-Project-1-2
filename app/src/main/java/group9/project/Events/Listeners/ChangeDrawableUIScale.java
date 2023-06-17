@@ -1,24 +1,26 @@
 package group9.project.Events.Listeners;
 
-import group9.project.Events.IEventListener;
+import group9.project.Interpolation.Interpolation;
 import group9.project.UI.Drawable.DrawableUI;
 
-public class ChangeDrawableUIScale implements IEventListener
+public class ChangeDrawableUIScale extends ChangeAnimation
 {
     private DrawableUI drawableUI;
 
     private double drawableUIScale;
 
-    public ChangeDrawableUIScale(DrawableUI newDrawableUI, double newDrawableUIScale)
+    public ChangeDrawableUIScale(double newAnimationDuration, DrawableUI newDrawableUI, double newDrawableUIScale)
     {
+        super(newAnimationDuration);
+
         drawableUI = newDrawableUI;
         
         drawableUIScale = newDrawableUIScale;
     }
 
     @Override
-    public void onEvent()
+    protected void eventAction(double time)
     {
-        drawableUI.setScale(drawableUIScale);
+        drawableUI.setScale(Interpolation.SmoothStep.apply(drawableUI.getScale(), drawableUIScale, time));
     } 
 }

@@ -3,7 +3,6 @@ package group9.project.Interpolation;
 public abstract class Interpolation
 {
     /**
-     * 
      * @param alpha a value between 0 and 1
      * @return the new alpha value dependent on the type of interpolation
      */
@@ -24,5 +23,14 @@ public abstract class Interpolation
         {
             return alpha;
         } 
+    };
+
+    public static final Interpolation SmoothStep = new Interpolation()
+    {
+        @Override
+        protected double apply(double alpha)
+        {
+            return alpha * alpha * (3 - 2 * alpha);
+        }
     };
 }

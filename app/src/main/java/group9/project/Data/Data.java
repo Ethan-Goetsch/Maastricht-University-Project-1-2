@@ -33,6 +33,16 @@ public class Data
 
     private static final double MAX_TORQUE = 1;
 
+    public static double getEarthRadius()
+    {
+        return EARTH_RADIUS;
+    }
+
+    public static double getTitanRadius()
+    {
+        return TITAN_RADIUS;
+    }
+
     /**
      * @return the minimum orbit distance to be in a planet's orbit. Defined in the Manual
      */

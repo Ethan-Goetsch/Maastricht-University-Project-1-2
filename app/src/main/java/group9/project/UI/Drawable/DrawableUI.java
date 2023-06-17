@@ -16,6 +16,11 @@ public abstract class DrawableUI implements IDrawable
 
     protected double scale;
 
+    public double getScale()
+    {
+        return scale;
+    }
+
     public DrawableUI()
     {
         DrawableManager.getInstance().add(this);
