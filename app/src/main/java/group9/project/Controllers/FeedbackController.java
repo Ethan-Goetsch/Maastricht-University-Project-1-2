@@ -3,17 +3,12 @@ package group9.project.Controllers;
 import group9.project.Data.Data;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Utility.Math.Vector3;
-import group9.project.Wind.WindModel;
 
 public class FeedbackController extends LandingController
 {
-    private WindModel windModel;
-
-    public FeedbackController(RocketShipObject newRocketShip, double newPlanetsGravity, WindModel newWindModel)
+    public FeedbackController(RocketShipObject newRocketShip, double newPlanetsGravity)
     {
         super(newRocketShip, newPlanetsGravity);
-
-        windModel = newWindModel;
     }
 
     @Override
@@ -34,9 +29,6 @@ public class FeedbackController extends LandingController
         double xDistance = Math.abs(rocketShip.getPosition().getX() - landingPosition.getX());
 
         double yDistance = Math.abs(rocketShip.getPosition().getY() - landingPosition.getY());
-
-
-        double wind = windModel.generateRandomWind(yDistance);
 
 
         if (xDistance > Data.getLandingToleranceX())
@@ -60,13 +52,13 @@ public class FeedbackController extends LandingController
             additionalMinimumAcceleration = planetsGravity;
         }
 
-        estimatedRotationVelocity = (estimatedRotation - rocketShip.getRotation() + wind) / stepSize;
+        estimatedRotationVelocity = (estimatedRotation - rocketShip.getRotation()) / stepSize;
 
         estimatedVelocity = distance / stepSize;
 
         if (rocketShip.getRotation() != estimatedRotation)
         {
-            thrusterRotation = (estimatedRotationVelocity - (wind / stepSize)) / stepSize;
+            thrusterRotation = estimatedRotationVelocity / stepSize;
 
             thrusterAcceleration = 0;
         }
