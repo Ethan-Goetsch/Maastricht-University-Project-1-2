@@ -51,6 +51,8 @@ import java.util.Iterator;
 import group9.project.Managers.SystemsManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
+import group9.project.UI.Input.KeybindingManager;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -239,8 +241,10 @@ public class MissionControl extends SimpleApplication
         cameraNode.setLocalTranslation(0, 0, DrawableManager.getInstance().getObjectWithName("sun").getPreferredViewDistance() * -1);
 
         // add custom camera control to camera node so that we can move the camera nicely (see the CustomCameraControl class for more details)
-        camControl = new CustomCameraControl(cam);
-        camControl.setInput(inputManager);
+        camControl = new CustomCameraControl(cam, inputManager);
+        camControl.setDefaultInputs();
+        camControl.setInput();
+        camControl.setEnabled(true);
         cameraNode.addControl(camControl);
         
         rootNode.attachChild(cameraNode);
@@ -303,6 +307,21 @@ public class MissionControl extends SimpleApplication
         inputManager.addMapping("Increase Simulation Speed", new KeyTrigger(KeyInput.KEY_PERIOD));
         
         inputManager.addListener(newActionListener, new String[]{"Reduce Simulation Speed","Increase Simulation Speed"});
+        
+        // default keybindings
+        try
+        {
+            KeybindingManager.loadKeybindings("keybindings.txt");
+        }
+        catch (FileNotFoundException e)
+        {
+            try {
+                KeybindingManager.loadKeybindings(KeybindingManager.DEFAULT_KEYBINDINGS_FILENAME);
+            } catch (FileNotFoundException ex) {
+                System.out.println("Missing keybindings file");
+            }
+        }
+        
     }
     
     ActionListener newActionListener = new ActionListener() {

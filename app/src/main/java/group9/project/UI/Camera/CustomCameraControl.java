@@ -16,11 +16,12 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
-import group9.project.UI.Input.InputAction;
+import group9.project.UI.Input.IInputListener;
+import group9.project.UI.Input.KeybindingManager;
 
-public class CustomCameraControl extends AbstractControl
+public class CustomCameraControl extends AbstractControl implements IInputListener
 {
-    private InputManager inputManager;
+    private final InputManager inputManager;
     private Camera cam;
     
     private Vector3f initialUpVec; // this is an important variable when rotating the camera horizontally
@@ -30,19 +31,31 @@ public class CustomCameraControl extends AbstractControl
     private float delta = 0;
     private float speed = 0;
     
-    private float rotationSpeed = 5;
-    private float speedSensitivity = 4f;
+    private final float rotationSpeed = 5;
+    private final float speedSensitivity = 4f;
     
     private boolean freeRotation = false;
+        
+    // constants for registering inputs
+    private final String INCREASE_SPEED = "Increase Speed";
+    private final String DECREASE_SPEED = "Decrease Speed";
+    private final String TOGGLE_MOVE = "Toggle Camera Movement";
+    private final String DETACH_CAMERA_ROTATION = "Free Camera Rotation";
+    private final String ROTATE_LEFT = "Rotate left";
+    private final String ROTATE_RIGHT = "Rotate right";
+    private final String ROTATE_UP = "Rotate up";
+    private final String ROTATE_DOWN = "Rotate down";
     
     // used for free camera rotation
     private Vector3f spatialDirection;
 
     private Quaternion spatialRotation;
         
-    public CustomCameraControl(Camera cam)
+    public CustomCameraControl(Camera cam, InputManager inputManager)
     {
         setCamera(cam);
+        this.inputManager = inputManager;
+        KeybindingManager.registerListener(this);
     }
     
     /**
@@ -116,109 +129,51 @@ public class CustomCameraControl extends AbstractControl
         }
     }
     
+    public void setDefaultInputs()
+    {
+        KeybindingManager.setDefaultKeyMapping(INCREASE_SPEED, KeyInput.KEY_W);
+        KeybindingManager.setDefaultKeyMapping(DECREASE_SPEED, KeyInput.KEY_S);
+        KeybindingManager.setDefaultKeyMapping(TOGGLE_MOVE, KeyInput.KEY_SPACE);
+    }
+    
     /**
      * Registers keybinds (input mappings) with the input manager.
      * 
-     * @param inputManager the applications input manager
      */
-    public void setInput(InputManager inputManager)
+    public void setInput()
+    {   
+        inputManager.addMapping(INCREASE_SPEED, new KeyTrigger(KeybindingManager.getKeyMapping(INCREASE_SPEED)));
+
+        inputManager.addMapping(DECREASE_SPEED, new KeyTrigger(KeybindingManager.getKeyMapping(DECREASE_SPEED)));
+
+        inputManager.addMapping(TOGGLE_MOVE, new KeyTrigger(KeybindingManager.getKeyMapping(TOGGLE_MOVE)));
+
+        inputManager.addMapping(ROTATE_LEFT, new MouseAxisTrigger(MouseInput.AXIS_X, true));
+
+        inputManager.addMapping(ROTATE_RIGHT, new MouseAxisTrigger(MouseInput.AXIS_X, false));
+
+        inputManager.addMapping(ROTATE_UP, new MouseAxisTrigger(MouseInput.AXIS_Y, true));
+
+        inputManager.addMapping(ROTATE_DOWN, new MouseAxisTrigger(MouseInput.AXIS_Y, false));
+
+        
+        inputManager.addMapping(DETACH_CAMERA_ROTATION, new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
+        
+       
+        
+        inputManager.addListener(analogListener, new String[]{INCREASE_SPEED,DECREASE_SPEED,ROTATE_LEFT,ROTATE_RIGHT,ROTATE_UP,ROTATE_DOWN});
+
+        inputManager.addListener(actionListener, new String[]{TOGGLE_MOVE,DETACH_CAMERA_ROTATION});
+    }
+    
+    /**
+     * Deletes key mappings from the input manager which can be changed through {@code KeybindingManager}.
+     */
+    private void deleteMappings()
     {
-        this.inputManager = inputManager;
-
-        inputManager.setCursorVisible(false);
-        
-        inputManager.addMapping("Increase Move Speed", new KeyTrigger(KeyInput.KEY_W));
-
-        inputManager.addMapping("Decrease Move Speed", new KeyTrigger(KeyInput.KEY_S));
-
-        inputManager.addMapping("Toggle Move", new KeyTrigger(KeyInput.KEY_SPACE));
-        
-
-        inputManager.addMapping("Rotate Left", new MouseAxisTrigger(MouseInput.AXIS_X, true));
-
-        inputManager.addMapping("Rotate Right", new MouseAxisTrigger(MouseInput.AXIS_X, false));
-
-        inputManager.addMapping("Rotate Up", new MouseAxisTrigger(MouseInput.AXIS_Y, true));
-
-        inputManager.addMapping("Rotate Down", new MouseAxisTrigger(MouseInput.AXIS_Y, false));
-
-        
-        inputManager.addMapping(InputAction.DETACH_CAMERA_ROTATION, new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
-        
-        AnalogListener analogListener = new AnalogListener()
-        {
-            @Override
-            public void onAnalog(String name, float value, float tpf)
-            {
-                if (!enabled)
-                {
-                    return;
-                }
-
-                if (name.equals("Increase Move Speed"))
-                {
-                    speed = changeSpeed(true, tpf);
-                }
-                else if (name.equals("Decrease Move Speed"))
-                {
-                    speed = changeSpeed(false, tpf);
-                }
-                else if (name.equals("Toggle Move"))
-                {
-                    enabled = !enabled;
-                }
-                else if (name.equals("Rotate Left"))
-                {
-                    rotateCamera(value, initialUpVec);
-                }
-                else if (name.equals("Rotate Right"))
-                {
-                    rotateCamera(-value, initialUpVec);
-                }
-                else if (name.equals("Rotate Up"))
-                {
-                    rotateCamera(value, new Vector3f(1f,0f,0f));
-                }
-                else if (name.equals("Rotate Down"))
-                {
-                    rotateCamera(-value, new Vector3f(1f,0f,0f));
-                }
-                else if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
-                {
-                    
-                }
-            }
-        };
-        
-        ActionListener actionListener = new ActionListener()
-        {
-            @Override
-            public void onAction(String name, boolean isPressed, float tpf)
-            {
-                if (!enabled)
-                {
-                    return;
-                }
-
-                if (name.equals(InputAction.DETACH_CAMERA_ROTATION))
-                {
-                    if (isPressed)
-                    {
-                        setFreeRotation(true);
-
-                        System.out.println("hi");
-                    }
-                    else
-                    {
-                        setFreeRotation(false);
-                    }
-                } 
-            }
-        };
-        
-        inputManager.addListener(analogListener, new String[]{"Increase Move Speed","Decrease Move Speed","Toggle Move","Rotate Left","Rotate Right","Rotate Up","Rotate Down"});
-
-        inputManager.addListener(actionListener, new String[]{InputAction.DETACH_CAMERA_ROTATION});
+        inputManager.deleteMapping(INCREASE_SPEED);
+        inputManager.deleteMapping(DECREASE_SPEED);
+        inputManager.deleteMapping(TOGGLE_MOVE);
     }
     
     /**
@@ -261,9 +216,9 @@ public class CustomCameraControl extends AbstractControl
     @Override
     public Control cloneForSpatial(Spatial spatial)
     {
-        final CustomCameraControl control = new CustomCameraControl(cam);
+        final CustomCameraControl control = new CustomCameraControl(cam, inputManager);
 
-        control.setInput(inputManager);
+        control.setInput();
 
         control.setSpatial(spatial);
 
@@ -297,4 +252,72 @@ public class CustomCameraControl extends AbstractControl
     {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }  
+    
+    @Override
+    public void onInputChange()
+    {
+        deleteMappings();
+        inputManager.removeListener(analogListener);
+        inputManager.removeListener(actionListener);
+        setInput();
+    }
+    
+    private AnalogListener analogListener = (String name, float value, float tpf) -> {
+       
+        
+            if (!enabled)
+            {
+                return;
+            }
+            
+            switch (name) {
+                case INCREASE_SPEED:
+                    speed = changeSpeed(true, tpf);
+                    break;
+                case DECREASE_SPEED:
+                    speed = changeSpeed(false, tpf);
+                    break;
+                case ROTATE_LEFT:
+                    rotateCamera(value, initialUpVec);
+                    break;
+                case ROTATE_RIGHT:
+                    rotateCamera(-value, initialUpVec);
+                    break;
+                case ROTATE_UP:
+                    rotateCamera(value, new Vector3f(1f,0f,0f));
+                    break;
+                case ROTATE_DOWN:
+                    rotateCamera(-value, new Vector3f(1f,0f,0f));
+                    break;
+                case DETACH_CAMERA_ROTATION:
+                    break;
+                default:
+                    break;
+            }
+        };
+    
+    private ActionListener actionListener = (String name, boolean isPressed, float tpf) -> {
+        
+            if (isPressed && name.equals(TOGGLE_MOVE))
+            {
+                enabled = !enabled;
+            }
+            
+            if (!enabled)
+            {
+                return;
+            }
+            
+            if (name.equals(DETACH_CAMERA_ROTATION))
+            {
+                if (isPressed)
+                {
+                    setFreeRotation(true);
+                }
+                else
+                {
+                    setFreeRotation(false);
+                } 
+            }
+        };
 }
