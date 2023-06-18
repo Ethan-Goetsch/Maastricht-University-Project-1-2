@@ -223,12 +223,10 @@ public class ViewSwitcher implements ActionListener, IInputListener
     }
     
     /**
-     * Maps keys (1-9,-,=) to specific chase cams.
+     * Maps keys to specific chase cams.
      */
     private void registerInputs()
     {   
-        System.out.println("registed inputs");
-        System.out.println(KeybindingManager.getKeyMapping(titan));
         inputManager.addMapping(sun, new KeyTrigger(KeybindingManager.getKeyMapping(sun)));
 
         inputManager.addMapping(mercury, new KeyTrigger(KeybindingManager.getKeyMapping(mercury)));

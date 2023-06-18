@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class KeybindingManager
 {
+    /*
     public static final String QUIT = "QUIT";
 
     public static final String SUN = "Follow Sun";
@@ -46,12 +47,14 @@ public class KeybindingManager
     public static final String PAUSE_SIM = "Pause Simulation";
     
     public static final String DETACH_CAMERA_ROTATION = "Detach Camera Rotation";
+    */
     
     public static final String DEFAULT_KEYBINDINGS_FILENAME = "defaultkeybindings.txt";
     
     private static final HashMap<String, Integer> inputMap = new HashMap<>();
     
     private static final ArrayList<IInputListener> listeners = new ArrayList<>();
+    
     
     /**
      * Binds the specified key code to the mapping name and notifies listeners of this change.

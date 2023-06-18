@@ -25,6 +25,7 @@ public class Menu extends AbstractMenu implements ActionListener
 {
     
     KeybindingMenu keybindingMenu;
+    private final String OPEN_MENU = "Open Menu";
     
     /**
      * Constructor.
@@ -201,9 +202,9 @@ public class Menu extends AbstractMenu implements ActionListener
      */
     public void registerKeys(InputManager inputManager)
     {
-        inputManager.addMapping(KeybindingManager.OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
+        inputManager.addMapping(OPEN_MENU, new KeyTrigger(KeyInput.KEY_ESCAPE));
 
-        inputManager.addListener(this, new String[]{KeybindingManager.OPEN_MENU});
+        inputManager.addListener(this, new String[]{OPEN_MENU});
         
         inputManager.addRawInputListener(keybindingMenu);
     }
@@ -211,7 +212,7 @@ public class Menu extends AbstractMenu implements ActionListener
     @Override
     public void onAction(String name, boolean keyPressed, float tpf)
     {
-        if (name.equals(KeybindingManager.OPEN_MENU) && keyPressed)
+        if (name.equals(OPEN_MENU) && keyPressed)
         {
             keybindingMenu.setEnabled(false);
             setEnabled(!enabled);
