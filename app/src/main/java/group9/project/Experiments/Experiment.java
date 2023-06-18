@@ -7,11 +7,9 @@ import group9.project.Solvers.RungeKuttaFourthSolver;
 import group9.project.Utility.Interfaces.INumericalFunction;
 import group9.project.Utility.Math.Vector3;
 
-import java.lang.Math;
-
 public class Experiment
 {
-    private static final double STEP_SIZE = 0.5;
+    private static final double STEP_SIZE = 0.01;
 
     private static final double MAX_TIME = 1;
 
@@ -29,7 +27,7 @@ public class Experiment
             {
                 double x = value.getX();
 
-                return new Vector3(Math.pow(x + time ,2) - 1, 0, 0);
+                return new Vector3(0.5 * Math.sqrt(x), 0, 0);
             }
         };
     
@@ -39,10 +37,9 @@ public class Experiment
             @Override
             public Double evaluate(Double time, Double value)
             {
-                return 2 / (3 - 2 * time) - time;
+                return Math.pow( (time/4 + 0.5),2);
             }
         };
-
 
         DifferentialSolver eulerSolver = new EulerSolver();
 
@@ -51,7 +48,6 @@ public class Experiment
         DifferentialSolver heunSolver = new HeunSolver();
 
         DifferentialSolver rungeKuttaSolver = new RungeKuttaFourthSolver();
-
 
         double currentYExact = INITIAL_VALUE.getX();
 
@@ -63,60 +59,34 @@ public class Experiment
 
         Vector3 currentYRungeKutta = INITIAL_VALUE;
 
-
-
         double currentTime = INITIAL_TIME;
-
 
         while (currentTime < MAX_TIME)
         {
-            currentYEuler = eulerSolver.solveNumericalEquation(currentYEuler, function, STEP_SIZE, currentTime);
+        
+        currentYEuler = eulerSolver.solveNumericalEquation(currentYEuler, function, STEP_SIZE, currentTime);
 
-            currentYRalston = ralstonSolver.solveNumericalEquation(currentYRalston, function, STEP_SIZE, currentTime);
+        currentYRalston = ralstonSolver.solveNumericalEquation(currentYRalston, function, STEP_SIZE, currentTime);
 
-            currentYHeun = heunSolver.solveNumericalEquation(currentYHeun, function, STEP_SIZE, currentTime);
+        currentYHeun = heunSolver.solveNumericalEquation(currentYHeun, function, STEP_SIZE, currentTime);
 
-            currentYRungeKutta = rungeKuttaSolver.solveNumericalEquation(currentYRungeKutta, function, STEP_SIZE, currentTime);
+        currentYRungeKutta = rungeKuttaSolver.solveNumericalEquation(currentYRungeKutta, function, STEP_SIZE, currentTime);
 
-            currentTime += STEP_SIZE;
-        }
+        currentTime += STEP_SIZE;
 
         currentYExact = exactFunction.evaluate(currentTime, currentYExact);
 
-        System.out.println("---------------------------------------------------------------");
+        System.out.println(currentTime + " time");
 
+        System.out.println( Math.abs((currentYEuler.getX() - currentYExact) / currentYExact));
 
-        System.out.println("Step Size : " + STEP_SIZE + " | " + "Current Time : " + currentTime);
-        
+        System.out.println( Math.abs((currentYRalston.getX() - currentYExact) / currentYExact));
 
-        System.out.println("----------------------------- Values -----------------------");
+        System.out.println( Math.abs((currentYHeun.getX() - currentYExact)/ currentYExact));
 
+        System.out.println(Math.abs((currentYRungeKutta.getX() - currentYExact)/currentYExact));
+        }
 
-        System.out.println("--------------------------------");
-
-        System.out.println("Exact Value : " + currentYExact);
-
-        System.out.println("--------------------------------");
-
-
-        System.out.println("Euler Value : " + currentYEuler.getX());
-
-        System.out.println("Ralston Value : " + currentYRalston.getX());
-
-        System.out.println("Heun Value : " + currentYHeun.getX());
-
-        System.out.println("Runge Kutta Value : " + currentYRungeKutta.getX());
-
-
-        System.out.println("----------------------------- Errors -----------------------");
-
-
-        System.out.println("Euler Error : " + Math.abs(currentYEuler.getX() - currentYExact));
-
-        System.out.println("Ralston Error : " + Math.abs(currentYRalston.getX() - currentYExact));
-
-        System.out.println("Heun Error : " + Math.abs(currentYHeun.getX() - currentYExact));
-
-        System.out.println("Runge Kutta Error : " + Math.abs(currentYRungeKutta.getX() - currentYExact));
     }
+
 }
