@@ -31,6 +31,10 @@ public class CelestialBodyObject extends PhysicsObject
     @Override
     public void update()
     {
+        if (SimulationSettings.isCelestialBodiesPaused())
+        {
+            return;
+        }
         updateAcceleration();
 
         updateMovement();
