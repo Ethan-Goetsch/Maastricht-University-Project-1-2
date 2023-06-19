@@ -48,8 +48,6 @@ public class TimelineManager implements IStartable, IResetable
     {
         PhysicsEngine.getInstance().update();
 
-        EventManager.getInstance().update();
-
         LaunchToTitanOptimization.getInstance().update();
 
         LaunchToEarthOptimization.getInstance().update();
