@@ -33,11 +33,10 @@ public class Experiment
     
         INumericalFunction<Double, Double> exactFunction = new INumericalFunction<Double, Double>()
         {
-    
             @Override
             public Double evaluate(Double time, Double value)
             {
-                return Math.pow( (time/4 + 0.5),2);
+                return Math.pow((time / 4 + 0.5),2);
             }
         };
 
@@ -48,6 +47,7 @@ public class Experiment
         DifferentialSolver heunSolver = new HeunSolver();
 
         DifferentialSolver rungeKuttaSolver = new RungeKuttaFourthSolver();
+
 
         double currentYExact = INITIAL_VALUE.getX();
 
@@ -60,33 +60,32 @@ public class Experiment
         Vector3 currentYRungeKutta = INITIAL_VALUE;
 
         double currentTime = INITIAL_TIME;
+        
 
         while (currentTime < MAX_TIME)
         {
-        
-        currentYEuler = eulerSolver.solveNumericalEquation(currentYEuler, function, STEP_SIZE, currentTime);
+            currentYEuler = eulerSolver.solveNumericalEquation(currentYEuler, function, STEP_SIZE, currentTime);
 
-        currentYRalston = ralstonSolver.solveNumericalEquation(currentYRalston, function, STEP_SIZE, currentTime);
+            currentYRalston = ralstonSolver.solveNumericalEquation(currentYRalston, function, STEP_SIZE, currentTime);
 
-        currentYHeun = heunSolver.solveNumericalEquation(currentYHeun, function, STEP_SIZE, currentTime);
+            currentYHeun = heunSolver.solveNumericalEquation(currentYHeun, function, STEP_SIZE, currentTime);
 
-        currentYRungeKutta = rungeKuttaSolver.solveNumericalEquation(currentYRungeKutta, function, STEP_SIZE, currentTime);
+            currentYRungeKutta = rungeKuttaSolver.solveNumericalEquation(currentYRungeKutta, function, STEP_SIZE, currentTime);
 
-        currentTime += STEP_SIZE;
+            currentTime += STEP_SIZE;
 
-        currentYExact = exactFunction.evaluate(currentTime, currentYExact);
+            currentYExact = exactFunction.evaluate(currentTime, currentYExact);
+            
 
-        System.out.println(currentTime + " time");
+            System.out.println(currentTime + " time");
 
-        System.out.println( Math.abs((currentYEuler.getX() - currentYExact) / currentYExact));
+            System.out.println( Math.abs((currentYEuler.getX() - currentYExact) / currentYExact));
 
-        System.out.println( Math.abs((currentYRalston.getX() - currentYExact) / currentYExact));
+            System.out.println( Math.abs((currentYRalston.getX() - currentYExact) / currentYExact));
 
-        System.out.println( Math.abs((currentYHeun.getX() - currentYExact)/ currentYExact));
+            System.out.println( Math.abs((currentYHeun.getX() - currentYExact)/ currentYExact));
 
-        System.out.println(Math.abs((currentYRungeKutta.getX() - currentYExact)/currentYExact));
+            System.out.println(Math.abs((currentYRungeKutta.getX() - currentYExact)/currentYExact));
         }
-
     }
-
 }

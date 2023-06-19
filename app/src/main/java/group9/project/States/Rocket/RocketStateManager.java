@@ -24,7 +24,7 @@ public class RocketStateManager implements IStateManager
 
     private final PhysicsObject landingTarget = PhysicsObjectData.getInstance().getTitanObject(); 
 
-    private final double stochasticWindIntensity = 0.1;
+    private final double stochasticWindIntensity = 0;
 
     private final double stochasticWindFrequency = 1;
 
@@ -43,7 +43,7 @@ public class RocketStateManager implements IStateManager
 
         RocketState orbitTitanState = new OrbitRocketState(this, rocketShip, PhysicsObjectData.getInstance().getTitanObject(), () -> PhysicsObjectData.getInstance().isRocketShipInTitanOrbit(), Data.getMonthsAsSeconds(orbitDuration));
 
-        RocketState landTitanState = new LandRocketState(this, rocketShip, new FeedbackController(rocketShip, PhysicsSettings.getTitansGravity(), new StochasticWindModel(stochasticWindIntensity, stochasticWindFrequency)), landingTarget, -775);
+        RocketState landTitanState = new LandRocketState(this, rocketShip, new FeedbackController(rocketShip, PhysicsSettings.getTitansGravity()),  new StochasticWindModel(stochasticWindIntensity, stochasticWindFrequency), landingTarget, -775);
 
         RocketState launchFromTitanState = new LaunchRocketState(this, rocketShip, LaunchToEarthOptimization.getInstance());
 

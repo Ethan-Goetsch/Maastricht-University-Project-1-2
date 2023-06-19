@@ -10,13 +10,17 @@ import group9.project.Solvers.DiscreteSolver;
 import group9.project.States.IStateManager;
 import group9.project.Utility.Coordinates.Coordinates;
 import group9.project.Utility.Interfaces.ITargetable;
+import group9.project.Utility.Math.Vector2;
 import group9.project.Utility.Math.Vector3;
+import group9.project.Wind.WindModel;
 
 public class LandRocketState extends RocketState
 {
     private LandingController landingController;
 
     private DiscreteSolver discreteSolver;
+
+    private WindModel windModel;
 
 
     private ITargetable landingTarget;
@@ -31,13 +35,15 @@ public class LandRocketState extends RocketState
     private static Event onExitLandStateEvent = new Event();
 
 
-    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, ITargetable newLandingTarget, double newTargetRadius)
+    public LandRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, LandingController newLandingController, WindModel newWindModel, ITargetable newLandingTarget, double newTargetRadius)
     {
         super(newStateManager, newRocketShip);
 
         landingController = newLandingController;
 
         discreteSolver = new DiscreteSolver();
+        
+        windModel = newWindModel;
 
 
         landingTarget = newLandingTarget;
@@ -82,6 +88,9 @@ public class LandRocketState extends RocketState
     {
         System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
 
+        Vector2 windForce = windModel.generateRandomWind(Math.abs(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition).getY()));
+
+
         landingController.updateLandPath(landingPosition, PhysicsSettings.getStepSize());
 
 
@@ -95,12 +104,13 @@ public class LandRocketState extends RocketState
         Vector3[] positionAndVelocity = discreteSolver.calculateMotion(rocketShip.getPosition(), rocketShip.getRotation(), thrusterAcceleration, PhysicsSettings.getStepSize());
 
 
+
         rocketShip.setRotation(torqueAndVelocity[0]);
 
         rocketShip.setRotationVelocity(torqueAndVelocity[1]);
 
 
-        rocketShip.setPosition(new Vector3(positionAndVelocity[0].getX(), positionAndVelocity[0].getY(), landingPosition.getZ()));
+        rocketShip.setPosition(new Vector3(positionAndVelocity[0].getX() + windForce.getX(), positionAndVelocity[0].getY() + windForce.getY(), landingPosition.getZ()));
 
         rocketShip.setVelocity(positionAndVelocity[1]);
     }
