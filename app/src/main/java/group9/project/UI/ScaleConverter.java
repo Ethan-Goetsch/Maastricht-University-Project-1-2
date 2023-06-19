@@ -1,7 +1,7 @@
 package group9.project.UI;
 
+import group9.project.MissionControl;
 import group9.project.Physics.Managers.PhysicsObjectData;
-import group9.project.Physics.Managers.PhysicsVisualizer;
 import group9.project.Utility.Interfaces.IStartable;
 import group9.project.Utility.Interfaces.ITargetable;
 import group9.project.Utility.Math.Vector3;
@@ -24,7 +24,7 @@ public class ScaleConverter implements IStartable
 
     private static final double SCALE_KM_TO_PIXELS = 3779528.0352161;
 
-    private static double scaleFactor = 0.5;
+    private static double scaleFactor = 0.001;
 
     private static double scaleSize = 1;
 
@@ -73,9 +73,9 @@ public class ScaleConverter implements IStartable
 
     private static Vector3 getScreenCentrePosition()
     {
-        double x = PhysicsVisualizer.getCanvasWidth() / 2;
+        double x = MissionControl.getWidth() / 2;
 
-        double y = PhysicsVisualizer.getCanvasHeight() / 2;
+        double y = MissionControl.getHeight() / 2;
 
         double z = 0;
 
@@ -89,6 +89,15 @@ public class ScaleConverter implements IStartable
 
     public static Vector3 worldToScreenPosition(Vector3 worldPosition)
     {
-        return worldPosition.subtract(worldCentreTaget.getPosition()).divideBy(getSimulationScale()).add(getScreenCentrePosition());
+        //double x = worldPosition.getX() / getSimulationScale() + Main.WIDTH / 2;
+        double x = worldPosition.getX() / getSimulationScale();
+
+        //double y = worldPosition.getY() / getSimulationScale() + Main.HEIGHT / 2;
+        double y = worldPosition.getY() / getSimulationScale();
+
+        double z = 0;
+
+        return new Vector3(x, y, z);
+        //return worldPosition.subtract(worldCentreTaget.getPosition()).divideBy(getSimulationScale()).add(getScreenCentrePosition());
     }
 }

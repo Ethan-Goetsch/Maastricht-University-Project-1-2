@@ -49,6 +49,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.util.Iterator;
 import group9.project.Managers.SystemsManager;
+import group9.project.Managers.TimelineManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
 import group9.project.UI.Input.KeybindingManager;
@@ -329,11 +330,11 @@ public class MissionControl extends SimpleApplication
         public void onAction(String name, boolean isPressed, float tpf) {
             if (name.equals("Reduce Simulation Speed") && isPressed)
             {
-                SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()-0.04);
+                //SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()-0.04);
             }
             else if (name.equals("Increase Simulation Speed") && isPressed)
             {
-                SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()+0.04);
+                //SimulationSettings.setSimulationSpeed(SimulationSettings.getSimulationSpeed()+0.04);
             }
         }
     };
@@ -344,6 +345,7 @@ public class MissionControl extends SimpleApplication
     private void createSystems()
     {
         SystemsManager.getInstance().start();
+        TimelineManager.getInstance().playTimeline();
         SimulationSettings.playSimulation();
 
     }

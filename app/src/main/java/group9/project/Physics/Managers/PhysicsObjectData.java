@@ -66,7 +66,7 @@ public class PhysicsObjectData implements IStartable
 
     private void createCelestialBodies()
     {
-        CelestialBodyObject sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Sun, 696340);
+        sunObject = new CelestialBodyObject(new Vector3(0, 0, 0), new Vector3(0, 0, 0), 1.99E+30, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Sun, 696340);
 
         CelestialBodyObject mercuryObject = new CelestialBodyObject(new Vector3(7833268.43923962, 44885949.3703908, 2867693.20054382), new Vector3(-57.4967480139828, 11.52095127176, 6.21695374334136), 3.30E+23, PhysicsSettings.getUniverseDifferentialSolver(), PhysicsObjectType.Mercury, 2440);
 

@@ -1,5 +1,6 @@
 package group9.project.Managers;
 
+import group9.project.Events.EventManager;
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.UI.ScaleConverter;

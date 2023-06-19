@@ -2,7 +2,6 @@ package group9.project.Events.Listeners;
 
 import group9.project.Events.IEventListener;
 import group9.project.Managers.SystemsManager;
-import group9.project.Managers.TimelineManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
 import group9.project.Optimization.OptimizationDevelopmentMode;
@@ -48,9 +47,6 @@ public class ResetSimulation implements IEventListener
 
 
         SystemsManager.getInstance().reset();
-
-        TimelineManager.getInstance().reset();
-
 
         SimulationSettings.updateSimulationTime(-SimulationSettings.getSimulationTime());
 

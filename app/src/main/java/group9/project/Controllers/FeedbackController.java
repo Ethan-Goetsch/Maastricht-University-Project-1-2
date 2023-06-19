@@ -54,6 +54,7 @@ public class FeedbackController extends LandingController
 
         estimatedRotationVelocity = (estimatedRotation - rocketShip.getRotation()) / stepSize;
 
+        System.out.println(stepSize);
         estimatedVelocity = distance / stepSize;
 
         if (rocketShip.getRotation() != estimatedRotation)
