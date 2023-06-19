@@ -7,7 +7,7 @@ import group9.project.Settings.SimulationSettings;
 import group9.project.Utility.Interfaces.IStartable;
 import group9.project.Utility.Interfaces.IUpdateable;
 
-public class EventManager implements IStartable, IUpdateable
+public class EventManager implements IStartable
 {
     //#region Singleton
     private static EventManager instance;
@@ -43,11 +43,5 @@ public class EventManager implements IStartable, IUpdateable
         SimulationSettings.subscribeListenerToPausedEvent(new PauseSimulation());
 
         SimulationSettings.subscribeListenerToCompletedEvent(new ResetSimulation());
-    }
-
-    @Override
-    public void update()
-    {
-
     }
 }
