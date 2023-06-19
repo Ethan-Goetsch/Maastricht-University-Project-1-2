@@ -52,6 +52,7 @@ import group9.project.Managers.SystemsManager;
 import group9.project.Managers.TimelineManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
+import group9.project.UI.Camera.CinematicCameraControl;
 import group9.project.UI.Input.KeybindingManager;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -67,6 +68,7 @@ public class MissionControl extends SimpleApplication
     Node newNode;
         
     private CustomCameraControl camControl;
+    private CinematicCameraControl cinematicCameraControl;
     private CameraNode cameraNode;
     private ViewSwitcher viewSwitcher;
     
@@ -242,11 +244,16 @@ public class MissionControl extends SimpleApplication
         cameraNode.setLocalTranslation(0, 0, DrawableManager.getInstance().getObjectWithName("sun").getPreferredViewDistance() * -1);
 
         // add custom camera control to camera node so that we can move the camera nicely (see the CustomCameraControl class for more details)
+        
         camControl = new CustomCameraControl(cam, inputManager);
         camControl.setDefaultInputs();
         camControl.setInput();
-        camControl.setEnabled(true);
-        cameraNode.addControl(camControl);
+        camControl.setEnabled(false);
+        //cameraNode.addControl(camControl);
+        
+        cinematicCameraControl = new CinematicCameraControl(cam);
+        cinematicCameraControl.setEnabled(true);
+        cameraNode.addControl(cinematicCameraControl);
         
         rootNode.attachChild(cameraNode);
         
@@ -364,7 +371,6 @@ public class MissionControl extends SimpleApplication
         if (paused)
         {
             SimulationSettings.pauseSimulation();
-            camControl.setEnabled(false);
         }
         else
         {
@@ -372,10 +378,10 @@ public class MissionControl extends SimpleApplication
             {
                 SimulationSettings.playSimulation();
             }
-            camControl.setEnabled(true);
         }
         
-        camControl.setEnabled(!paused);
+        camControl.setPaused(paused);
+        cinematicCameraControl.setPaused(paused);
         viewSwitcher.setEnabled(!paused);
         
     }

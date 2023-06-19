@@ -1,5 +1,7 @@
 package group9.project.States.Rocket;
 
+import group9.project.Events.Event;
+import group9.project.Events.IEventListener;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.States.IStateManager;
@@ -9,6 +11,8 @@ import group9.project.Utility.Math.Vector3;
 public class DirectRocketState extends RocketState
 {
     private ITargetable target;
+    
+    private static Event onEnterDirectStateEvent = new Event();
 
     public DirectRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget)
     {
@@ -20,7 +24,8 @@ public class DirectRocketState extends RocketState
     @Override
     public void onStateEnter()
     {
-        
+        System.out.println("Entered Direct Rocket State");
+        onEnterDirectStateEvent.raiseEvent();
     }
 
     @Override
@@ -51,5 +56,10 @@ public class DirectRocketState extends RocketState
     public String getDescription()
     {
         return "Direct to " + target.getDescription() + " State";
+    }
+    
+    public static void subscribeListenerToEnterEvent(IEventListener listener)
+    {
+        onEnterDirectStateEvent.subscribeListener(listener);
     }
 }
