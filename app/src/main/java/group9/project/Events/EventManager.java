@@ -5,7 +5,6 @@ import group9.project.Events.Listeners.PlaySimulation;
 import group9.project.Events.Listeners.ResetSimulation;
 import group9.project.Settings.SimulationSettings;
 import group9.project.Utility.Interfaces.IStartable;
-import group9.project.Utility.Interfaces.IUpdateable;
 
 public class EventManager implements IStartable
 {
