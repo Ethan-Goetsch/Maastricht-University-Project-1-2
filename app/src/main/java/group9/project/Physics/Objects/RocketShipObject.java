@@ -17,7 +17,10 @@ public class RocketShipObject extends PhysicsObject
     private double impulseForce;
 
     private double fuelConsumed;
-    
+
+    private double rotation;
+
+    private double rotationVelocity;
 
     /**
      * @return the current thruster force of the Physics Object
@@ -41,6 +44,16 @@ public class RocketShipObject extends PhysicsObject
     public double getFuelConsumed()
     {
         return fuelConsumed;
+    }
+
+    public double getRotation()
+    {
+        return rotation;
+    }
+
+    public double getRotationVelocity()
+    {
+        return rotationVelocity;
     }
 
     public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
@@ -68,6 +81,16 @@ public class RocketShipObject extends PhysicsObject
         fuelConsumed += value;
     }
 
+    public void setRotation(double newTorque)
+    {
+        rotation = newTorque;
+    }
+
+    public void setRotationVelocity(double newRotationVelocity)
+    {
+        rotationVelocity = newRotationVelocity;
+    }
+
     /**
      * Starts the Rocket Ship. Creates and sets the Rocket Ship's State Manager
      */
@@ -78,7 +101,7 @@ public class RocketShipObject extends PhysicsObject
     }
 
     /**
-     * Updats the Celestial Body
+     * Updats the Rocket
      */
     @Override
     public void update()

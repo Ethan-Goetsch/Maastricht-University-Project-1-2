@@ -5,36 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="69e001e0-375f-42b6-a143-a8493b39bc40" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/DirectRocketState.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/OrbitRocketState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EulerSolverTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HeunSolverTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RalstonSolverTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RungeKuttaFourthSolverTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Vector3Test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Events/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Events/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Events/ResetSimulationListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/Tests/EulerSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/Tests/HeunSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/Tests/RalstonSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/Tests/RungeKuttaFourthSolverTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/Tests/Vector3Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Data/Data.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Managers/TimelineManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Managers/TimelineManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/MissionControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/MissionControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/Optimization.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/Solution.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/Solution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchToEarthOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchToEarthOptimization.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchToTitanOptimization.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Optimization/LaunchToTitanOptimization.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsObjectData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsObjectData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/CelestialBodyObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/CelestialBodyObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/PhysicsObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/PhysicsObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/RocketShipObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Objects/RocketShipObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Physics/Managers/PhysicsVisualizer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Settings/PhysicsSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Settings/PhysicsSettings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Settings/SimulationSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Settings/SimulationSettings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/IState.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/IState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/LaunchRocketState.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/LaunchRocketState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/RocketState.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/RocketState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/TargetRocketState.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/State.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/State.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Transitions/StateTransition.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Transitions/StateTransition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Interfaces/ITargetable.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Interfaces/ITargetable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Math/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Math/Vector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/RandomGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/RandomGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/OrbitRocketState.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/OrbitRocketState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/RocketStateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/States/Rocket/RocketStateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Interfaces/IBooleanFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/group9/project/Utility/Interfaces/IBooleanFunction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,25 +44,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/colon/Downloads/University/Project 2/Maastricht-University-Project-1-2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Global Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/colon/Downloads/University/Project 2/Maastricht-University-Project-1-2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Maven" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
@@ -108,6 +97,7 @@
       <option name="presentableId" value="Default" />
       <updated>1684829615279</updated>
       <workItem from="1684829616461" duration="804000" />
+      <workItem from="1685185655350" duration="72000" />
     </task>
     <servers />
   </component>

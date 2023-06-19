@@ -1,6 +1,7 @@
 package group9.project.Physics.Objects;
 
 import group9.project.Settings.PhysicsSettings;
+import group9.project.Settings.SimulationSettings;
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.Utility.Math.Vector3;
 

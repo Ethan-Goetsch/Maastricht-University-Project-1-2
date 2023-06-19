@@ -1,9 +1,9 @@
 package group9.project.States.Rocket;
 
 import group9.project.Optimization.LaunchOptimization;
-import group9.project.Optimization.Solution;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
+import group9.project.Solutions.FuelSolution;
 import group9.project.States.IStateManager;
 import group9.project.Utility.Math.Vector;
 import group9.project.Utility.Math.Vector3;
@@ -25,9 +25,9 @@ public class LaunchRocketState extends RocketState
     @Override
     public void onStateEnter()
     {
-        Solution optimalInitialParameters = launchOptimization.generateOptimalSolution();
+        FuelSolution optimalInitialParameters = launchOptimization.generateOptimalSolution();
 
-        setInitialParameters(optimalInitialParameters.getVelocity());
+        setInitialParameters(optimalInitialParameters.getSolutionValue());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LaunchRocketState extends RocketState
      * Consumes fuel based on the impulse force.
      * After all calculations are complete it turns off the thrusters
      * 
-     * @param initialVelocoity the optimal launch velocity of the Rocet Ship
+     * @param initialVelocoity the optimal launch velocity of the Rocket Ship
      */
     private void setInitialParameters(Vector3 initialVelocoity)
     {

@@ -41,6 +41,21 @@ public class Vector3
         z = newZ;
     }
 
+    public void setX(double newX)
+    {
+        x = newX;
+    }
+
+    public void setY(double newY)
+    {
+        y = newY;
+    }
+
+    public void setZ(double newZ)
+    {
+        z = newZ;
+    }
+
     public Vector3 clone()
     {
         return new Vector3(this.x, this.y, this.z);

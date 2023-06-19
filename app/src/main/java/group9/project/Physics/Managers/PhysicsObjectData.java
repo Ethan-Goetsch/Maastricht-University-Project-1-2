@@ -27,13 +27,18 @@ public class PhysicsObjectData implements IStartable
 
     private Vector3 rocketShipStartingPosition = new Vector3(-148186906.893642, -27823158.5715694 + 6370, 33746.8987977113);
 
-    private CelestialBodyObject earthObject, titanObject;
+    private CelestialBodyObject sunObject, earthObject, titanObject;
 
     private RocketShipObject rocketShipObject;
 
     private PhysicsObjectData()
     {
         
+    }
+
+    public CelestialBodyObject getSunObject()
+    {
+        return sunObject;
     }
 
     public CelestialBodyObject getEarthObject()
@@ -110,9 +115,7 @@ public class PhysicsObjectData implements IStartable
     */
     public boolean isRocketShipInTitanOrbit()
     {
-        double distanceToTitan = getRocketShipDistanceToTitan();
-
-        return Data.inOrbit(distanceToTitan);
+        return Data.inTitanOrbit(getRocketShipDistanceToTitan());
     }
     
     /**
@@ -120,9 +123,7 @@ public class PhysicsObjectData implements IStartable
     */
     public boolean isRocketShipInEarthOrbit()
     {
-        double distanceToEarth = getRocketShipDistanceToEarth();
-
-        return Data.inOrbit(distanceToEarth);
+        return Data.inEarthOrbit(getRocketShipDistanceToEarth());
     }
 
     /**

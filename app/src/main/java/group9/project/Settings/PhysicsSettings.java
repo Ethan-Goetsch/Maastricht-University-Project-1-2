@@ -7,9 +7,11 @@ public class PhysicsSettings
 {
     private static final double UNIVERSE_TICK_TIME = 0.0001;
 
-    private static final double MAX_UNIVERSE_TIME = Data.getMonthsAsSeconds(0);
+    private static final double MAX_UNIVERSE_TIME = Data.getMonthsAsSeconds(10);
 
     private static final double GRAVITY = 6.6743E-20;
+
+    private final static double TITANS_GRAVITY = 1.352E-3;
 
     private static final double STEP_SIZE = 100;                                                                                                                                                                                                                                                                                                  ;
 
@@ -37,6 +39,14 @@ public class PhysicsSettings
     public static double getGravity()
     {
         return GRAVITY;
+    }
+
+    /**
+     * @return Titan's Gravity. Defined in the Manual
+     */
+    public static double getTitansGravity()
+    {
+        return TITANS_GRAVITY;
     }
 
     /**

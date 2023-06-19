@@ -1,13 +1,11 @@
 package group9.project.States.Rocket;
 
-import group9.project.Data.Data;
-import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.Physics.Objects.RocketShipObject;
 import group9.project.Settings.PhysicsSettings;
 import group9.project.Settings.SimulationSettings;
 import group9.project.States.IStateManager;
+import group9.project.Utility.Interfaces.IBooleanFunction;
 import group9.project.Utility.Interfaces.ITargetable;
-import group9.project.Utility.Math.Mathematics;
 import group9.project.Utility.Math.Vector;
 import group9.project.Utility.Math.Vector3;
 
@@ -15,15 +13,19 @@ public class OrbitRocketState extends RocketState
 {
     private ITargetable target;
 
+    private IBooleanFunction canEnterOrbitFunction;
+
     private double orbitDuration;
 
     private double orbitStartTime;
 
-    public OrbitRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, double newOrbitDuration)
+    public OrbitRocketState(IStateManager newStateManager, RocketShipObject newRocketShip, ITargetable newTarget, IBooleanFunction newCanEnterOrbitFunction, double newOrbitDuration)
     {
         super(newStateManager, newRocketShip);
 
         target = newTarget;
+
+        canEnterOrbitFunction = newCanEnterOrbitFunction;
 
         orbitDuration = newOrbitDuration;
     }
@@ -31,15 +33,17 @@ public class OrbitRocketState extends RocketState
     /**
      * @return true if the Rocket Ship is in its target planet's orbit
      */
-    public boolean canEnterOrbit()
+    @Override
+    public boolean canEnterState()
     {
-        return Data.inOrbit(Mathematics.calculateDistance(rocketShip.getPosition(), target.getPosition()));
+        return canEnterOrbitFunction.evaluate();
     }
 
     /**
      * @return true if the Rocket Ship has orbited for the specified duration. If the time elapsed since the Rocket Started orbiting is greater than or equal to the orbitDuration
      */
-    public boolean canExitOrbit()
+    @Override
+    public boolean canExitState()
     {
         return orbitDuration <= SimulationSettings.getSimulationTime() - orbitStartTime;
     }
@@ -53,9 +57,7 @@ public class OrbitRocketState extends RocketState
     {
         orbitStartTime = SimulationSettings.getSimulationTime();
 
-        //setThrusters(new Vector3(0, 0, 0));
-        //setThrusters(PhysicsObjectData.getInstance().getTitanObject().getPosition().subtract(rocketShip.getPosition()).normalize().multiplyBy(rocketShip.getVelocity().getMagnitude()).add(new Vector3(0,200,0)).multiplyBy(0.001));
-        setThrusters(PhysicsObjectData.getInstance().getTitanObject().getVelocity().normalize().add(new Vector3(0,0.65,0).normalize().multiplyBy(PhysicsObjectData.getInstance().getTitanObject().getVelocity().getMagnitude()*0.45)));
+        setThrusters(new Vector3(0.5, 0, 0.5));
     }
 
     @Override
@@ -85,7 +87,6 @@ public class OrbitRocketState extends RocketState
      */
     private void setThrusters(Vector3 velocityNeededToOrbit)
     {
-        System.out.println("applying thrusters");
         Vector3 slowDownVelocity = rocketShip.getVelocity().subtract(velocityNeededToOrbit).multiplyBy(-1);
 
         double slowDownThrusterForce = slowDownVelocity.getMagnitude();

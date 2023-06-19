@@ -2,6 +2,7 @@ package group9.project.Managers;
 
 import group9.project.Physics.Managers.PhysicsEngine;
 import group9.project.Physics.Managers.PhysicsObjectData;
+import group9.project.UI.ScaleConverter;
 import group9.project.Utility.Interfaces.IResetable;
 import group9.project.Utility.Interfaces.IStartable;
 
@@ -40,6 +41,10 @@ public class SystemsManager implements IStartable, IResetable
         PhysicsObjectData.getInstance().start();
 
         PhysicsEngine.getInstance().start();
+
+        ScaleConverter.getInstance().start();
+
+        EventManager.getInstance().start();
     }
 
     /**
