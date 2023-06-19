@@ -1,12 +1,7 @@
 package group9.project.Events;
 
 import group9.project.Events.Listeners.ChangeCelestialBodiesPaused;
-import group9.project.Events.Listeners.ChangeDrawableUIScale;
-import group9.project.Events.Listeners.ChangeSimulationScale;
-import group9.project.Events.Listeners.ChangeSimulationScaleSize;
 import group9.project.Events.Listeners.ChangeSimulationSpeed;
-import group9.project.Events.Listeners.ChangeSimulationWorldCentre;
-import group9.project.Physics.Managers.PhysicsObjectData;
 import group9.project.States.Rocket.LandRocketState;
 import group9.project.Utility.Interfaces.IStartable;
 
