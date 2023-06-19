@@ -20,12 +20,22 @@
 *.tar.gz
 *.rar
 
+# gradle
+.gradle
+app/.gradle
+!gradle-wrapper.jar
+!gradle-wrapper.properties
+.gradletasknamecache
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
 
-# Ignore Gradle project-specific cache directory
-.gradle
+app/build/
+*.tar
 
-# Ignore Gradle build output directory
-build
+# save file
+save.txt
+
+# user defined keybindings
+app/keybindings.txt

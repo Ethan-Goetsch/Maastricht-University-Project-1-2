@@ -77,6 +77,7 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
     @Override
     public void update()
     {       
+        if (SimulationSettings.getIsSimulationPaused()) return;
         updateForces();
 
         updateObjects();
@@ -94,6 +95,11 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
         {
             physicsObjects[i] = null;
         }
+    }
+    
+    public PhysicsObject[] getPhysicsObjects()
+    {
+        return physicsObjects;
     }
 
     /**
@@ -147,6 +153,7 @@ public class PhysicsEngine implements IStartable, IUpdateable, IResetable
             force = force.multiplyBy(-1);
 
             physicsObjectForce = physicsObjectForce.add(force);
+            
         }
 
         return physicsObjectForce;

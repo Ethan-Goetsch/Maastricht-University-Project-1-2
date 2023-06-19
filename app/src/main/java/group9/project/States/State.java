@@ -32,7 +32,7 @@ public abstract class State implements IState, IUpdateable, IStateTransitionable
     /**
      * Adds a list of State Transition to the State
      * 
-     * @param newStateTransitions the state transitions to add
+     * @param newStateTransition the state transitions to add
      */
     public void addStateTransition(List<StateTransition> newStateTransition)
     {

@@ -2,17 +2,15 @@ package group9.project.Physics.Objects;
 
 import group9.project.Solvers.DifferentialSolver;
 import group9.project.States.IStateManager;
+import group9.project.States.Rocket.RocketState;
 import group9.project.States.Rocket.RocketStateManager;
 import group9.project.UI.Drawable.DrawableRocketShipUI;
 import group9.project.UI.Drawable.DrawableUI;
 import group9.project.Utility.Math.Vector3;
-import javafx.scene.paint.Color;
 
 public class RocketShipObject extends PhysicsObject
 {
     private IStateManager rocketStateManager;
-
-    private DrawableUI drawableRocketShipUI;
 
     private double thrusterForce;
 
@@ -24,11 +22,6 @@ public class RocketShipObject extends PhysicsObject
 
     private double rotationVelocity;
 
-    public DrawableUI getDrawableUI()
-    {
-        return drawableRocketShipUI;
-    }
-    
     /**
      * @return the current thruster force of the Physics Object
      */
@@ -63,11 +56,9 @@ public class RocketShipObject extends PhysicsObject
         return rotationVelocity;
     }
 
-    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType, int shipWidth, int shipHeight, double labelOffset, Color shipColour)
+    public RocketShipObject(Vector3 startingPosition, Vector3 startingVelocity, double newMass, DifferentialSolver newDifferentialSolver, PhysicsObjectType newPhysicsObjectType)
     {
         super(startingPosition, startingVelocity, newMass, newDifferentialSolver, newPhysicsObjectType);
-
-        drawableRocketShipUI = new DrawableRocketShipUI(shipWidth, shipHeight, labelOffset, newPhysicsObjectType.toString(), shipColour, getPosition());
     }
 
     /**
@@ -118,8 +109,6 @@ public class RocketShipObject extends PhysicsObject
         updateAcceleration();
 
         updateState();
-
-        updateDrawable();
     }
 
     /**
@@ -138,11 +127,4 @@ public class RocketShipObject extends PhysicsObject
         rocketStateManager.tickState();
     }
 
-    /**
-     * Updats the Drawable component of the Rocket Ship
-     */
-    private void updateDrawable()
-    {
-        drawableRocketShipUI.update(getPosition());
-    }
 }

@@ -81,6 +81,11 @@ public class ScaleConverter implements IStartable
 
         return new Vector3(x, y, z);
     }
+    
+    public static double worldToScreenLength(double length)
+    {
+        return length / getSimulationScale();
+    }
 
     public static Vector3 worldToScreenPosition(Vector3 worldPosition)
     {

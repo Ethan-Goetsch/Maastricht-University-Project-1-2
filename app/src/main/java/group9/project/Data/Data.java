@@ -9,7 +9,7 @@ public class Data
 
     private final static double MIN_ORBIT_DISTANCE = 100;
 
-    private final static double MAX_ORBIT_DISTANCE = 300;
+    private final static double MAX_ORBIT_DISTANCE = 5000;
 
 
     private static final double SECONDS_IN_MONTH = 2.628E+6;

@@ -2,11 +2,23 @@ package group9.project.Utility.Math;
 
 public class Mathematics
 {
+    /**
+     * Calculates and returns the value equal to a given percentage of a number.
+     * @param number 
+     * @param percentage
+     * @return 
+     */
     public static int calculatePercentage(int number, int percentage)
     {
         return (number / 100) * percentage;
     }
 
+    /**
+     * Calculates the euclidean distance between two 3-dimensional position vectors.
+     * @param positionOne 
+     * @param positionTwo
+     * @return 
+     */
     public static double calculateDistance(Vector3 positionOne, Vector3 positionTwo)
     {
         double x = Math.pow(positionOne.getX() - positionTwo.getX(), 2);

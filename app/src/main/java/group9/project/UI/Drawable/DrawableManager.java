@@ -1,13 +1,13 @@
 package group9.project.UI.Drawable;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import group9.project.Utility.Interfaces.IResetable;
+import java.util.HashMap;
 
 public class DrawableManager implements IResetable
 {
-  private ArrayList<IDrawable> drawables;
+  private HashMap<String, DrawableUI> drawablesMap;
 
   //#region Singleton
   private static DrawableManager instance;
@@ -23,40 +23,94 @@ public class DrawableManager implements IResetable
   }
   //#endregion
 
-  // private constructor
+  /**
+   * Constructor.
+   */
   private DrawableManager()
   {
-    drawables = new ArrayList<IDrawable>();
+    drawablesMap = new HashMap<>();
   }
 
-  // adds a drawable to the drawables list
-  public void add(IDrawable drawable)
+  /**
+   * Stores a drawable in the drawable manager.
+   * @param drawable the drawable to be stored
+   */
+  public void add(DrawableUI drawable)
   {
-      this.drawables.add(drawable);
+      if (!drawablesMap.containsKey(drawable.getName()))
+      {
+          this.drawablesMap.put(drawable.getName(), drawable);
+      }
   }
 
-  // returns true if the drawables list containt the argument drawable
-  public boolean contains(IDrawable drawable)
+   /**
+   * Checks if the drawable manager contains a given drawable.
+   * @param drawable the drawable to check for existance 
+   * @return true if the drawable exists in the drawable manager, false otherwise
+   */
+  public boolean contains(DrawableUI drawable)
   {
-      return drawables.contains(drawable);
+      return drawablesMap.containsValue(drawable);
+  }
+  
+  /**
+   * Returns the drawables stored in the drawable manager.
+   * @return a hashmap of the drawables, where the key is the name of the drawable and the value is the drawable object
+   */
+  public HashMap<String, DrawableUI> getDrawables()
+  {
+      return drawablesMap;
   }
 
-  // removes a drawable from the list
+  /**
+   * Removes a drawable from the drawable manager.
+   * @param drawable the drawable to be removed
+   */
   public void remove(IDrawable drawable)
   {
-      drawables.remove(drawable);
+      drawablesMap.remove(drawable.getName());
   }
 
-  // returns an iterator for the drawables list
-  public Iterator<IDrawable> getIterator()
+
+  /**
+   * Returns an iterator, which iterators over the drawables stored in the drawable manager.
+   * @return the iterator for the drawables
+   */
+  public Iterator<DrawableUI> getIterator()
   {
-      return drawables.iterator();
+      return drawablesMap.values().iterator();
   }
-
-  // resets all drawables by clearing the list of drawables
+  
+  /**
+   * Returns the drawable, if it exists, the has the given name.
+   * If the drawable does not exist in the drawable manager, returns null.
+   * @param name the name of the drawable
+   * @return the drawable object if it exists in the drawable manager, otherwise null
+   */
+  public DrawableUI getObjectWithName(String name)
+  {
+      return drawablesMap.get(name);
+  }
+  
+  /**
+   * Updates all the drawables stored in the drawable manager.
+   * Equivalent to calling {@code DrawableUI.draw()} on each drawable in the drawable manager.
+   */
+  public void update()
+  {
+      Iterator<DrawableUI> iterator = getIterator();
+      while (iterator.hasNext())
+      {
+          iterator.next().draw();
+      }
+  }
+  
+  /**
+   * Removes all drawables from the drawable manager.
+   */
   @Override
   public void reset()
   {
-    drawables.clear();
+      this.drawablesMap.clear();
   }
 }

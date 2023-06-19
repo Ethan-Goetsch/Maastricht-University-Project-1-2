@@ -88,8 +88,6 @@ public class RocketStateManager implements IStateManager
             currentRocketState.onStateExit();
         }
 
-        //System.out.println("Transitioned From" + " | " + (currentRocketState == null ? "Root State" : currentRocketState.getDescription()) + " | -> | " + state.getDescription() + " |");
-
         currentRocketState = (RocketState) state;
 
         currentRocketState.onStateEnter();

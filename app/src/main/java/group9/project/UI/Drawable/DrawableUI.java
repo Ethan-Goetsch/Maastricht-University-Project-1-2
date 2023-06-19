@@ -1,62 +1,48 @@
 package group9.project.UI.Drawable;
 
-import group9.project.UI.ScaleConverter;
-import group9.project.Utility.Math.Vector3;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import com.jme3.scene.Spatial;
+import group9.project.Physics.Objects.PhysicsObject;
 
 public abstract class DrawableUI implements IDrawable
 {
-    protected Vector3 drawablePosition;
+    protected Spatial spatial;
 
-    protected Pane drawablePane;
+    protected String name;
 
-    protected Label drawableLabel;
+    protected PhysicsObject physicsObject;
 
-    protected double scale;
-
-    public double getScale()
+    /**
+     * Constructor.
+     * @param name the name of the drawable
+     * @param spatial the spatial to add to the scene graph
+     */ 
+    public DrawableUI(String name, Spatial spatial, PhysicsObject physicsObject)
     {
-        return scale;
-    }
+        this.name = name;
 
-    public DrawableUI()
-    {
-        DrawableManager.getInstance().add(this);
-
-        drawablePane = new Pane();
-
-        scale = 1;
-    }
-
-    @Override
-    public Node getDrawable()
-    {
-        return drawablePane;
-    }
-
-    public void update(Vector3 newDrawablePosition)
-    {
-        drawablePosition = newDrawablePosition;
-
-        draw();
+        this.spatial = spatial;
+        
+        this.physicsObject = physicsObject;
     }
 
     @Override
-    public void draw()
+    public Spatial getDrawable()
     {
-        Vector3 scaledVector = ScaleConverter.worldToScreenPosition(drawablePosition);
-
-        drawablePane.setTranslateX(scaledVector.getX());
-
-        drawablePane.setTranslateY(scaledVector.getY());
+        return spatial;
     }
 
-    public void setScale(double newScale)
+    @Override
+    public String getName()
     {
-        scale = newScale;
+        return name;
     }
 
-    public abstract void createDrawableUI();
+    @Override
+    public abstract float getPreferredViewDistance();
+
+    @Override
+    public abstract void draw();
+    
+    @Override
+    public abstract DrawableUI clone();
 }

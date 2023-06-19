@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'groovy'
+}
+
+group 'group9.project'
+version '1.0'
+
+mainClassName = "group9.project.MissionControl"
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+project.ext {
+  jmeVer = '3.5.2-stable'
+}
+
+project(":assets") {
+    apply plugin: "java"
+
+    buildDir = rootProject.file("build/assets")
+
+    sourceSets {
+        main {
+            resources {
+                srcDir '.'
+            }
+        }
+    }
+}
+
+dependencies {
+
+  // Core JME
+  implementation "org.jmonkeyengine:jme3-core:$jmeVer"
+  implementation "org.jmonkeyengine:jme3-desktop:$jmeVer"
+  implementation "org.jmonkeyengine:jme3-lwjgl3:$jmeVer"
+
+  // Suppress errors / warnings building in SDK
+  implementation "org.jmonkeyengine:jme3-jogg:$jmeVer"
+  implementation "org.jmonkeyengine:jme3-plugins:$jmeVer"
+  
+  // GUI Library
+  implementation "com.simsilica:lemur:1.16.0"
+  
+  // Physics Library
+  implementation "com.github.stephengold:Minie:5.0.0"
+
+  // Additional Libraries
+  implementation "org.jmonkeyengine:jme3-effects:$jmeVer"
+  implementation "com.github.Jeddic:particlemonkey:1.0.2"
+  
+  implementation 'org.codehaus.groovy:groovy-all:2.4.5'
+
+  // Assets sub-project
+  runtimeOnly project(':assets')
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
