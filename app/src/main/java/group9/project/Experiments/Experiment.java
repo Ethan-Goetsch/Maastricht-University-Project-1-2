@@ -9,12 +9,12 @@ import group9.project.Utility.Math.Vector3;
 
 public class Experiment
 {
-    private static final double STEP_SIZE = 0.01;
+    private static final double STEP_SIZE = 0.1;
 
     private static final double MAX_TIME = 1;
 
 
-    private static final Vector3 INITIAL_VALUE = new Vector3(2 / 3.0, 0, 0);
+    private static final Vector3 INITIAL_VALUE = new Vector3(1, 0, 0);
 
     private static final double INITIAL_TIME = 0;
 
@@ -27,7 +27,7 @@ public class Experiment
             {
                 double x = value.getX();
 
-                return new Vector3(0.5 * Math.sqrt(x), 0, 0);
+                return new Vector3(((5 * time) / x) - time * x, 0, 0);
             }
         };
     
@@ -36,7 +36,13 @@ public class Experiment
             @Override
             public Double evaluate(Double time, Double value)
             {
-                return Math.pow((time / 4 + 0.5),2);
+                double poweredThing = -1 * Math.pow(time, 2);
+
+                double poweredThingWithE = Math.pow(Math.E, poweredThing);
+
+                double weee = Math.sqrt(5 - 4 * poweredThingWithE);
+
+                return weee;
             }
         };
 
@@ -75,17 +81,16 @@ public class Experiment
             currentTime += STEP_SIZE;
 
             currentYExact = exactFunction.evaluate(currentTime, currentYExact);
-            
-
-            System.out.println(currentTime + " time");
-
-            System.out.println( Math.abs((currentYEuler.getX() - currentYExact) / currentYExact));
-
-            System.out.println( Math.abs((currentYRalston.getX() - currentYExact) / currentYExact));
-
-            System.out.println( Math.abs((currentYHeun.getX() - currentYExact)/ currentYExact));
-
-            System.out.println(Math.abs((currentYRungeKutta.getX() - currentYExact)/currentYExact));
         }
+
+        System.out.println("-------------" + " Step Size: " + STEP_SIZE + " " + "-------------");
+
+        System.out.println( Math.abs((currentYEuler.getX() - currentYExact)));
+
+        System.out.println( Math.abs((currentYRalston.getX() - currentYExact)));
+
+        System.out.println( Math.abs((currentYHeun.getX() - currentYExact)));
+
+        System.out.println(Math.abs((currentYRungeKutta.getX() - currentYExact)));
     }
 }

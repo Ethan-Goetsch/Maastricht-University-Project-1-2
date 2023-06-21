@@ -86,7 +86,7 @@ public class LandRocketState extends RocketState
     @Override
     public void update()
     {
-        System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
+        //System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
 
         Vector2 windForce = windModel.generateRandomWind(Math.abs(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition).getY()));
 
