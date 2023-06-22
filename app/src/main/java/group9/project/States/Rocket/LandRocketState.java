@@ -68,6 +68,8 @@ public class LandRocketState extends RocketState
     @Override
     public void onStateEnter()
     {
+        System.out.println("--- Landing on Titan ---");
+
         landingPosition = landingTarget.getPosition().add(new Vector3(0, targetRadius, 0));
 
         onEnterLandStateEvent.raiseEvent();
@@ -81,12 +83,14 @@ public class LandRocketState extends RocketState
     public void onStateExit()
     {
         onExitLandStateEvent.raiseEvent();
+
+        System.out.println("--- Landed on Titan ---");
     }
 
     @Override
     public void update()
     {
-        //System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
+        System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
 
         Vector2 windForce = windModel.generateRandomWind(Math.abs(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition).getY()));
 

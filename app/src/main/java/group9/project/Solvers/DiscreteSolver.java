@@ -27,7 +27,7 @@ public class DiscreteSolver
 
         state[0] = new Vector3(newPositionX, newPositionY, 0);
 
-        state[1] = new Vector3(newVelocityX, newVelocityY, 0);;
+        state[1] = new Vector3(newVelocityX, newVelocityY, 0);
 
 
         return state;
