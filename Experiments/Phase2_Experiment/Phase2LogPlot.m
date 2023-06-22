@@ -8,10 +8,6 @@ clear all
 
 %-------------------------------------------------------------------
 StepTime2 = [0.01 0.1 0.2 0.5 1];
-
-%Exact values calculated by the equation y(t) = 2/(3-2t) - t
-% Subiutited t with the values in StepTime2
-ExactValues = [0.6611 0.6143 0.5692 0.5000 1];
 %-------------------------------------------------------------------
 
 %Euleurs Method. 

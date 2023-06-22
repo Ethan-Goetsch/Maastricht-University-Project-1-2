@@ -24,7 +24,7 @@ public class RocketStateManager implements IStateManager
 
     private final PhysicsObject landingTarget = PhysicsObjectData.getInstance().getTitanObject(); 
 
-    private final double stochasticWindIntensity = 0;
+    private final double stochasticWindIntensity = 1;
 
     private final double stochasticWindFrequency = 1;
 

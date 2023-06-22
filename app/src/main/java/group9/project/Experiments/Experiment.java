@@ -79,10 +79,12 @@ public class Experiment
             currentYRungeKutta = rungeKuttaSolver.solveNumericalEquation(currentYRungeKutta, function, STEP_SIZE, currentTime);
 
             currentTime += STEP_SIZE;
-
-            currentYExact = exactFunction.evaluate(currentTime, currentYExact);
         }
 
+
+        currentYExact = exactFunction.evaluate(currentTime, currentYExact);
+
+        
         System.out.println("-------------" + " Step Size: " + STEP_SIZE + " " + "-------------");
 
         System.out.println( Math.abs((currentYEuler.getX() - currentYExact)));
