@@ -1,5 +1,6 @@
 package group9.project.UI;
 
+import group9.project.UI.Camera.CinematicModeController;
 import com.jme3.font.BitmapFont;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -15,6 +16,7 @@ import com.simsilica.lemur.Slider;
 import com.simsilica.lemur.component.BorderLayout;
 import group9.project.MissionControl;
 import group9.project.Physics.Managers.SaveState;
+import group9.project.UI.Camera.FreeModeController;
 import group9.project.UI.Input.KeybindingManager;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -98,47 +100,34 @@ public class Menu extends AbstractMenu implements ActionListener
             }
         });
         
-        // save simulation button
-        Button saveButton = myWindow.addChild(new Button("Save Simulation State"));
-
-        saveButton.setFontSize(FONT_SIZE);
-
-        saveButton.setPreferredSize(componentSize);
-
-        saveButton.addClickCommands(new Command<Button>()
-        {
-            @Override
-            public void execute(Button source)
-            {
-                try
-                {
-                    SaveState.save("save.txt");
-                } catch (IOException ex)
-                {
-                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        // exit cinematic mode button
+        Button toggleCinematicModeButton = myWindow.addChild(new Button("Exit cinematic mode"));
         
-        // load simulation button
-        Button loadButton = myWindow.addChild(new Button("Load Previous State"));
-
-        loadButton.setFontSize(FONT_SIZE);
-
-        loadButton.setPreferredSize(componentSize);
-
-        loadButton.addClickCommands(new Command<Button>()
+        toggleCinematicModeButton.setFontSize(FONT_SIZE);
+        
+        toggleCinematicModeButton.setPreferredSize(componentSize);
+        
+        toggleCinematicModeButton.addClickCommands(new Command<Button>()
         {
             @Override
             public void execute(Button source)
             {
-                try {
-                    SaveState.load("save.txt");
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                CinematicModeController cinematicController = CinematicModeController.getInstance();
+                cinematicController.setCamControlEnabled(!cinematicController.isCamControlEnabled());
+                
+                FreeModeController freeController = FreeModeController.getInstance();
+                freeController.setCamControlEnabled(!freeController.isCamControlEnabled());
+                
+                if (cinematicController.isCamControlEnabled())
+                {
+                    source.setText("Exit cinematic mode");
+                } else
+                {
+                    source.setText("Enter cinematic mode");
                 }
             }
-        });
+        }
+        );
         
         // set keybindings button
         Button openKeybindingsButton = myWindow.addChild(new Button("Key Bindings"));

@@ -1,10 +1,8 @@
 package group9.project.UI;
 
 import com.jme3.font.BitmapFont;
-import com.jme3.input.KeyInput;
 import com.jme3.input.KeyNames;
 import com.jme3.input.RawInputListener;
-import com.jme3.input.controls.ActionListener;
 import com.jme3.input.event.JoyAxisEvent;
 import com.jme3.input.event.JoyButtonEvent;
 import com.jme3.input.event.KeyInputEvent;
@@ -35,6 +33,9 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener, II
     
     private String activeKeybinding;
     
+    /**
+     * This class stores the components to display on each page of the keybinding menu.
+     */
     class Page 
     {
         private ArrayList<Container> containers;
@@ -43,11 +44,19 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener, II
             containers = new ArrayList<>();
         }
         
+        /**
+         * Add a container containing gui elements which belong to the page.
+         * @param container the container to add
+         */
         public void addContainer(Container container)
         {
             containers.add(container);
         }
         
+        /**
+         * 
+         * @return an {@code ArrayList} of the {@Container} objects belonging to the page
+         */
         public ArrayList<Container> getContainers()
         {
             return containers;
@@ -55,21 +64,30 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener, II
     }
     
     
+    /**
+     * 
+     * @param guiNode the root node for the keybinding menu scene graph
+     * @param font the font to use for all text on the keybinding menu
+     */
     public KeybindingMenu(Node guiNode, BitmapFont font)
     {
         super(guiNode, font);
         KeybindingManager.registerListener(this);
     }
     
+    /**
+     * 
+     */
     @Override
     protected void init()
     {
-        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/4, MissionControl.getHeight()/2 + MissionControl.getHeight()/4, 0);
+        myWindow.setLocalTranslation(MissionControl.getWidth()/2 - MissionControl.getWidth()/4, MissionControl.getHeight()/2 + MissionControl.getHeight()/4, 0); // set the on-screen location of the menu
 
         HashMap<String, Integer> inputMap = KeybindingManager.getInputMap();
         
         pages = new Page[(int)Math.ceil((double)((double)(inputMap.keySet().size())/(double)(NUMBER_OF_COMPONENTS_ON_PAGE)))]; // create array which stores enough pages to fit components for every key mapping
         
+        // populate the pages array:
         for (int i = 0; i < pages.length; i++) {
             pages[i] = new Page();
         }
@@ -108,7 +126,7 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener, II
                 }
             });
             
-            page.addContainer(container);
+            page.addContainer(container); // add above components to the page
             
             counter++;
         }
@@ -116,10 +134,15 @@ public class KeybindingMenu extends AbstractMenu implements RawInputListener, II
         attachPage(0); // start with the current page
     }
     
+    /**
+     * Attaches the components stored in a desired {@code Page} instance to the window, as well as other general components for the keybinding menu.
+     * @param pageIndex the index of the {@code Page}
+     */
     private void attachPage(int pageIndex)
     {
         myWindow.detachAllChildren(); // make sure we remove any pages that were previously added to the window
         
+        // add the page's components to the window
         for (Container container : pages[pageIndex].getContainers()) {
             myWindow.addChild(container);
         }

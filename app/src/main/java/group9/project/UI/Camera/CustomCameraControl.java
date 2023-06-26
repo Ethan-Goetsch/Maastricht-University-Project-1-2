@@ -27,6 +27,7 @@ public class CustomCameraControl extends AbstractControl implements IInputListen
     private Vector3f initialUpVec; // this is an important variable when rotating the camera horizontally
     
     private boolean enabled;
+    private boolean paused;
     
     private float delta = 0;
     private float speed = 0;
@@ -184,7 +185,7 @@ public class CustomCameraControl extends AbstractControl implements IInputListen
      */
     protected void rotateCamera(float value, Vector3f axis)
     {
-        if (!enabled)
+        if (!enabled || paused)
         {
             return;
         }
@@ -228,7 +229,7 @@ public class CustomCameraControl extends AbstractControl implements IInputListen
     @Override
     protected void controlUpdate(float tpf)
     {
-        if (!enabled)
+        if (!enabled || paused)
         {
             return;
         }
@@ -260,6 +261,11 @@ public class CustomCameraControl extends AbstractControl implements IInputListen
         inputManager.removeListener(analogListener);
         inputManager.removeListener(actionListener);
         setInput();
+    }
+    
+    public void setPaused(boolean paused)
+    {
+        this.paused = paused;
     }
     
     private AnalogListener analogListener = (String name, float value, float tpf) -> {
@@ -320,4 +326,5 @@ public class CustomCameraControl extends AbstractControl implements IInputListen
                 } 
             }
         };
+    
 }
