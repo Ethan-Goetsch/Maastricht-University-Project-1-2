@@ -62,6 +62,12 @@ public class LandRocketState extends RocketState
     {
         Vector3 relativeToLandingCoordiantesPosition = Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition);
 
+            System.out.println("-------");
+
+            System.out.println("X: " + relativeToLandingCoordiantesPosition.getX() + " Y:" + relativeToLandingCoordiantesPosition.getY() + " | " + "Velocity X: " + rocketShip.getVelocity().getX() + " Velocity Y: " + rocketShip.getVelocity().getY());
+
+            System.out.println("Rotation: " + rocketShip.getRotation() + " | " + "Rotation Velocity: " + rocketShip.getRotationVelocity());
+
         return Data.isLanded(relativeToLandingCoordiantesPosition.getX(), relativeToLandingCoordiantesPosition.getY(), rocketShip.getRotation(), rocketShip.getVelocity().getX(), rocketShip.getVelocity().getY(), rocketShip.getRotationVelocity());
     }
 
@@ -90,8 +96,6 @@ public class LandRocketState extends RocketState
     @Override
     public void update()
     {
-        System.out.println(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition));
-
         Vector2 windForce = windModel.generateRandomWind(Math.abs(Coordinates.RelativeTo(rocketShip.getPosition(), landingPosition).getY()));
 
 
