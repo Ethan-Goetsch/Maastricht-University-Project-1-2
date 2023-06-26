@@ -18,7 +18,10 @@ public class CinematicCameraControl extends AbstractControl {
     
     private static ICameraControlState controlState = new CinematicCameraInitialState();
   
-    
+    /**
+     * 
+     * @param cam the camera to control
+     */
     public CinematicCameraControl(Camera cam)
     {
         setCamera(cam);
@@ -26,13 +29,19 @@ public class CinematicCameraControl extends AbstractControl {
         cam.setFrustumPerspective(60, (float)cam.getWidth()/(float)cam.getHeight(), cam.getFrustumNear(), cam.getFrustumFar());
     }
     
+
     private void setCamera(Camera cam)
     {
         this.cam = cam;
         
-        initialUpVec = cam.getUp().clone();
+        initialUpVec = cam.getUp().clone(); // i sometimes don't know what is up and what is down. i am lost in the abyss, awaiting guidance.
     }
-    
+
+    /**
+     * Enables/disabled the camera control.
+     * If disabled, this controller will not move the camera.
+     * @param enabled 
+     */
     @Override
     public void setEnabled(boolean enabled)
     {
@@ -59,7 +68,7 @@ public class CinematicCameraControl extends AbstractControl {
             CinematicCameraControl.controlState.init(spatial);
         }
         
-        CinematicCameraControl.controlState.moveSpatial(spatial);
+        CinematicCameraControl.controlState.moveSpatial(spatial); // let the control state do the work
         
     }
     
@@ -69,11 +78,19 @@ public class CinematicCameraControl extends AbstractControl {
         
     }
     
+    /**
+     * Sets the current state of the controller.
+     * @param controlState the state to set the controller to
+     */
     public static void setState(ICameraControlState controlState)
     {
         CinematicCameraControl.controlState = controlState; 
     }
     
+    /**
+     * Pauses/unpauses the camera control.
+     * @param paused 
+     */
     public void setPaused(boolean paused)
     {
         this.paused = paused;

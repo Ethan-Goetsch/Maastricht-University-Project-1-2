@@ -12,7 +12,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-
+/**
+ * This class is currently not being used because it has not been updated to save rocket states.
+ */
 public class SaveState
 {
     

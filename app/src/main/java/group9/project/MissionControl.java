@@ -53,6 +53,8 @@ import group9.project.Managers.TimelineManager;
 import group9.project.Optimization.LaunchToEarthOptimization;
 import group9.project.Optimization.LaunchToTitanOptimization;
 import group9.project.UI.Camera.CinematicCameraControl;
+import group9.project.UI.Camera.CinematicModeController;
+import group9.project.UI.Camera.FreeModeController;
 import group9.project.UI.Input.KeybindingManager;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -249,11 +251,14 @@ public class MissionControl extends SimpleApplication
         camControl.setDefaultInputs();
         camControl.setInput();
         camControl.setEnabled(false);
+        cameraNode.addControl(camControl);
+        FreeModeController.getInstance().setCamControl(camControl);
         //cameraNode.addControl(camControl);
         
         cinematicCameraControl = new CinematicCameraControl(cam);
         cinematicCameraControl.setEnabled(true);
         cameraNode.addControl(cinematicCameraControl);
+        CinematicModeController.getInstance().setCamControl(cinematicCameraControl);
         
         rootNode.attachChild(cameraNode);
         
